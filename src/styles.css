@@ -332,6 +332,68 @@ main#app h2 {
   color: #1e3a8a;
 }
 
+/* === OCULTAR/MOSTRAR TARJETA (REPASO) === */
+.review-word {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 1rem;
+  color: #0f172a;
+}
+
+.review-type {
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.reveal-btn {
+  margin: 1.5rem auto 0 auto;
+  display: block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: transparent;
+  color: #2563eb;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.reveal-btn:hover {
+  text-decoration: underline;
+}
+
+.review-answer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.review-answer .meaning {
+  font-size: 1.1rem;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.review-answer .section-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.review-answer .example {
+  font-style: italic;
+  color: #334155;
+}
+
 /* === MEDIA QUERIES === */
 @media (min-width: 768px) {
   main#app {
