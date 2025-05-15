@@ -54,11 +54,24 @@ body {
 }
 
 /* === CONTENEDOR PRINCIPAL === */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 main#app {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
   width: 100%;
+  flex: 1;
 }
 
 main#app h2 {
@@ -390,6 +403,39 @@ main#app h2 {
 .review-answer .example {
   font-style: italic;
   color: #334155;
+}
+
+/* ==== FOOTER ==== */
+.footer {
+  background-color: #f1f5f9;
+  padding: 1.5rem;
+  margin-top: 3rem;
+  border-top: 1px solid #e2e8f0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer p {
+  margin-bottom: 5px;
+}
+
+.footer a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }
 
 /* === MEDIA QUERIES === */

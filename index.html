@@ -7,19 +7,27 @@
     <meta name="description" content="EmoWords helps you memorize English vocabulary, phrasal verbs and idioms through emotional associations and visual cues. Create meaningful connections to remember words effectively.">
   </head>
   <body>
-    <nav class="navbar">
-      <div class="logo">🧠 EmoWords</div>
-      <ul class="nav-links">
-        <li><a href="#" data-view="home" class="nav-link active">Inicio</a></li>
-        <li><a href="#" data-view="add" class="nav-link">Añadir</a></li>
-        <li><a href="#" data-view="review" class="nav-link">Repasar</a></li>
-      </ul>
-    </nav>
+    <div class="page-wrapper">
+      <nav class="navbar">
+        <div class="logo">🧠 EmoWords</div>
+        <ul class="nav-links">
+          <li><a href="#" data-view="home" class="nav-link active">Inicio</a></li>
+          <li><a href="#" data-view="add" class="nav-link">Añadir</a></li>
+          <li><a href="#" data-view="review" class="nav-link">Repasar</a></li>
+        </ul>
+      </nav>
 
-    <main id="app">
-      <!-- Aquí se renderiza la vista dinámica -->
-    </main>
+      <main id="app">
+        <!-- Aquí se renderiza la vista dinámica -->
+      </main>
 
+      <footer class="footer">
+        <div class="footer-content">
+          <p>© <script>document.write(new Date().getFullYear());</script> EmoWords. All rights reserved.</p>
+          <span>Made with ❤️ by <a href="https://www.linkedin.com/in/alvarobarrena/" target="_blank">Álvaro Barrena Revilla</a></span>
+        </div>
+      </footer>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
