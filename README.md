@@ -18,13 +18,13 @@
 ## 📸 Capturas
 
 ### Vista principal
-![home](./public/home.png)
+![home](./public/screenshots/home.png)
 
 ### Añadir palabra
-![add](./public/add.png)
+![add](./public/screenshots/add.png)
 
 ### Modo repaso
-![review](./public/review.png)
+![review](./public/screenshots/review.png)
 
 ---
 
