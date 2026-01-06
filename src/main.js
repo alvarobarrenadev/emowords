@@ -17,23 +17,45 @@ function setActive(view) {
 }
 
 function render(view) {
-  setActive(view);
-  switch (view) {
-    case 'home':
-      renderHome(app);
-      break;
-    case 'add':
-      renderAdd(app);
-      break;
-    case 'review':
-      renderReview(app);
-      break;
-    default:
-      app.innerHTML = '<p>Vista no encontrada</p>';
+  // Cleanup previous view if needed
+  if (window._reviewCleanup) {
+    window._reviewCleanup();
+    window._reviewCleanup = null;
   }
+  
+  setActive(view);
+  
+  // Add fade transition
+  app.style.opacity = '0';
+  app.style.transform = 'translateY(10px)';
+  
+  setTimeout(() => {
+    switch (view) {
+      case 'home':
+        renderHome(app);
+        break;
+      case 'add':
+        renderAdd(app);
+        break;
+      case 'review':
+        renderReview(app);
+        break;
+      default:
+        app.innerHTML = '<p>Vista no encontrada</p>';
+    }
+    
+    // Fade in
+    requestAnimationFrame(() => {
+      app.style.opacity = '1';
+      app.style.transform = 'translateY(0)';
+    });
+  }, 150);
 }
 
-// Enlazar clicks
+// Add transition styles to #app
+app.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
+
+// Navigation click handler
 navLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -42,5 +64,5 @@ navLinks.forEach(link => {
   });
 });
 
-// Carga inicial
+// Initial load
 render('home');
