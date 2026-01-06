@@ -12,6 +12,24 @@
 - 🔁 Modo repaso tipo flashcard con priorización de palabras olvidadas.
 - ✅ Marca palabras como recordadas u olvidadas.
 - 🔍 Filtros por tipo y estado.
+- 📱 **Instalable (PWA):** Funciona offline y se puede instalar como una app nativa.
+
+---
+
+## 📱 Cómo instalar como App (PWA)
+
+**EmoWords** es una Progressive Web App. Puedes instalarla para usarla sin conexión:
+
+### Android / Chrome
+1. Pulsa el botón **"Instalar"** en la barra de navegación superior.
+2. O en el menú del navegador: "Instalar aplicación".
+
+### iOS (Safari)
+1. Pulsa el botón **Compartir** (cuadrado con flecha).
+2. Selecciona **"Añadir a pantalla de inicio"**.
+
+### Escritorio
+1. Pulsa el icono de instalación en la barra de direcciones del navegador.
 
 ---
 

@@ -125,3 +125,48 @@ navLinks.forEach(link => {
 
 initTheme();
 render('home');
+
+// ==================== PWA INSTALLATION ====================
+
+let deferredPrompt;
+const installItem = document.getElementById('install-item');
+const installBtn = document.getElementById('install-pwa');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (installItem) installItem.style.display = 'block';
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+    deferredPrompt = null;
+    if (installItem) installItem.style.display = 'none';
+  });
+}
+
+window.addEventListener('appinstalled', () => {
+  if (installItem) installItem.style.display = 'none';
+  deferredPrompt = null;
+  console.log('PWA was installed');
+});
+
+// ==================== SERVICE WORKER ====================
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swPath = './sw.js';
+    
+    navigator.serviceWorker.register(swPath)
+      .then(registration => {
+        console.log('SW registered: ', registration);
+      })
+      .catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
