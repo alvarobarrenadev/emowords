@@ -3,8 +3,32 @@ import { renderHome } from './views/home.js';
 import { renderAdd } from './views/add.js';
 import { renderReview } from './views/review.js';
 import { getSettings, saveSettings } from './storage/vocabStorage.js';
+import { showToast } from './utils/ui.js';
 
 const app = document.getElementById('app');
+
+// ==================== NOTIFICATIONS & ERROR HANDLING ====================
+
+// Network Status
+window.addEventListener('offline', () => {
+  showToast('Sin conexión', 'Estás trabajando en modo offline.', 'warning', 5000);
+  document.body.classList.add('offline-mode');
+});
+
+window.addEventListener('online', () => {
+  showToast('Conexión restaurada', 'Tus cambios se guardarán correctamente.', 'success', 3000);
+  document.body.classList.remove('offline-mode');
+});
+
+// Global Errors
+window.addEventListener('error', (event) => {
+  console.error('Global error:', event.error);
+  showToast('Error inesperado', 'Ha ocurrido un error. Intenta recargar la página.', 'error', 0);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled promise rejection:', event.reason);
+});
 const navLinks = document.querySelectorAll('.nav-link');
 const themeToggle = document.getElementById('theme-toggle');
 
@@ -126,40 +150,16 @@ navLinks.forEach(link => {
 initTheme();
 render('home');
 
-// ==================== PWA INSTALLATION ====================
 
-let deferredPrompt;
-const installItem = document.getElementById('install-item');
-const installBtn = document.getElementById('install-pwa');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (installItem) installItem.style.display = 'block';
-});
-
-if (installBtn) {
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User response to the install prompt: ${outcome}`);
-    deferredPrompt = null;
-    if (installItem) installItem.style.display = 'none';
-  });
-}
-
-window.addEventListener('appinstalled', () => {
-  if (installItem) installItem.style.display = 'none';
-  deferredPrompt = null;
-  console.log('PWA was installed');
-});
 
 // ==================== SERVICE WORKER ====================
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const swPath = './sw.js';
+    
+    // Check if running in a subdirectory (GitHub Pages)
+    // const path = window.location.pathname.includes('/emowords/') ? '/emowords/sw.js' : '/sw.js';
     
     navigator.serviceWorker.register(swPath)
       .then(registration => {

@@ -2319,3 +2319,217 @@ main#app h2 i {
     background: #7f1d1d;
   }
 }
+
+/* ===== TOAST NOTIFICATIONS ===== */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 9999;
+}
+
+.toast {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: slideIn 0.3s ease forwards;
+  max-width: 350px;
+  border-left: 4px solid var(--primary-500);
+}
+
+.toast.removing {
+  animation: slideOut 0.3s ease forwards;
+}
+
+.toast i {
+  font-size: 1.25rem;
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--gray-900);
+}
+
+.toast-message {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+.toast.info {
+  border-left-color: var(--primary-500);
+}
+
+.toast.info i {
+  color: var(--primary-500);
+}
+
+.toast.success {
+  border-left-color: var(--success-500);
+}
+
+.toast.success i {
+  color: var(--success-500);
+}
+
+.toast.warning {
+  border-left-color: var(--warning-500);
+}
+
+.toast.warning i {
+  color: var(--warning-500);
+}
+
+.toast.error {
+  border-left-color: var(--danger-500);
+}
+
+.toast.error i {
+  color: var(--danger-500);
+}
+
+/* Dark mode support for toast */
+[data-theme="dark"] .toast {
+  background: var(--gray-800);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .toast-title {
+  color: var(--gray-100);
+}
+
+[data-theme="dark"] .toast-message {
+  color: var(--gray-400);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+
+
+/* ===== DASHBOARD CHARTS ===== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+[data-theme="dark"] .chart-card {
+  background: var(--gray-800);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.chart-title {
+  font-weight: 600;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.chart-title i {
+  color: var(--primary-500);
+  margin-right: 0.5rem;
+}
+
+[data-theme="dark"] .chart-title {
+  color: var(--gray-200);
+}
+
+/* Progress Bar Styles */
+.progress-item {
+  margin-bottom: 0.8rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  margin-bottom: 0.4rem;
+}
+
+[data-theme="dark"] .progress-label {
+  color: var(--gray-400);
+}
+
+.progress-bg {
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .progress-bg {
+  background: var(--gray-700);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s ease-out;
+}
+
+.progress-fill.primary {
+  background: linear-gradient(90deg, var(--primary-400), var(--primary-600));
+}
+
+.progress-fill.success {
+  background: linear-gradient(90deg, var(--success-400), var(--success-600));
+}
+
+.progress-fill.warning {
+  background: linear-gradient(90deg, var(--warning-400), var(--warning-600));
+}
+
+.progress-fill.danger {
+  background: linear-gradient(90deg, var(--danger-400), var(--danger-600));
+}

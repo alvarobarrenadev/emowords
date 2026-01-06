@@ -243,12 +243,22 @@ export function importData(jsonString) {
   }
 }
 
+
+
+// ==================== HELPER ====================
+
+export function checkDuplicateWord(wordText, excludeId = null) {
+  const words = getAllWords();
+  const lowerWord = wordText.toLowerCase().trim();
+  return words.some(w => w.word.toLowerCase().trim() === lowerWord && w.id !== excludeId);
+}
+
 // ==================== SETTINGS ====================
 
 export function getSettings() {
   const raw = localStorage.getItem(SETTINGS_KEY);
   return raw ? JSON.parse(raw) : {
-    theme: 'light',
+    theme: 'dark',
     language: 'es',
     showExampleInReview: true,
     autoPlayAudio: false

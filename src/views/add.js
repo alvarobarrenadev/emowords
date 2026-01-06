@@ -1,4 +1,5 @@
-import { saveWord, getAllCategories } from '../storage/vocabStorage.js';
+import { saveWord, getAllCategories, checkDuplicateWord } from '../storage/vocabStorage.js';
+import { showToast } from '../utils/ui.js';
 
 export function renderAdd(container) {
   const existingCategories = getAllCategories();
@@ -103,7 +104,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
       </div>
     </form>
     
-    <div id="feedback" class="feedback-message"></div>
+
     
     <!-- Quick add section -->
     <div class="quick-tips">
@@ -118,7 +119,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
   `;
 
   const form = document.getElementById('add-word-form');
-  const feedback = document.getElementById('feedback');
+
   const imageInput = document.getElementById('image');
   const previewBtn = document.getElementById('preview-image-btn');
   const imagePreview = document.getElementById('image-preview');
@@ -134,7 +135,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
       imagePreview.style.display = 'block';
       previewImg.onerror = () => {
         imagePreview.style.display = 'none';
-        showFeedback('No se pudo cargar la imagen. Verifica la URL.', 'warning');
+        showToast('Error de imagen', 'No se pudo cargar la imagen. Verifica la URL.', 'warning');
       };
     }
   });
@@ -150,21 +151,9 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
     form.reset();
     imagePreview.style.display = 'none';
     previewImg.src = '';
-    feedback.className = 'feedback-message';
-    feedback.textContent = '';
   });
 
-  function showFeedback(message, type = 'success') {
-    feedback.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-xmark' : 'fa-triangle-exclamation'}"></i> ${message}`;
-    feedback.className = `feedback-message ${type}`;
-    feedback.style.display = 'flex';
-    
-    if (type === 'success') {
-      setTimeout(() => {
-        feedback.style.display = 'none';
-      }, 4000);
-    }
-  }
+
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -179,7 +168,12 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
 
     // Validation
     if (!word || !meaning) {
-      showFeedback('Por favor completa al menos la palabra y su significado.', 'error');
+      showToast('Faltan datos', 'Por favor completa al menos la palabra y su significado.', 'error');
+      return;
+    }
+
+    if (checkDuplicateWord(word)) {
+      showToast('Palabra duplicada', `La palabra "${word}" ya existe en tu vocabulario.`, 'error');
       return;
     }
 
@@ -200,7 +194,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
     imagePreview.style.display = 'none';
     previewImg.src = '';
     
-    showFeedback(`"${word}" guardada correctamente. ¡Sigue añadiendo palabras!`, 'success');
+    showToast('¡Guardado!', `"${word}" se ha añadido correctamente.`, 'success');
     
     // Focus back on word input for quick adding
     document.getElementById('word').focus();

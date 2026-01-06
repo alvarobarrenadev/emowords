@@ -1,39 +1,109 @@
 import { getAllWords, searchWords, sortWords, getStatistics, getAllCategories, exportData, importData } from '../storage/vocabStorage.js';
 import { createWordCard } from '../components/wordCard.js';
+import { showToast } from '../utils/ui.js';
 
 export function renderHome(container) {
   const stats = getStatistics();
   const categories = getAllCategories();
 
   container.innerHTML = `
-    <!-- Statistics Dashboard -->
-    <div class="stats-dashboard">
-      <div class="stat-card stat-total">
-        <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
-        <div class="stat-content">
-          <span class="stat-value">${stats.total}</span>
-          <span class="stat-label">Total palabras</span>
+    <!-- Dynamic Dashboard -->
+    <div class="dashboard-grid">
+      <!-- Summary Card -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title"><i class="fa-solid fa-chart-pie"></i> Resumen</span>
+        </div>
+        <div class="stats-dashboard" style="grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0;">
+          <div class="stat-card stat-total" style="padding: 0.8rem;">
+            <div class="stat-content">
+              <span class="stat-value" style="font-size: 1.5rem;">${stats.total}</span>
+              <span class="stat-label" style="font-size: 0.8rem;">Total</span>
+            </div>
+          </div>
+          <div class="stat-card stat-remembered" style="padding: 0.8rem;">
+            <div class="stat-content">
+              <span class="stat-value" style="font-size: 1.5rem;">${stats.remembered}</span>
+              <span class="stat-label" style="font-size: 0.8rem;">Recordadas</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div class="progress-label">
+            <span>Tasa de Retención</span>
+            <span>${stats.retentionRate}%</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill success" style="width: ${stats.retentionRate}%"></div>
+          </div>
         </div>
       </div>
-      <div class="stat-card stat-remembered">
-        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-        <div class="stat-content">
-          <span class="stat-value">${stats.remembered}</span>
-          <span class="stat-label">Recordadas</span>
+
+      <!-- Review Status Card -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title"><i class="fa-solid fa-brain"></i> Estado del Conocimiento</span>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Memorizadas</span>
+            <span>${stats.remembered}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill primary" style="width: ${stats.total > 0 ? (stats.remembered / stats.total * 100) : 0}%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Por Repasar / Olvidadas</span>
+            <span>${stats.forgotten}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill warning" style="width: ${stats.total > 0 ? (stats.forgotten / stats.total * 100) : 0}%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Repasos Totales</span>
+            <span>${stats.totalReviews}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill info" style="width: 100%; background: var(--primary-100);"></div>
+          </div>
         </div>
       </div>
-      <div class="stat-card stat-forgotten">
-        <div class="stat-icon"><i class="fa-solid fa-rotate"></i></div>
-        <div class="stat-content">
-          <span class="stat-value">${stats.forgotten}</span>
-          <span class="stat-label">Por repasar</span>
+
+      <!-- Types Card -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title"><i class="fa-solid fa-layer-group"></i> Por Tipo</span>
         </div>
-      </div>
-      <div class="stat-card stat-retention">
-        <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
-        <div class="stat-content">
-          <span class="stat-value">${stats.retentionRate}%</span>
-          <span class="stat-label">Retención</span>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Palabras</span>
+            <span>${stats.byType.word}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill primary" style="width: ${stats.total > 0 ? (stats.byType.word / stats.total * 100) : 0}%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Phrasal Verbs</span>
+            <span>${stats.byType.phrasal}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill success" style="width: ${stats.total > 0 ? (stats.byType.phrasal / stats.total * 100) : 0}%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Expresiones</span>
+            <span>${stats.byType.expression}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill warning" style="width: ${stats.total > 0 ? (stats.byType.expression / stats.total * 100) : 0}%"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -223,12 +293,12 @@ export function renderHome(container) {
     const reader = new FileReader();
     reader.onload = (event) => {
       const result = importData(event.target.result);
+
       if (result.success) {
-        alert(`Importación exitosa: ${result.imported} palabras importadas, ${result.skipped} omitidas.`);
-        // Refresh the page to update categories and stats
-        location.reload();
+        showToast('Importación completada', `${result.imported} palabras importadas correctamente.`, 'success');
+        setTimeout(() => location.reload(), 1500);
       } else {
-        alert(`Error al importar: ${result.error}`);
+        showToast('Error de importación', result.error, 'error');
       }
     };
     reader.readAsText(file);

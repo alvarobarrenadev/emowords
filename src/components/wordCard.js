@@ -1,4 +1,4 @@
-import { updateWord, deleteWord } from '../storage/vocabStorage.js';
+import { updateWord, deleteWord, checkDuplicateWord } from '../storage/vocabStorage.js';
 
 export function createWordCard(word, onUpdate) {
   const card = document.createElement('div');
@@ -129,6 +129,7 @@ function openEditModal(word, onUpdate) {
           <button type="button" class="btn-cancel">Cancelar</button>
           <button type="submit" class="btn-save"><i class="fa-solid fa-check"></i> Guardar cambios</button>
         </div>
+        <div class="edit-feedback" style="display: none; color: var(--danger); font-size: 0.9rem; margin-top: 1rem; text-align: center;"></div>
       </form>
     </div>
   `;
@@ -154,7 +155,16 @@ function openEditModal(word, onUpdate) {
   modal.querySelector('.edit-form').addEventListener('submit', (e) => {
     e.preventDefault();
     
-    word.word = document.getElementById('edit-word').value.trim();
+    const newWord = document.getElementById('edit-word').value.trim();
+    const feedbackEl = modal.querySelector('.edit-feedback');
+    
+    if (checkDuplicateWord(newWord, word.id)) {
+      feedbackEl.textContent = `La palabra "${newWord}" ya existe.`;
+      feedbackEl.style.display = 'block';
+      return;
+    }
+
+    word.word = newWord;
     word.meaning = document.getElementById('edit-meaning').value.trim();
     word.type = document.getElementById('edit-type').value;
     word.category = document.getElementById('edit-category').value.trim() || null;
