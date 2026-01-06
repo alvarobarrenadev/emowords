@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EmoWords - Learn English through emotional associations</title>
-    <meta name="description" content="EmoWords helps you memorize English vocabulary, phrasal verbs and idioms through emotional associations and visual cues. Create meaningful connections to remember words effectively.">
+    <meta name="description"
+      content="EmoWords helps you memorize English vocabulary, phrasal verbs and idioms through emotional associations and visual cues. Create meaningful connections to remember words effectively.">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/emowords/favicon/favicon-96x96.png" sizes="96x96" />
@@ -18,40 +24,68 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alvarobarrenadev.github.io/emowords/">
     <meta property="og:title" content="EmoWords - Learn English with Emotional Connections">
-    <meta property="og:description" content="Memorize English vocabulary through emotional associations and visual cues.">
+    <meta property="og:description"
+      content="Memorize English vocabulary through emotional associations and visual cues.">
     <meta property="og:image" content="/emowords/favicon/emowords-social.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="es_ES">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://alvarobarrenadev.github.io/emowords/">
     <meta name="twitter:title" content="EmoWords - Learn English with Emotional Connections">
-    <meta name="twitter:description" content="Memorize English vocabulary through emotional associations and visual cues.">
+    <meta name="twitter:description"
+      content="Memorize English vocabulary through emotional associations and visual cues.">
     <meta name="twitter:image" content="/emowords/favicon/emowords-social.png">
-    <script type="module" crossorigin src="/emowords/assets/index-C6US1L3H.js"></script>
-    <link rel="stylesheet" crossorigin href="/emowords/assets/index-CadXuuk3.css">
+    <script type="module" crossorigin src="/emowords/assets/index-XqDIozGm.js"></script>
+    <link rel="stylesheet" crossorigin href="/emowords/assets/index-DzFdIVc7.css">
   </head>
   <body>
     <div class="page-wrapper">
       <nav class="navbar">
-        <div class="logo">🧠 EmoWords</div>
+        <div class="logo">
+          <i class="fa-solid fa-brain"></i>
+          <span>EmoWords</span>
+        </div>
         <ul class="nav-links">
-          <li><a href="#" data-view="home" class="nav-link active">Inicio</a></li>
-          <li><a href="#" data-view="add" class="nav-link">Añadir</a></li>
-          <li><a href="#" data-view="review" class="nav-link">Repasar</a></li>
+          <li>
+            <a href="#" data-view="home" class="nav-link active">
+              <i class="fa-solid fa-house"></i>
+              <span>Inicio</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" data-view="add" class="nav-link">
+              <i class="fa-solid fa-plus"></i>
+              <span>Añadir</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" data-view="review" class="nav-link">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Repasar</span>
+            </a>
+          </li>
+          <li>
+            <button id="theme-toggle" class="theme-toggle" title="Cambiar tema">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
         </ul>
       </nav>
 
       <main id="app">
-        <!-- Aquí se renderiza la vista dinámica -->
+        <!-- Dynamic view rendered here -->
       </main>
 
       <footer class="footer">
         <div class="footer-content">
-          <p>© <script>document.write(new Date().getFullYear());</script> EmoWords. All rights reserved.</p>
-          <span>Made with ❤️ by <a href="https://alvarobarrena.vercel.app" target="_blank">Álvaro Barrena Revilla</a></span>
+          <p>&copy;
+            <script>document.write(new Date().getFullYear());</script> EmoWords. All rights reserved.
+          </p>
+          <span>Made with ❤️ by <a href="https://alvarobarrena.vercel.app" target="_blank">Álvaro Barrena
+              Revilla</a></span>
         </div>
       </footer>
     </div>
