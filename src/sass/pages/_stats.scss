@@ -1,0 +1,533 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.stats-view {
+  padding-bottom: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// --- Header ---
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-800);
+
+  .header-content {
+    .title {
+      font-size: 2rem;
+      color: var(--gray-100);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      i {
+        color: var(--primary-500);
+        filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3));
+      }
+    }
+
+    .subtitle {
+      color: var(--gray-400);
+      font-size: 1rem;
+    }
+  }
+
+  .global-grade {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .grade-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-500);
+      margin-bottom: 0.25rem;
+    }
+
+    .grade-value {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      font-family: 'Outfit', sans-serif; // Assuming generic sans or specific font
+
+      &.text-legendary {
+        color: #f59e0b;
+        text-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+      }
+
+      // Gold
+      &.text-success {
+        color: #10b981;
+        text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      }
+
+      &.text-primary {
+        color: #3b82f6;
+        text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+      }
+
+      &.text-warning {
+        color: #f97316;
+      }
+
+      &.text-danger {
+        color: #ef4444;
+      }
+    }
+  }
+}
+
+// --- KPI Grid ---
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+  box-shadow: var(--shadow);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-500);
+  }
+
+  .kpi-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: var(--gray-800);
+    color: var(--gray-300);
+  }
+
+  .kpi-content {
+    display: flex;
+    flex-direction: column;
+
+    .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-100);
+      line-height: 1.2;
+    }
+
+    .label {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+  }
+
+  // Variations
+  &.total-words {
+    .kpi-icon {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .kpi-chart-mini {
+      height: 40px;
+      margin-top: 0.5rem;
+      opacity: 0.5;
+      color: #3b82f6;
+    }
+  }
+
+  &.mastery {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .kpi-icon {
+      background: rgba(245, 158, 11, 0.1);
+      color: #f59e0b;
+    }
+
+    .circular-progress {
+      width: 60px;
+      height: 60px;
+      transform: rotate(-90deg);
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .bg {
+        fill: none;
+        stroke: var(--gray-800);
+        stroke-width: 3;
+      }
+
+      .meter {
+        fill: none;
+        stroke: #f59e0b;
+        stroke-width: 3;
+        stroke-dasharray: 100 100;
+        stroke-dashoffset: calc(100 - var(--percent));
+        transition: stroke-dashoffset 1s ease-out;
+        stroke-linecap: round;
+      }
+    }
+  }
+
+  &.retention {
+    .kpi-icon {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .progress-bar-mini {
+      height: 6px;
+      background: var(--gray-800);
+      border-radius: 3px;
+      margin-top: 1rem;
+      overflow: hidden;
+
+      .fill {
+        height: 100%;
+        background: #10b981;
+        border-radius: 3px;
+        transition: width 1s ease;
+      }
+    }
+  }
+}
+
+// --- Main Dashboard Layout ---
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @media (min-width: $bp-desktop) {
+    grid-template-columns: 2fr 1fr; // 2/3 and 1/3
+  }
+}
+
+.main-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// --- Generic Dashboard Card ---
+.dashboard-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: var(--primary-500);
+      }
+    }
+
+    .period-badge {
+      font-size: 0.75rem;
+      background: var(--gray-800);
+      color: var(--gray-400);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+  }
+}
+
+// --- Growth Chart ---
+.growth-chart-card {
+  .chart-area {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.05));
+
+    svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+  }
+}
+
+// --- Two Column Grid (Distribution & Mastery) ---
+.two-col-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+// Type Bars
+.types-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .type-stat-row {
+    .row-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      color: var(--gray-300);
+
+      .t-val {
+        font-weight: bold;
+        color: var(--gray-100);
+      }
+    }
+
+    .row-bar-bg {
+      height: 8px;
+      background: var(--gray-800);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .row-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+
+      // Colors per chart logic in JS defaults, but here strictly:
+      &.word {
+        background: var(--primary-500);
+      }
+
+      &.phrasal {
+        background: var(--success-500);
+      }
+
+      &.expression {
+        background: var(--warning-500);
+      }
+
+      &.connector {
+        background: #38bdf8;
+      }
+    }
+
+    .row-meta {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      text-align: right;
+      margin-top: 0.2rem;
+    }
+  }
+}
+
+// Mastery Levels (Pyramid-ish)
+.mastery-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  .level-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+
+    .lvl-name {
+      width: 100px;
+      color: var(--gray-400);
+    }
+
+    .lvl-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--gray-800);
+      border-radius: 3px;
+      overflow: hidden;
+
+      .fill {
+        height: 100%;
+        border-radius: 3px;
+      }
+    }
+
+    .lvl-count {
+      width: 30px;
+      text-align: right;
+      font-weight: bold;
+      color: var(--gray-200);
+    }
+
+    &.master .fill {
+      background: var(--primary-500);
+    }
+
+    &.guru .fill {
+      background: #818cf8;
+    }
+
+    &.apprentice .fill {
+      background: #f59e0b;
+    }
+
+    &.new .fill {
+      background: var(--gray-500);
+    }
+  }
+}
+
+// --- Struggling Words List ---
+.struggling-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .struggling-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .s-info {
+      display: flex;
+      flex-direction: column;
+
+      .s-word {
+        font-weight: 600;
+        color: var(--gray-200);
+        font-size: 0.95rem;
+      }
+
+      .s-meaning {
+        font-size: 0.8rem;
+        color: var(--gray-500);
+      }
+    }
+
+    .error-badge {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  }
+
+  .empty-state-mini {
+    text-align: center;
+    padding: 1rem;
+    color: var(--gray-500);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+}
+
+// --- Tip Card ---
+.tip-card {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(30, 41, 59, 0.5));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+
+  .tip-icon {
+    font-size: 1.5rem;
+    color: #ffd700; // Gold bulb
+    flex-shrink: 0;
+  }
+
+  .tip-content {
+    h4 {
+      font-size: 1rem;
+      color: var(--gray-100);
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      line-height: 1.4;
+    }
+  }
+}
+
+// --- Empty State ---
+.empty-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--gray-900);
+  border-radius: 16px;
+  border: 1px dashed var(--gray-700);
+  color: var(--gray-400);
+
+  i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--gray-600);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: var(--gray-200);
+    margin-bottom: 0.5rem;
+    justify-content: center; // Fix for inherited flex layout
+    text-align: center;
+  }
+}
