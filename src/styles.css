@@ -480,21 +480,39 @@ main#app h2 i {
 .word-card .tag {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
   font-size: 0.75rem;
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.75rem;
   border-radius: var(--radius-full);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.word-card .tag i {
+  font-size: 0.7rem;
 }
 
 .type-tag {
-  background: var(--primary-100);
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
   color: var(--primary-700);
+  border-color: var(--primary-200);
+}
+
+.type-tag:hover {
+  background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-200) 100%);
+  transform: translateY(-1px);
 }
 
 .category-tag {
-  background: var(--gray-100);
-  color: var(--gray-600);
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+  color: var(--gray-700);
+  border-color: var(--gray-200);
+}
+
+.category-tag i {
+  color: var(--gray-500);
 }
 
 .remembered {
@@ -882,6 +900,38 @@ main#app h2 i {
   color: var(--gray-300);
 }
 
+/* Dark mode tags */
+[data-theme='dark'] .type-tag {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.3) 100%);
+  color: var(--primary-300);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+[data-theme='dark'] .category-tag {
+  background: linear-gradient(135deg, rgba(107, 114, 128, 0.2) 0%, rgba(107, 114, 128, 0.3) 100%);
+  color: var(--gray-300);
+  border-color: rgba(107, 114, 128, 0.4);
+}
+
+[data-theme='dark'] .category-tag i {
+  color: var(--gray-400);
+}
+
+[data-theme='dark'] .review-meta .type-tag {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.35) 100%);
+  color: var(--primary-200);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+[data-theme='dark'] .review-meta .category-tag {
+  background: linear-gradient(135deg, rgba(107, 114, 128, 0.25) 0%, rgba(107, 114, 128, 0.35) 100%);
+  color: var(--gray-200);
+  border-color: rgba(107, 114, 128, 0.5);
+}
+
+[data-theme='dark'] .review-meta .tag {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
 .streak-card {
   background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
@@ -1525,24 +1575,56 @@ main#app h2 i {
 .review-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 
+.review-meta .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.review-meta .tag i {
+  font-size: 0.75rem;
+}
+
+.review-meta .type-tag {
+  background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-200) 100%);
+  color: var(--primary-800);
+  border-color: var(--primary-300);
+}
+
+.review-meta .category-tag {
+  background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+  color: var(--gray-700);
+  border-color: var(--gray-300);
+}
+
 .review-count-tag {
-  background: var(--gray-100);
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
   color: var(--gray-600);
+  border-color: var(--gray-200);
 }
 
 .difficulty-tag.easy {
-  background: var(--success-100);
+  background: linear-gradient(135deg, var(--success-50) 0%, var(--success-100) 100%);
   color: var(--success-700);
+  border-color: var(--success-200);
 }
 
 .difficulty-tag.hard {
-  background: var(--danger-100);
+  background: linear-gradient(135deg, var(--danger-50) 0%, var(--danger-100) 100%);
   color: var(--danger-700);
+  border-color: var(--danger-200);
 }
 
 .review-image-wrapper {

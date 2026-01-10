@@ -9,6 +9,8 @@ export function renderReview(container) {
   let revealed = false;
   let reviewQueue = [];
   let sessionStats = { correct: 0, incorrect: 0, xp: 0 };
+  let failedAttempts = new Map(); // Track retry attempts per word
+  const MAX_RETRIES = 2; // Maximum times a failed word can be re-queued
   
   // Initialize queue once
   reviewQueue = getWordsForReview();
@@ -134,7 +136,8 @@ export function renderReview(container) {
      const cVal = document.querySelector('#stat-correct .val');
      const xVal = document.querySelector('#stat-xp .val');
      
-     if (qVal) qVal.textContent = reviewQueue.length + (current ? 1 : 0);
+     // Show remaining words (queue only, current is being processed)
+     if (qVal) qVal.textContent = reviewQueue.length;
      if (cVal) cVal.textContent = sessionStats.correct;
      if (xVal) xVal.textContent = `${sessionStats.xp} XP`;
   }
@@ -217,8 +220,8 @@ export function renderReview(container) {
         </div>
         
         <div class="review-actions" id="review-actions" style="margin-top: 1rem;">
-           <button id="remembered-btn" class="review-btn success-btn" disabled>Recordada (->)</button>
-           <button id="forgotten-btn" class="review-btn danger-btn" disabled>Olvidada (<-)</button>
+           <button id="remembered-btn" class="review-btn success-btn" disabled><i class="fa-solid fa-circle-check"></i> Recordada</button>
+           <button id="forgotten-btn" class="review-btn danger-btn" disabled><i class="fa-solid fa-circle-xmark"></i> Olvidada</button>
         </div>
       </div>
     `;
@@ -296,20 +299,20 @@ export function renderReview(container) {
             if (answered) return;
             answered = true;
             
-            const selectedId = parseInt(btn.dataset.id) || btn.dataset.id;
-            const isCorrect = selectedId == current.id;
+            // Use string comparison to handle decimal IDs correctly
+            const selectedId = String(btn.dataset.id);
+            const isCorrect = selectedId === String(current.id);
             
             if (isCorrect) {
                  btn.classList.add('correct');
-                 speak('Correct', 'en-US', 1.2); // Feedback voice?
-                 setTimeout(() => handleResult(true), 1000);
+                 setTimeout(() => handleResult(true), 800);
             } else {
                  btn.classList.add('wrong');
                  // Highlight correct
                  optionBtns.forEach(b => {
-                     if (b.dataset.id == current.id) b.classList.add('correct');
+                     if (String(b.dataset.id) === String(current.id)) b.classList.add('correct');
                  });
-                 setTimeout(() => handleResult(false), 2000);
+                 setTimeout(() => handleResult(false), 1500);
             }
         });
     });
@@ -412,18 +415,19 @@ export function renderReview(container) {
             if (answered) return;
             answered = true;
             
-            const selectedId = parseInt(btn.dataset.id) || btn.dataset.id;
-            const isCorrect = selectedId == current.id;
+            // Use string comparison to handle decimal IDs correctly
+            const selectedId = String(btn.dataset.id);
+            const isCorrect = selectedId === String(current.id);
             
             if (isCorrect) {
                  btn.classList.add('correct');
-                 setTimeout(() => handleResult(true), 1000);
+                 setTimeout(() => handleResult(true), 800);
             } else {
                  btn.classList.add('wrong');
                  optionBtns.forEach(b => {
-                     if (b.dataset.id == current.id) b.classList.add('correct');
+                     if (String(b.dataset.id) === String(current.id)) b.classList.add('correct');
                  });
-                 setTimeout(() => handleResult(false), 2000);
+                 setTimeout(() => handleResult(false), 1500);
             }
         });
     });
@@ -443,11 +447,23 @@ export function renderReview(container) {
             sessionStats.xp += 10;
             // Gamification
             try { updateProgress(1); } catch (e) { console.error(e); }
+            // Clear retry count on success
+            failedAttempts.delete(current.id);
         } else {
             sessionStats.incorrect++;
-            // Re-queue
-            reviewQueue.push(current); 
+            
+            // Check retry limit before re-queuing
+            const attempts = failedAttempts.get(current.id) || 0;
+            if (attempts < MAX_RETRIES) {
+                failedAttempts.set(current.id, attempts + 1);
+                // Re-queue the word for another attempt
+                reviewQueue.push(current);
+            }
+            // If max retries reached, word is dropped from session
         }
+        
+        // Clear current before getting next
+        current = null;
         
         // Next
         updateSessionStats();
@@ -460,6 +476,10 @@ export function renderReview(container) {
   function renderSummary(container) {
     try {
         updateProgress(0); // Ensure streak is saved/displayed
+        
+        // Hide session header for cleaner summary view
+        const sessionHeader = document.querySelector('.review-header');
+        if (sessionHeader) sessionHeader.style.display = 'none';
         
         // Safe get stats
         let game;
