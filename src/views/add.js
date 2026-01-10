@@ -37,6 +37,7 @@ export function renderAdd(container) {
             <option value="word">Palabra</option>
             <option value="phrasal">Phrasal verb</option>
             <option value="expression">Expresión</option>
+            <option value="connector">Conector</option>
           </select>
         </div>
         <div class="form-field">

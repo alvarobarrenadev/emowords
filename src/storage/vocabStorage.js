@@ -111,7 +111,8 @@ export function getStatistics() {
   const byType = {
     word: words.filter(w => w.type === 'word').length,
     phrasal: words.filter(w => w.type === 'phrasal').length,
-    expression: words.filter(w => w.type === 'expression').length
+    expression: words.filter(w => w.type === 'expression').length,
+    connector: words.filter(w => w.type === 'connector').length
   };
   
   // Calculate retention rate

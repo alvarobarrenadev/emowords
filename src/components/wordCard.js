@@ -1,5 +1,7 @@
 import { updateWord, deleteWord, checkDuplicateWord } from '../storage/vocabStorage.js';
 
+import { speak } from '../utils/tts.js';
+
 export function createWordCard(word, onUpdate) {
   const card = document.createElement('div');
   card.className = 'word-card';
@@ -21,7 +23,12 @@ export function createWordCard(word, onUpdate) {
     </div>
 
     <div class="word-info">
-      <h3>${word.word}</h3>
+      <div class="word-header-row">
+        <h3>${word.word}</h3>
+        <button class="speak-btn" title="Escuchar pronunciación">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+      </div>
       <p class="meaning-text">${word.meaning}</p>
 
       ${word.emotion ? `
@@ -51,6 +58,12 @@ export function createWordCard(word, onUpdate) {
       </button>
     </div>
   `;
+
+  // Speak button
+  card.querySelector('.speak-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    speak(word.word);
+  });
 
   // Toggle remembered status
   card.querySelector('.toggle').addEventListener('click', () => {
@@ -106,6 +119,7 @@ function openEditModal(word, onUpdate) {
               <option value="word" ${word.type === 'word' ? 'selected' : ''}>Palabra</option>
               <option value="phrasal" ${word.type === 'phrasal' ? 'selected' : ''}>Phrasal verb</option>
               <option value="expression" ${word.type === 'expression' ? 'selected' : ''}>Expresión</option>
+              <option value="connector" ${word.type === 'connector' ? 'selected' : ''}>Conector</option>
             </select>
           </div>
           <div class="form-field">
@@ -201,6 +215,7 @@ function getTypeLabel(type) {
     case 'word': return '<i class="fa-solid fa-font"></i> Palabra';
     case 'phrasal': return '<i class="fa-solid fa-link"></i> Phrasal Verb';
     case 'expression': return '<i class="fa-solid fa-comment"></i> Expresión';
+    case 'connector': return '<i class="fa-solid fa-arrows-left-right"></i> Conector';
     default: return '<i class="fa-solid fa-file"></i> Otro';
   }
 }

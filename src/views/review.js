@@ -1,307 +1,553 @@
 import { getAllWords, getWordsForReview, recordReview, getStatistics } from '../storage/vocabStorage.js';
+import { updateProgress, getGamificationStats } from '../storage/gamification.js';
+import { speak } from '../utils/tts.js';
+import { showToast } from '../utils/ui.js';
 
 export function renderReview(container) {
+  let currentMode = null; // 'flashcard', 'quiz', 'typing', 'listening'
   let current = null;
   let revealed = false;
   let reviewQueue = [];
-  let sessionStats = { correct: 0, incorrect: 0 };
-
-  const stats = getStatistics();
+  let sessionStats = { correct: 0, incorrect: 0, xp: 0 };
   
-  container.innerHTML = `
-    <div class="review-header">
-      <h2><i class="fa-solid fa-brain"></i> Modo Repaso</h2>
-      <div class="review-progress">
-        <div class="progress-stat">
-          <i class="fa-solid fa-book progress-icon"></i>
-          <span id="words-pending">${stats.dueForReview}</span>
-          <span class="progress-label">pendientes</span>
-        </div>
-        <div class="progress-stat session-correct">
-          <i class="fa-solid fa-circle-check progress-icon"></i>
-          <span id="session-correct">0</span>
-          <span class="progress-label">correctas</span>
-        </div>
-        <div class="progress-stat session-incorrect">
-          <i class="fa-solid fa-circle-xmark progress-icon"></i>
-          <span id="session-incorrect">0</span>
-          <span class="progress-label">incorrectas</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="review-container">
-      <div id="review-card" class="review-card"></div>
-      
-      <div class="review-actions" id="review-actions">
-        <button id="remembered-btn" class="review-btn success-btn" disabled>
-          <i class="fa-solid fa-check btn-icon"></i>
-          <span class="btn-text">Recordada</span>
-          <span class="btn-shortcut">Tecla: <i class="fa-solid fa-arrow-right"></i></span>
-        </button>
-        <button id="forgotten-btn" class="review-btn danger-btn" disabled>
-          <i class="fa-solid fa-xmark btn-icon"></i>
-          <span class="btn-text">Olvidada</span>
-          <span class="btn-shortcut">Tecla: <i class="fa-solid fa-arrow-left"></i></span>
-        </button>
-      </div>
-      
-      <div class="review-options">
-        <button id="skip-btn" class="skip-btn">
-          <i class="fa-solid fa-forward"></i> Saltar (Espacio)
-        </button>
-        <button id="shuffle-btn" class="shuffle-btn">
-          <i class="fa-solid fa-shuffle"></i> Mezclar
-        </button>
-      </div>
-    </div>
-    
-    <!-- Keyboard shortcut hint -->
-    <div class="keyboard-hints">
-      <span class="hint"><i class="fa-regular fa-keyboard"></i> Atajos:</span>
-      <span class="key">Espacio</span> = Revelar/Siguiente
-      <span class="key"><i class="fa-solid fa-arrow-right"></i></span> = Recordada
-      <span class="key"><i class="fa-solid fa-arrow-left"></i></span> = Olvidada
-    </div>
-  `;
+  // Initialize queue once
+  reviewQueue = getWordsForReview();
+  shuffleArray(reviewQueue);
 
-  const card = document.getElementById('review-card');
-  const btnRemembered = document.getElementById('remembered-btn');
-  const btnForgotten = document.getElementById('forgotten-btn');
-  const btnSkip = document.getElementById('skip-btn');
-  const btnShuffle = document.getElementById('shuffle-btn');
-  const sessionCorrectEl = document.getElementById('session-correct');
-  const sessionIncorrectEl = document.getElementById('session-incorrect');
-  const wordsPendingEl = document.getElementById('words-pending');
+  // Main Render Router
+  function render() {
+    container.innerHTML = '';
+    
+    if (!currentMode) {
+      renderModeSelection();
+    } 
+    // If currentMode exists, the specific mode handler (mountSessionUI) takes over control of the container
+    // or we can implement a resume logic here if needed.
+    // For now, simple router:
+  }
 
-  function loadReviewQueue() {
-    reviewQueue = getWordsForReview();
-    shuffleArray(reviewQueue);
-    updatePendingCount();
+  // ==================== MODE SELECTION ====================
+  function renderModeSelection() {
+    const todoCount = reviewQueue.length;
+    
+    container.innerHTML = `
+      <h2 style="text-align: center; margin-bottom: 0.5rem;">Modo de Repaso</h2>
+      <p style="text-align: center; color: var(--gray-500); margin-bottom: 2rem;">
+        Tienes <strong style="color: var(--primary-600);">${todoCount}</strong> palabras pendientes
+      </p>
+      
+      <div class="mode-grid">
+        <div class="mode-card" data-mode="flashcard">
+          <div class="mode-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="mode-title">Flashcards</div>
+          <div class="mode-desc">El método clásico. Voltea la tarjeta para ver la respuesta.</div>
+        </div>
+        
+        <div class="mode-card" data-mode="quiz">
+          <div class="mode-icon"><i class="fa-solid fa-list-check"></i></div>
+          <div class="mode-title">Quiz</div>
+          <div class="mode-desc">Selecciona la respuesta correcta entre 4 opciones.</div>
+        </div>
+        
+        <div class="mode-card" data-mode="typing">
+          <div class="mode-icon"><i class="fa-solid fa-keyboard"></i></div>
+          <div class="mode-title">Escritura</div>
+          <div class="mode-desc">Escribe la palabra correctamente. Mejora tu spelling.</div>
+        </div>
+        
+        <div class="mode-card" data-mode="listening">
+          <div class="mode-icon"><i class="fa-solid fa-headphones"></i></div>
+          <div class="mode-title">Listening</div>
+          <div class="mode-desc">Escucha la palabra y selecciona el significado correcto.</div>
+        </div>
+      </div>
+    `;
+    
+    container.querySelectorAll('.mode-card').forEach(card => {
+      card.addEventListener('click', () => {
+        currentMode = card.dataset.mode;
+        console.log(`Starting mode: ${currentMode} with queue size: ${reviewQueue.length}`);
+        
+        if (reviewQueue.length === 0) {
+           showToast('Sin palabras', 'No hay palabras pendientes para repasar ahora.', 'info');
+           renderSummary(container);
+           return;
+        }
+        
+        // Force full re-render to switch to Session UI
+        render(); 
+        
+        // Initialize Session
+        mountSessionUI();
+        renderWord();
+      });
+    });
+  }
+
+  // ==================== SESSION UI ====================
+  function mountSessionUI() {
+     // Only create if it doesn't exist to avoid duplicates
+     if (container.querySelector('.review-header')) return;
+     
+     const div = document.createElement('div');
+     div.className = 'review-header';
+     div.innerHTML = `
+       <button class="back-btn" id="exit-mode" title="Salir"><i class="fa-solid fa-arrow-left"></i></button>
+       <div class="review-progress">
+         <div class="progress-stat" id="stat-queue">
+           <i class="fa-solid fa-book progress-icon"></i>
+           <span class="val">${reviewQueue.length}</span>
+         </div>
+         <div class="progress-stat session-correct" id="stat-correct">
+           <i class="fa-solid fa-check progress-icon"></i>
+           <span class="val">${sessionStats.correct}</span>
+         </div>
+         <div class="progress-stat" style="color: var(--warning-600); background: var(--warning-50);" id="stat-xp">
+           <i class="fa-solid fa-bolt progress-icon"></i>
+           <span class="val">${sessionStats.xp} XP</span>
+         </div>
+       </div>
+     `;
+     container.insertBefore(div, container.firstChild); // Insert at top
+     
+     const exitBtn = document.getElementById('exit-mode');
+     exitBtn.addEventListener('click', (e) => {
+       e.preventDefault();
+       if (sessionStats.correct > 0 || sessionStats.incorrect > 0) {
+         if (confirm('¿Salir del modo repaso? Tu progreso se perderá.')) {
+            finishSession();
+         }
+       } else {
+          finishSession();
+       }
+     });
+ 
+     // Container for Active Content
+     const content = document.createElement('div');
+     content.id = 'active-content';
+     content.className = 'review-container';
+     container.appendChild(content);
   }
   
+  function updateSessionStats() {
+     const qVal = document.querySelector('#stat-queue .val');
+     const cVal = document.querySelector('#stat-correct .val');
+     const xVal = document.querySelector('#stat-xp .val');
+     
+     if (qVal) qVal.textContent = reviewQueue.length + (current ? 1 : 0);
+     if (cVal) cVal.textContent = sessionStats.correct;
+     if (xVal) xVal.textContent = `${sessionStats.xp} XP`;
+  }
+ 
+  function finishSession() {
+      currentMode = null;
+      render(); // Back to selection
+  }
+
+  // Removed old renderSessionHeader and renderActiveMode as they are now merged/refactored logic
+  // The 'render' function handles the top-level switching. 
+  // mountSessionUI is called explicitly when entering a mode.
+
+  // ==================== LOGIC LOOP ====================
+
+
+  // ==================== LOGIC LOOP ====================
+  function getNextWord() {
+    return reviewQueue.shift() || null;
+  }
+
+  function renderWord() {
+    if (!currentMode) { render(); return; }
+    
+    // Clear previous view
+    const content = document.getElementById('active-content');
+    if (!content) { render(); return; } // Safety
+    
+    current = getNextWord();
+    
+    if (!current) {
+        renderSummary(content);
+        return;
+    }
+    
+    // Dispatch to specific renderer
+    switch (currentMode) {
+      case 'flashcard': renderFlashcard(content); break;
+      case 'quiz': renderQuiz(content); break;
+      case 'typing': renderTyping(content); break;
+      case 'listening': renderListening(content); break;
+    }
+  }
+
+  // ==================== RENDERERS ====================
+  
+  // --- FLASHCARD ---
+  function renderFlashcard(container) {
+    revealed = false;
+    const reviewCount = current.reviewCount || 0;
+    
+    container.innerHTML = `
+      <div class="review-card" id="review-card">
+        <div class="review-card-inner">
+           <div class="review-meta">
+              <span class="tag type-tag">${getTypeLabel(current.type)}</span>
+              ${current.category ? `<span class="tag category-tag"><i class="fa-solid fa-folder"></i> ${current.category}</span>` : ''}
+           </div>
+
+           <div class="review-header-row" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <h3 class="review-word" style="margin-bottom: 0;">${current.word}</h3>
+              <button class="speak-btn" id="review-speak-btn" title="Escuchar">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
+           </div>
+           
+           ${current.image ? `<img src="${current.image}" class="review-image" style="max-height: 200px; object-fit: contain; margin: 0 auto 1rem; display: block;" />` : ''}
+
+           <button id="show-answer" class="reveal-btn">
+              <i class="fa-solid fa-eye"></i>
+              <span>Mostrar respuesta</span>
+           </button>
+           
+           <div id="review-answer" class="review-answer" style="display: none;">
+              <div class="answer-content">
+                <p class="meaning">${current.meaning}</p>
+                ${current.example ? `<p class="example">"${current.example}"</p>` : ''}
+              </div>
+           </div>
+        </div>
+        
+        <div class="review-actions" id="review-actions" style="margin-top: 1rem;">
+           <button id="remembered-btn" class="review-btn success-btn" disabled>Recordada (->)</button>
+           <button id="forgotten-btn" class="review-btn danger-btn" disabled>Olvidada (<-)</button>
+        </div>
+      </div>
+    `;
+    
+    // Events
+    document.getElementById('review-speak-btn').addEventListener('click', (e) => { e.stopPropagation(); speak(current.word); });
+    
+    const showBtn = document.getElementById('show-answer');
+    const answerDiv = document.getElementById('review-answer');
+    const btnRem = document.getElementById('remembered-btn');
+    const btnFor = document.getElementById('forgotten-btn');
+    
+    // Auto-play TTS?
+    // checkSettingsAndSpeak(current.word);
+
+    showBtn.addEventListener('click', () => {
+        revealed = true;
+        answerDiv.style.display = 'block';
+        showBtn.style.display = 'none';
+        btnRem.disabled = false;
+        btnFor.disabled = false;
+        answerDiv.classList.add('fade-in');
+    });
+    
+    btnRem.addEventListener('click', () => handleResult(true));
+    btnFor.addEventListener('click', () => handleResult(false));
+
+    // Keyboard
+    registerKeyboard((key) => {
+        if (key === 'Space' && !revealed) showBtn.click();
+        if (key === 'ArrowRight' && revealed) handleResult(true);
+        if (key === 'ArrowLeft' && revealed) handleResult(false);
+    });
+  }
+  
+  // --- QUIZ ---
+  function renderQuiz(container) {
+    // Generate options: 1 correct, 3 distractors
+    const allWords = getAllWords();
+    const distractors = allWords
+        .filter(w => w.id !== current.id)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+    
+    const options = [current, ...distractors];
+    shuffleArray(options);
+    
+    container.innerHTML = `
+      <div class="quiz-container">
+         <div class="quiz-question">
+            <h3 class="quiz-word">${current.word}</h3>
+            <button class="speak-btn" id="quiz-speak-btn" style="margin: 0 auto; width: 40px; height: 40px; font-size: 1.2rem;">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+         </div>
+
+         <div class="quiz-options">
+            ${options.map(opt => `
+                <button class="quiz-option" data-id="${opt.id}">
+                    ${opt.meaning}
+                </button>
+            `).join('')}
+         </div>
+      </div>
+    `;
+
+    document.getElementById('quiz-speak-btn').addEventListener('click', () => speak(current.word));
+    // checkSettingsAndSpeak(current.word);
+
+    const optionBtns = container.querySelectorAll('.quiz-option');
+    let answered = false;
+
+    optionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (answered) return;
+            answered = true;
+            
+            const selectedId = parseInt(btn.dataset.id) || btn.dataset.id;
+            const isCorrect = selectedId == current.id;
+            
+            if (isCorrect) {
+                 btn.classList.add('correct');
+                 speak('Correct', 'en-US', 1.2); // Feedback voice?
+                 setTimeout(() => handleResult(true), 1000);
+            } else {
+                 btn.classList.add('wrong');
+                 // Highlight correct
+                 optionBtns.forEach(b => {
+                     if (b.dataset.id == current.id) b.classList.add('correct');
+                 });
+                 setTimeout(() => handleResult(false), 2000);
+            }
+        });
+    });
+  }
+
+  // --- TYPING ---
+  function renderTyping(container) {
+    container.innerHTML = `
+      <div class="typing-container">
+         <div class="review-card-inner" style="margin-bottom: 2rem;">
+             <p style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight:700; color:var(--primary-600);">${current.meaning}</p>
+             ${current.example ? `<p style="font-style:italic; color:var(--gray-500)">"${current.example.replace(new RegExp(current.word, 'gi'), '___')}"</p>` : ''}
+         </div>
+         
+         <input type="text" class="typing-input" id="type-input" placeholder="Escribe la palabra en inglés..." autocomplete="off">
+         
+         <button id="check-btn" class="add-word-btn" style="width: 100%;">Comprobar</button>
+         <button id="give-up-btn" style="background:none; border:none; color:var(--gray-500); margin-top:1rem; cursor:pointer;">No lo sé</button>
+      </div>
+    `;
+    
+    // Auto-focus input
+    setTimeout(() => document.getElementById('type-input').focus(), 100);
+
+    const input = document.getElementById('type-input');
+    const checkBtn = document.getElementById('check-btn');
+    const giveUpBtn = document.getElementById('give-up-btn');
+    
+    function check() {
+        const val = input.value.trim().toLowerCase();
+        if (val === current.word.toLowerCase()) {
+            input.classList.add('correct');
+            checkBtn.innerHTML = '<i class="fa-solid fa-check"></i> Correcto';
+            speak(current.word);
+            setTimeout(() => handleResult(true), 1000);
+        } else {
+            input.classList.add('wrong');
+            speak('Incorrect', 'en-US'); 
+            setTimeout(() => input.classList.remove('wrong'), 500);
+        }
+    }
+    
+    checkBtn.addEventListener('click', check);
+    input.addEventListener('keydown', e => { if(e.key === 'Enter') check(); });
+    
+    giveUpBtn.addEventListener('click', () => {
+         input.value = current.word;
+         input.classList.add('wrong'); // Visual feedback red but showing word
+         speak(current.word);
+         setTimeout(() => handleResult(false), 2000);
+    });
+  }
+
+  // --- LISTENING ---
+  function renderListening(container) {
+     // Similar to Quiz but hides word initially
+     const allWords = getAllWords();
+     const distractors = allWords
+        .filter(w => w.id !== current.id)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+    
+    const options = [current, ...distractors];
+    shuffleArray(options);
+
+    container.innerHTML = `
+      <div class="quiz-container">
+         <div class="quiz-question">
+            <div style="font-size: 4rem; color: var(--primary-500); cursor: pointer; margin-bottom: 1rem;" id="listen-icon">
+                <i class="fa-solid fa-circle-play"></i>
+            </div>
+            <p style="color: var(--gray-500);">Escucha y selecciona el significado</p>
+         </div>
+
+         <div class="quiz-options">
+            ${options.map(opt => `
+                <button class="quiz-option" data-id="${opt.id}">
+                    ${opt.meaning}
+                </button>
+            `).join('')}
+         </div>
+      </div>
+    `;
+    
+    const playIcon = document.getElementById('listen-icon');
+    const play = () => {
+        playIcon.style.transform = 'scale(0.9)';
+        setTimeout(() => playIcon.style.transform = 'scale(1)', 150);
+        speak(current.word);
+    };
+    
+    playIcon.addEventListener('click', play);
+    setTimeout(play, 500); // Auto-play
+
+    const optionBtns = container.querySelectorAll('.quiz-option');
+    let answered = false;
+
+    optionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (answered) return;
+            answered = true;
+            
+            const selectedId = parseInt(btn.dataset.id) || btn.dataset.id;
+            const isCorrect = selectedId == current.id;
+            
+            if (isCorrect) {
+                 btn.classList.add('correct');
+                 setTimeout(() => handleResult(true), 1000);
+            } else {
+                 btn.classList.add('wrong');
+                 optionBtns.forEach(b => {
+                     if (b.dataset.id == current.id) b.classList.add('correct');
+                 });
+                 setTimeout(() => handleResult(false), 2000);
+            }
+        });
+    });
+  }
+
+  // ==================== RESULT HANDLER ====================
+  function handleResult(success) {
+    try {
+        if (!current) return;
+        
+        // Update SRS
+        recordReview(current.id, success);
+        
+        // Update Session Stats
+        if (success) {
+            sessionStats.correct++;
+            sessionStats.xp += 10;
+            // Gamification
+            try { updateProgress(1); } catch (e) { console.error(e); }
+        } else {
+            sessionStats.incorrect++;
+            // Re-queue
+            reviewQueue.push(current); 
+        }
+        
+        // Next
+        updateSessionStats();
+        renderWord();
+    } catch (e) {
+        console.error('Error in handleResult:', e);
+    }
+  }
+
+  function renderSummary(container) {
+    try {
+        updateProgress(0); // Ensure streak is saved/displayed
+        
+        // Safe get stats
+        let game;
+        try {
+            game = getGamificationStats();
+        } catch (e) {
+            game = { streak: 0, dailyGoal: { count: 0, target: 20 } };
+        }
+        
+        container.innerHTML = `
+          <div class="empty-review-state">
+            <div class="empty-icon" style="color: var(--success-500); animation: bounce 1s infinite;"><i class="fa-solid fa-trophy"></i></div>
+            <h3>¡Sesión completada!</h3>
+            <p>Has ganado <strong style="color:var(--warning-500)">${sessionStats.xp} XP</strong></p>
+            
+            <div class="session-summary">
+                <div class="summary-stats">
+                  <span class="stat correct"><i class="fa-solid fa-circle-check"></i> ${sessionStats.correct}</span>
+                  <span class="stat incorrect"><i class="fa-solid fa-circle-xmark"></i> ${sessionStats.incorrect}</span>
+                </div>
+            </div>
+            
+            <div class="streak-mini" style="margin: 1.5rem 0; padding: 1rem; background: #fffbeb; border-radius: 8px; border: 1px solid #fcd34d;">
+                <p style="color: #b45309; font-weight: bold;"><i class="fa-solid fa-fire"></i> Racha: ${game.streak} días</p>
+                <p style="font-size: 0.9rem; color: #92400e;">Meta diaria: ${game.dailyGoal.count} / ${game.dailyGoal.target}</p>
+            </div>
+    
+            <button class="add-word-btn" id="finish-btn">Volver al inicio</button>
+          </div>
+        `;
+        
+        // Fire confetti!
+        if (window.confetti || window.canvasConfetti) {
+             const c = window.confetti || window.canvasConfetti;
+             c({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        } else {
+            import('canvas-confetti').then(module => {
+                const confetti = module.default;
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }).catch(e => console.log('Confetti not found', e));
+        }
+    
+        const btn = document.getElementById('finish-btn');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                currentMode = null;
+                // Navigate home properly
+                const homeBtn = document.querySelector('[data-view="home"]');
+                if (homeBtn) homeBtn.click();
+                else render(); 
+            });
+        }
+    } catch (e) {
+        console.error('Error in renderSummary:', e);
+        container.innerHTML = '<p class="error">Error al mostrar resumen. <button onclick="location.reload()">Recargar</button></p>';
+    }
+  }
+
+  
+  // ==================== UTILS ====================
+  let cleanupKeyboard = null;
+  function registerKeyboard(callback) {
+      if (cleanupKeyboard) cleanupKeyboard();
+      
+      const handler = (e) => {
+          if (!document.getElementById('active-content')) return;
+          if (document.activeElement.tagName === 'INPUT') return; // Don't trigger if typing
+          callback(e.code);
+      };
+      document.addEventListener('keydown', handler);
+      cleanupKeyboard = () => document.removeEventListener('keydown', handler);
+      // Hook into global cleanup if needed
+      window._reviewCleanup = cleanupKeyboard;
+  }
+
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
   }
   
-  function updateSessionStats() {
-    sessionCorrectEl.textContent = sessionStats.correct;
-    sessionIncorrectEl.textContent = sessionStats.incorrect;
-  }
-  
-  function updatePendingCount() {
-    wordsPendingEl.textContent = reviewQueue.length;
+  function getTypeLabel(type) {
+     const types = { word: 'Palabra', phrasal: 'Phrasal Verb', expression: 'Expresión', connector: 'Conector' };
+     return types[type] || 'Otro';
   }
 
-  function getNextWord() {
-    if (reviewQueue.length === 0) {
-      loadReviewQueue();
-    }
-    return reviewQueue.shift() || null;
-  }
-
-  function renderWord(word) {
-    if (!word) {
-      card.innerHTML = `
-        <div class="empty-review-state">
-          <div class="empty-icon"><i class="fa-solid fa-party-horn"></i></div>
-          <h3>¡Excelente trabajo!</h3>
-          <p>No hay palabras pendientes de repaso.</p>
-          <div class="session-summary">
-            <p>Esta sesión:</p>
-            <div class="summary-stats">
-              <span class="stat correct"><i class="fa-solid fa-circle-check"></i> ${sessionStats.correct} correctas</span>
-              <span class="stat incorrect"><i class="fa-solid fa-circle-xmark"></i> ${sessionStats.incorrect} incorrectas</span>
-            </div>
-          </div>
-          <button class="restart-btn" id="restart-review"><i class="fa-solid fa-rotate"></i> Repasar todo de nuevo</button>
-        </div>
-      `;
-      
-      btnRemembered.disabled = true;
-      btnForgotten.disabled = true;
-      
-      document.getElementById('restart-review')?.addEventListener('click', () => {
-        reviewQueue = getAllWords();
-        shuffleArray(reviewQueue);
-        sessionStats = { correct: 0, incorrect: 0 };
-        updateSessionStats();
-        renderWord(getNextWord());
-      });
-      
-      return;
-    }
-
-    current = word;
-    revealed = false;
-    btnRemembered.disabled = true;
-    btnForgotten.disabled = true;
-
-    const reviewCount = word.reviewCount || 0;
-    const difficulty = getDifficultyLabel(word.difficulty || 0);
-
-    card.innerHTML = `
-      <div class="review-card-inner">
-        <div class="review-meta">
-          <span class="tag type-tag">${getTypeLabel(word.type)}</span>
-          ${word.category ? `<span class="tag category-tag"><i class="fa-solid fa-folder"></i> ${word.category}</span>` : ''}
-          <span class="tag review-count-tag"><i class="fa-solid fa-chart-simple"></i> ${reviewCount} repasos</span>
-          ${word.difficulty !== 0 ? `<span class="tag difficulty-tag ${difficulty.class}">${difficulty.label}</span>` : ''}
-        </div>
-        
-        ${word.image ? `
-          <div class="review-image-wrapper">
-            <img src="${word.image}" alt="${word.word}" class="review-image" />
-          </div>
-        ` : ''}
-        
-        <h3 class="review-word">${word.word}</h3>
-        
-        <button id="show-answer" class="reveal-btn">
-          <i class="fa-solid fa-eye"></i>
-          <span>Mostrar respuesta</span>
-        </button>
-        
-        <div id="review-answer" class="review-answer" style="display: none;">
-          <div class="answer-content">
-            <p class="meaning">${word.meaning}</p>
-            
-            ${word.emotion ? `
-              <div class="answer-section">
-                <p class="section-label"><i class="fa-solid fa-heart"></i> Asociación emocional</p>
-                <p class="section-content">${word.emotion}</p>
-              </div>
-            ` : ''}
-            
-            ${word.example ? `
-              <div class="answer-section">
-                <p class="section-label"><i class="fa-solid fa-quote-left"></i> Ejemplo</p>
-                <p class="section-content example">"${word.example}"</p>
-              </div>
-            ` : ''}
-          </div>
-        </div>
-      </div>
-    `;
-
-    const showBtn = document.getElementById('show-answer');
-    const answerDiv = document.getElementById('review-answer');
-
-    showBtn.addEventListener('click', revealAnswer);
-    
-    function revealAnswer() {
-      if (revealed) return;
-      revealed = true;
-      answerDiv.style.display = 'block';
-      showBtn.style.display = 'none';
-      btnRemembered.disabled = false;
-      btnForgotten.disabled = false;
-      
-      // Add animation
-      answerDiv.classList.add('fade-in');
-    }
-  }
-  
-  function getDifficultyLabel(difficulty) {
-    if (difficulty <= -2) return { label: '<i class="fa-solid fa-star"></i> Fácil', class: 'easy' };
-    if (difficulty >= 2) return { label: '<i class="fa-solid fa-fire"></i> Difícil', class: 'hard' };
-    return { label: '', class: '' };
-  }
-
-  function mark(remembered) {
-    if (!current) return;
-    
-    recordReview(current.id, remembered);
-    
-    if (remembered) {
-      sessionStats.correct++;
-      card.classList.add('correct-flash');
-    } else {
-      sessionStats.incorrect++;
-      card.classList.add('incorrect-flash');
-      // Add word back to queue for re-review
-      reviewQueue.push({ ...current, remembered: false });
-    }
-    
-    updateSessionStats();
-    updatePendingCount();
-    
-    setTimeout(() => {
-      card.classList.remove('correct-flash', 'incorrect-flash');
-      renderWord(getNextWord());
-    }, 300);
-  }
-
-  // Event listeners
-  btnRemembered.addEventListener('click', () => mark(true));
-  btnForgotten.addEventListener('click', () => mark(false));
-  
-  btnSkip.addEventListener('click', () => {
-    if (current) {
-      reviewQueue.push(current);
-    }
-    renderWord(getNextWord());
-  });
-  
-  btnShuffle.addEventListener('click', () => {
-    if (current) {
-      reviewQueue.unshift(current);
-    }
-    shuffleArray(reviewQueue);
-    renderWord(getNextWord());
-  });
-  
-  // Keyboard shortcuts
-  document.addEventListener('keydown', handleKeyboard);
-  
-  function handleKeyboard(e) {
-    // Only handle if we're on review page
-    if (!document.getElementById('review-card')) return;
-    
-    switch (e.code) {
-      case 'Space':
-        e.preventDefault();
-        if (!revealed) {
-          document.getElementById('show-answer')?.click();
-        } else {
-          renderWord(getNextWord());
-        }
-        break;
-      case 'ArrowRight':
-        if (revealed && !btnRemembered.disabled) {
-          mark(true);
-        }
-        break;
-      case 'ArrowLeft':
-        if (revealed && !btnForgotten.disabled) {
-          mark(false);
-        }
-        break;
-    }
-  }
-  
-  // Initial load
-  loadReviewQueue();
-  renderWord(getNextWord());
-  
-  // Cleanup keyboard listener when leaving the page
-  const cleanup = () => {
-    document.removeEventListener('keydown', handleKeyboard);
-  };
-  
-  // Store cleanup function for potential use
-  window._reviewCleanup = cleanup;
-}
-
-function getTypeLabel(type) {
-  switch (type) {
-    case 'word': return '<i class="fa-solid fa-font"></i> Palabra';
-    case 'phrasal': return '<i class="fa-solid fa-link"></i> Phrasal Verb';
-    case 'expression': return '<i class="fa-solid fa-comment"></i> Expresión';
-    default: return '<i class="fa-solid fa-file"></i> Otro';
-  }
+  // Initial Render
+  render();
 }

@@ -1,4 +1,6 @@
 import { getAllWords, searchWords, sortWords, getStatistics, getAllCategories, exportData, importData } from '../storage/vocabStorage.js';
+import { getGamificationStats } from '../storage/gamification.js';
+import { starterPacks } from '../data/starterPacks.js';
 import { createWordCard } from '../components/wordCard.js';
 import { showToast } from '../utils/ui.js';
 
@@ -6,7 +8,40 @@ export function renderHome(container) {
   const stats = getStatistics();
   const categories = getAllCategories();
 
+  const gameStats = getGamificationStats();
+
+  // Calculate progress circle stroke
+  const radius = 24;
+  const circumference = 2 * Math.PI * radius;
+  const progress = Math.min(gameStats.dailyGoal.count / gameStats.dailyGoal.target, 1);
+  const offset = circumference - (progress * circumference);
+
   container.innerHTML = `
+    <!-- Gamification Hub -->
+    <div class="gamification-hub">
+      <div class="stat-card streak-card">
+        <div class="stat-icon streak-flame"><i class="fa-solid fa-fire"></i></div>
+        <div class="stat-content">
+          <span class="streak-count">${gameStats.streak} <span style="font-size: 1rem; color: #b45309;">días</span></span>
+          <span class="stat-label">Racha actual</span>
+        </div>
+      </div>
+      
+      <div class="stat-card daily-goal-card">
+        <div class="stat-content">
+          <span class="stat-value">${gameStats.dailyGoal.count} / ${gameStats.dailyGoal.target}</span>
+          <span class="stat-label">Meta diaria</span>
+        </div>
+        <div class="progress-ring">
+          <svg width="60" height="60">
+            <circle stroke="#e5e7eb" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" />
+            <circle stroke="#3b82f6" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" 
+              style="stroke-dasharray: ${circumference} ${circumference}; stroke-dashoffset: ${offset};" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
     <!-- Dynamic Dashboard -->
     <div class="dashboard-grid">
       <!-- Summary Card -->
@@ -105,6 +140,15 @@ export function renderHome(container) {
             <div class="progress-fill warning" style="width: ${stats.total > 0 ? (stats.byType.expression / stats.total * 100) : 0}%"></div>
           </div>
         </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Conectores</span>
+            <span>${stats.byType.connector}</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill info" style="width: ${stats.total > 0 ? (stats.byType.connector / stats.total * 100) : 0}%"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -149,6 +193,7 @@ export function renderHome(container) {
           <option value="word">Palabras</option>
           <option value="phrasal">Phrasal verbs</option>
           <option value="expression">Expresiones</option>
+          <option value="connector">Conectores</option>
         </select>
       </div>
       <div class="filter-group">
@@ -233,15 +278,103 @@ export function renderHome(container) {
       list.innerHTML = `
         <div class="empty-state">
           <div class="empty-icon"><i class="fa-solid fa-book-open"></i></div>
-          <h3>No hay vocabulario</h3>
+          <h3>${searchInput.value.trim() ? 'No se encontraron resultados' : 'Tu vocabulario está vacío'}</h3>
           <p>${searchInput.value.trim() 
-            ? 'No se encontraron resultados para tu búsqueda.' 
-            : 'Empieza a añadir palabras para construir tu vocabulario personal.'}</p>
-          ${!searchInput.value.trim() 
-            ? '<button class="add-word-btn" onclick="document.querySelector(\'[data-view=add]\').click()"><i class="fa-solid fa-plus"></i> Añadir primera palabra</button>' 
-            : ''}
+            ? 'Intenta con otra búsqueda.' 
+            : 'Empieza añadiendo tu primera palabra o carga un pack de inicio para arrancar.'}</p>
+          
+          ${!searchInput.value.trim() ? `
+            <div class="empty-actions">
+              <button class="add-word-btn" onclick="document.querySelector('[data-view=add]').click()">
+                <i class="fa-solid fa-plus"></i> Añadir mi primera palabra
+              </button>
+            </div>
+            
+            <div class="starter-packs-section">
+              <div class="packs-header">
+                <h4>O elige packs para empezar:</h4>
+                <button id="import-packs-btn" class="import-packs-btn" disabled>
+                  Selecciona packs
+                </button>
+              </div>
+              <div class="starter-packs-grid">
+                ${starterPacks.map(pack => `
+                  <div class="pack-card" data-pack-id="${pack.id}">
+                    <div class="pack-check"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="pack-icon"><i class="fa-solid ${pack.icon}"></i></div>
+                    <div class="pack-info">
+                      <h4>${pack.name}</h4>
+                      <p>${pack.description}</p>
+                      <div class="pack-count"><i class="fa-solid fa-layer-group"></i> ${pack.words.length} palabras</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
         </div>
       `;
+      
+      // Multi-select logic
+      const importBtn = list.querySelector('#import-packs-btn');
+      if (importBtn) {
+        let selectedPacks = new Set();
+        
+        const updateButton = () => {
+          const count = selectedPacks.size;
+          importBtn.disabled = count === 0;
+          if (count === 0) {
+            importBtn.textContent = 'Selecciona packs';
+            importBtn.classList.remove('active');
+          } else {
+            // Calculate total words
+            let totalWords = 0;
+            selectedPacks.forEach(id => {
+              const p = starterPacks.find(pack => pack.id === id);
+              if (p) totalWords += p.words.length;
+            });
+            importBtn.innerHTML = `<i class="fa-solid fa-download"></i> Añadir ${count} pack${count > 1 ? 's' : ''} (${totalWords} palabras)`;
+            importBtn.classList.add('active');
+          }
+        };
+
+        list.querySelectorAll('.pack-card').forEach(card => {
+          card.addEventListener('click', () => {
+             const packId = card.dataset.packId;
+             if (selectedPacks.has(packId)) {
+               selectedPacks.delete(packId);
+               card.classList.remove('selected');
+             } else {
+               selectedPacks.add(packId);
+               card.classList.add('selected');
+             }
+             updateButton();
+          });
+        });
+        
+        importBtn.addEventListener('click', () => {
+          if (selectedPacks.size === 0) return;
+          
+          if (confirm(`¿Añadir ${selectedPacks.size} packs a tu vocabulario?`)) {
+            let allWords = [];
+            selectedPacks.forEach(id => {
+              const pack = starterPacks.find(p => p.id === id);
+              if (pack) allWords = allWords.concat(pack.words);
+            });
+            
+            const importPayload = JSON.stringify({ words: allWords });
+            const result = importData(importPayload);
+            
+            if (result.success) {
+               showToast('Packs añadidos', `¡Genial! Se han añadido ${result.imported} palabras nuevas.`, 'success');
+               renderHome(container);
+            } else {
+               showToast('Error', 'Hubo un problema al cargar los packs.', 'error');
+            }
+          }
+        });
+      }
+      
     } else {
       words.forEach(word => {
         list.appendChild(createWordCard(word, renderList));

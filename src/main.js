@@ -156,10 +156,9 @@ render('home');
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    const swPath = './sw.js';
-    
-    // Check if running in a subdirectory (GitHub Pages)
-    // const path = window.location.pathname.includes('/emowords/') ? '/emowords/sw.js' : '/sw.js';
+    // Use Vite's base URL to construct the correct SW path
+    const basePath = import.meta.env.BASE_URL || '/';
+    const swPath = basePath + 'sw.js';
     
     navigator.serviceWorker.register(swPath)
       .then(registration => {
