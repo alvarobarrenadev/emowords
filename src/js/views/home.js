@@ -166,11 +166,11 @@ export function renderHome(container) {
       
       <div class="action-buttons">
         <button id="export-btn" class="action-btn" title="Exportar datos">
-          <i class="fa-solid fa-file-export"></i>
+          <i class="fa-solid fa-download"></i>
           <span>Exportar</span>
         </button>
         <button id="import-btn" class="action-btn" title="Importar datos">
-          <i class="fa-solid fa-file-import"></i>
+          <i class="fa-solid fa-upload"></i>
           <span>Importar</span>
         </button>
       </div>
@@ -179,7 +179,7 @@ export function renderHome(container) {
     <!-- Filters -->
     <div class="filters">
       <div class="filter-group">
-        <i class="fa-solid fa-filter filter-icon"></i>
+        <i class="fa-solid fa-sliders filter-icon"></i>
         <select id="filter-status">
           <option value="all">Todas</option>
           <option value="remembered">Recordadas</option>
@@ -187,7 +187,7 @@ export function renderHome(container) {
         </select>
       </div>
       <div class="filter-group">
-        <i class="fa-solid fa-tag filter-icon"></i>
+        <i class="fa-solid fa-shapes filter-icon"></i>
         <select id="filter-type">
           <option value="all">Todos los tipos</option>
           <option value="word">Palabras</option>
@@ -197,7 +197,7 @@ export function renderHome(container) {
         </select>
       </div>
       <div class="filter-group">
-        <i class="fa-solid fa-folder filter-icon"></i>
+        <i class="fa-solid fa-folder-tree filter-icon"></i>
         <select id="filter-category">
           <option value="all">Todas las categorías</option>
           ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
