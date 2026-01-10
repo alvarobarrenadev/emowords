@@ -1,0 +1,148 @@
+// ===== ANIMATIONS =====
+
+@keyframes flame-pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.5));
+  }
+
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.8));
+  }
+
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.5));
+  }
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes correctPulse {
+
+  0%,
+  100% {
+    background: white;
+  }
+
+  50% {
+    background: var(--success-50);
+  }
+}
+
+@keyframes incorrectPulse {
+
+  0%,
+  100% {
+    background: white;
+  }
+
+  50% {
+    background: var(--danger-50);
+  }
+}
+
+@keyframes correctPulseDark {
+
+  0%,
+  100% {
+    background: #1c1c1e;
+  }
+
+  50% {
+    background: #064e3b;
+  }
+}
+
+@keyframes incorrectPulseDark {
+
+  0%,
+  100% {
+    background: #1c1c1e;
+  }
+
+  50% {
+    background: #7f1d1d;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// Animation utility classes
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+.streak-flame {
+  color: #f59e0b;
+  animation: flame-pulse 2s infinite;
+}

@@ -1,0 +1,275 @@
+// ===== REVIEW PAGE =====
+
+// Review Header
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+
+  h2 {
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Review Progress
+.review-progress {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.progress-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  box-shadow: var(--shadow-sm);
+
+  &.session-correct {
+    color: var(--success-600);
+    background: var(--success-50);
+
+    .progress-icon {
+      color: var(--success-500);
+    }
+  }
+
+  &.session-incorrect .progress-icon {
+    color: var(--danger-500);
+  }
+}
+
+.progress-icon {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.progress-label {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+}
+
+// Review Container
+.review-container {
+  max-width: 550px;
+  margin: 0 auto;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// Review Image
+.review-image-wrapper {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.review-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+// Review Word
+.review-word {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+// Review Answer
+.review-answer {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.answer-content {
+  text-align: center;
+
+  .meaning {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-600);
+    margin-bottom: 1rem;
+  }
+}
+
+.answer-section {
+  text-align: left;
+  padding: 1rem;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  margin-top: 1rem;
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-content {
+    color: var(--gray-700);
+    line-height: 1.5;
+
+    &.example {
+      font-style: italic;
+      color: var(--gray-600);
+    }
+  }
+}
+
+// Review Actions
+.review-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.review-options {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+// Keyboard Hints
+.keyboard-hints {
+  text-align: center;
+  padding: 1rem;
+  color: var(--gray-400);
+  font-size: 0.8rem;
+
+  .hint {
+    margin-right: 0.5rem;
+  }
+
+  .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--gray-100);
+    border-radius: var(--radius-sm);
+    font-family: monospace;
+    font-size: 0.75rem;
+    margin: 0 0.25rem;
+  }
+}
+
+// Session Summary
+.session-summary {
+  background: var(--gray-50);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+  }
+
+  .correct {
+    color: var(--success-600);
+  }
+
+  .incorrect {
+    color: var(--danger-600);
+  }
+}
+
+// Mode Selection Grid
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+// Quiz Mode
+.quiz-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.quiz-question {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.quiz-word {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-700);
+  margin-bottom: 1rem;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.quiz-option {
+  background: white;
+  border: 2px solid var(--gray-200);
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+
+  &:hover {
+    background: var(--primary-50);
+    border-color: var(--primary-300);
+    color: var(--primary-700);
+  }
+
+  &.correct {
+    background: var(--success-100);
+    border-color: var(--success-500);
+    color: var(--success-700);
+  }
+
+  &.wrong {
+    background: var(--danger-100);
+    border-color: var(--danger-500);
+    color: var(--danger-700);
+    opacity: 0.7;
+  }
+}
+
+// Typing Mode
+.typing-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}

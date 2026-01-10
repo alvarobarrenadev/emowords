@@ -1,4 +1,4 @@
-import './styles.css'
+import '../sass/main.scss'
 import { renderHome } from './views/home.js';
 import { renderAdd } from './views/add.js';
 import { renderReview } from './views/review.js';

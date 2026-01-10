@@ -1,0 +1,29 @@
+// ===== EMOWORDS - MAIN STYLESHEET =====
+// Organized SCSS Architecture
+
+// 1. Base - Reset, variables, typography
+@use 'base/reset';
+@use 'base/base';
+@use 'base/animations';
+
+// 2. Layout - Navbar, footer
+@use 'layout/navbar';
+@use 'layout/footer';
+
+// 3. Components - Reusable UI elements
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+@use 'components/tags';
+@use 'components/modal';
+@use 'components/toast';
+
+// 4. Pages - Page-specific styles
+@use 'pages/home';
+@use 'pages/review';
+
+// 5. Themes - Dark mode
+@use 'themes/dark';
+
+// 6. Responsive
+@use 'base/responsive';

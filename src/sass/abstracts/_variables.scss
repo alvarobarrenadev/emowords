@@ -1,0 +1,14 @@
+// ===== VARIABLES =====
+
+// Breakpoints
+$bp-mobile: 30rem; // 480px
+$bp-tablet: 48rem; // 768px
+$bp-tablet-horizontal: 64rem; // 1024px
+$bp-desktop: 75rem; // 1200px
+$bp-desktop-xl: 90rem; // 1440px
+
+// Fonts
+$font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// CSS Custom Properties (para uso con var())
+// Estos se definen en :root y [data-theme="dark"]

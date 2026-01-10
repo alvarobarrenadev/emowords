@@ -1,0 +1,132 @@
+// ===== RESPONSIVE =====
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+    height: auto;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-link span {
+    display: none;
+  }
+
+  .nav-link {
+    padding: 0.6rem 1rem;
+  }
+
+  main#app {
+    padding: 1.5rem 1rem;
+  }
+
+  .stats-dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .controls-bar {
+    flex-direction: column;
+  }
+
+  .action-buttons {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .action-btn {
+    flex: 1;
+    justify-content: center;
+
+    span {
+      display: none;
+    }
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filters select {
+    width: 100%;
+  }
+
+  .word-list {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    padding: 1.25rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .review-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .keyboard-hints {
+    display: none;
+  }
+
+  .progress-stat .progress-label {
+    display: none;
+  }
+
+  .edit-form {
+    padding: 1rem;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .review-word {
+    font-size: 1.5rem;
+  }
+
+  .review-progress {
+    gap: 0.75rem;
+  }
+
+  .progress-stat {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}

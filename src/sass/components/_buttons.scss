@@ -1,0 +1,326 @@
+// ===== BUTTONS =====
+
+// Primary Button
+.primary-btn,
+.add-word-btn,
+.restart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-md);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.primary-btn {
+  border-radius: var(--radius);
+  padding: 0.75rem 1.75rem;
+  box-shadow: var(--shadow);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Secondary Button
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+  }
+}
+
+// Action Button
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+    color: var(--gray-800);
+  }
+
+  i {
+    font-size: 1rem;
+  }
+}
+
+// Back Button
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gray-200);
+  background: white;
+  color: var(--gray-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 1rem;
+
+  &:hover {
+    background: var(--gray-50);
+    color: var(--primary-600);
+    border-color: var(--primary-200);
+  }
+}
+
+// Clear Button
+.clear-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: var(--gray-200);
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-500);
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--gray-300);
+    color: var(--gray-700);
+  }
+}
+
+// Review Buttons
+.review-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-icon {
+    font-size: 1.5rem;
+  }
+
+  .btn-shortcut {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.7;
+  }
+}
+
+.success-btn {
+  background: var(--success-100);
+  color: var(--success-700);
+
+  &:not(:disabled):hover {
+    background: var(--success-500);
+    color: white;
+  }
+}
+
+.danger-btn {
+  background: var(--danger-100);
+  color: var(--danger-700);
+
+  &:not(:disabled):hover {
+    background: var(--danger-500);
+    color: white;
+  }
+}
+
+// Reveal Button
+.reveal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid var(--primary-300);
+  border-radius: var(--radius-full);
+  color: var(--primary-600);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--primary-50);
+    border-color: var(--primary-500);
+  }
+}
+
+// Skip & Shuffle Buttons
+.skip-btn,
+.shuffle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  color: var(--gray-500);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+    color: var(--gray-700);
+  }
+}
+
+// Preview Button
+.preview-btn {
+  padding: 0 1rem;
+  background: var(--gray-100);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  color: var(--gray-600);
+
+  &:hover {
+    background: var(--gray-200);
+    color: var(--gray-800);
+  }
+}
+
+// Remove Preview Button
+.remove-preview-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: var(--radius-full);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--danger-600);
+  }
+}
+
+// Modal Buttons
+.btn-cancel {
+  padding: 0.75rem 1.25rem;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+  }
+}
+
+.btn-save {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+}
+
+// Import Packs Button
+.import-packs-btn {
+  background: var(--gray-200);
+  color: var(--gray-500);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: not-allowed;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+
+  &.active {
+    background: var(--primary-600);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+
+    &:hover {
+      background: var(--primary-700);
+      transform: translateY(-2px);
+    }
+  }
+}
