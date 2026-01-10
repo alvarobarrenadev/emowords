@@ -125,6 +125,13 @@ function render(view) {
         app.innerHTML = '<p>Vista no encontrada</p>';
     }
     
+    // Scroll to top INSTANTLY avoiding smooth scroll conflicts
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+    
     // Fade in
     requestAnimationFrame(() => {
       app.style.opacity = '1';
