@@ -1,5 +1,134 @@
 // ===== HOME PAGE =====
 
+// Welcome Hero (New Premium Minimal)
+.welcome-hero {
+  text-align: center;
+  padding: 6rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  .hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .hero-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-500);
+    opacity: 0.9;
+
+    // Minimalist icon container
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0;
+    background: linear-gradient(180deg, var(--gray-50) 0%, var(--gray-300) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; // Fallback handled by gradient
+
+    [data-theme="light"] & {
+      background: linear-gradient(180deg, var(--gray-900) 0%, var(--gray-700) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: var(--gray-400);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+
+    [data-theme="light"] & {
+      color: var(--gray-600);
+    }
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .primary-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 2rem;
+    background: var(--primary-600);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2), 0 2px 4px -1px rgba(59, 130, 246, 0.1);
+
+    &:hover {
+      background: var(--primary-500);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+    }
+  }
+
+  .secondary-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--gray-400);
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--gray-800);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--gray-600);
+      color: var(--gray-200);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    [data-theme="light"] & {
+      border-color: var(--gray-300);
+      color: var(--gray-600);
+
+      &:hover {
+        border-color: var(--gray-400);
+        color: var(--gray-800);
+        background: rgba(0, 0, 0, 0.03);
+      }
+    }
+  }
+}
+
 // Stats Dashboard
 .stats-dashboard {
   display: grid;
@@ -58,6 +187,11 @@
   background: var(--gray-100);
   border-radius: var(--radius-full);
   overflow: hidden;
+
+  // Ensure background is correct in dark mode
+  [data-theme="dark"] & {
+    background: var(--gray-800);
+  }
 }
 
 .progress-fill {

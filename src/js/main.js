@@ -2,6 +2,7 @@ import '../sass/main.scss'
 import { renderHome } from './views/home.js';
 import { renderAdd } from './views/add.js';
 import { renderReview } from './views/review.js';
+import { renderStats } from './views/stats.js';
 import { getSettings, saveSettings } from './storage/vocabStorage.js';
 import { showToast } from './utils/ui.js';
 
@@ -120,6 +121,9 @@ function render(view) {
         break;
       case 'review':
         renderReview(app);
+        break;
+      case 'stats':
+        renderStats(app);
         break;
       default:
         app.innerHTML = '<p>Vista no encontrada</p>';

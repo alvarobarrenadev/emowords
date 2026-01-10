@@ -16,146 +16,62 @@ export function renderHome(container) {
   const progress = Math.min(gameStats.dailyGoal.count / gameStats.dailyGoal.target, 1);
   const offset = circumference - (progress * circumference);
 
+  const hasWords = stats.total > 0;
+  
   container.innerHTML = `
-    <!-- Gamification Hub -->
-    <div class="gamification-hub">
-      <div class="stat-card streak-card">
-        <div class="stat-icon streak-flame"><i class="fa-solid fa-fire"></i></div>
-        <div class="stat-content">
-          <span class="streak-count">${gameStats.streak} <span style="font-size: 1rem; color: #b45309;">días</span></span>
-          <span class="stat-label">Racha actual</span>
+    <!-- Dynamic Content: Hero or Dashboard -->
+    ${!hasWords ? `
+      <div class="welcome-hero">
+        <div class="hero-content">
+          <div class="hero-icon">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <h1>Tu vocabulario, <br/>conectado con tus emociones.</h1>
+          <p>Olvida las listas interminables. EmoWords utiliza tus recuerdos y sensaciones para que cada palabra se quede contigo para siempre.</p>
+          
+          <div class="hero-actions">
+            <button class="primary-hero-btn" onclick="document.querySelector('[data-view=add]').click()">
+              <i class="fa-solid fa-plus"></i> Añadir mi primera palabra
+            </button>
+            <button class="secondary-hero-btn" onclick="document.getElementById('import-packs-btn').click()">
+              <i class="fa-solid fa-download"></i> Explorar packs
+            </button>
+          </div>
         </div>
       </div>
-      
-      <div class="stat-card daily-goal-card">
-        <div class="stat-content">
-          <span class="stat-value">${gameStats.dailyGoal.count} / ${gameStats.dailyGoal.target}</span>
-          <span class="stat-label">Meta diaria</span>
-        </div>
-        <div class="progress-ring">
-          <svg width="60" height="60">
-            <circle stroke="#e5e7eb" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" />
-            <circle stroke="#3b82f6" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" 
-              style="stroke-dasharray: ${circumference} ${circumference}; stroke-dashoffset: ${offset};" />
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dynamic Dashboard -->
-    <div class="dashboard-grid">
-      <!-- Summary Card -->
-      <div class="chart-card">
-        <div class="chart-header">
-          <span class="chart-title"><i class="fa-solid fa-chart-pie"></i> Resumen</span>
-        </div>
-        <div class="stats-dashboard" style="grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0;">
-          <div class="stat-card stat-total" style="padding: 0.8rem;">
-            <div class="stat-content">
-              <span class="stat-value" style="font-size: 1.5rem;">${stats.total}</span>
-              <span class="stat-label" style="font-size: 0.8rem;">Total</span>
-            </div>
-          </div>
-          <div class="stat-card stat-remembered" style="padding: 0.8rem;">
-            <div class="stat-content">
-              <span class="stat-value" style="font-size: 1.5rem;">${stats.remembered}</span>
-              <span class="stat-label" style="font-size: 0.8rem;">Recordadas</span>
-            </div>
+    ` : `
+      <!-- Gamification Hub -->
+      <div class="gamification-hub">
+        <div class="stat-card streak-card">
+          <div class="stat-icon streak-flame"><i class="fa-solid fa-fire"></i></div>
+          <div class="stat-content">
+            <span class="streak-count">${gameStats.streak} <span style="font-size: 1rem; color: #b45309;">días</span></span>
+            <span class="stat-label">Racha actual</span>
           </div>
         </div>
-        <div style="margin-top: 1rem;">
-          <div class="progress-label">
-            <span>Tasa de Retención</span>
-            <span>${stats.retentionRate}%</span>
+        
+        <div class="stat-card daily-goal-card">
+          <div class="stat-content">
+            <span class="stat-value">${gameStats.dailyGoal.count} / ${gameStats.dailyGoal.target}</span>
+            <span class="stat-label">Meta diaria</span>
           </div>
-          <div class="progress-bg">
-            <div class="progress-fill success" style="width: ${stats.retentionRate}%"></div>
+          <div class="progress-ring">
+            <svg width="60" height="60">
+              <circle stroke="#e5e7eb" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" />
+              <circle stroke="#3b82f6" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" 
+                style="stroke-dasharray: ${circumference} ${circumference}; stroke-dashoffset: ${offset};" />
+            </svg>
           </div>
         </div>
       </div>
 
-      <!-- Review Status Card -->
-      <div class="chart-card">
-        <div class="chart-header">
-          <span class="chart-title"><i class="fa-solid fa-brain"></i> Estado del Conocimiento</span>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Memorizadas</span>
-            <span>${stats.remembered}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill primary" style="width: ${stats.total > 0 ? (stats.remembered / stats.total * 100) : 0}%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Por Repasar / Olvidadas</span>
-            <span>${stats.forgotten}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill warning" style="width: ${stats.total > 0 ? (stats.forgotten / stats.total * 100) : 0}%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Repasos Totales</span>
-            <span>${stats.totalReviews}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill info" style="width: 100%; background: var(--primary-100);"></div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Types Card -->
-      <div class="chart-card">
-        <div class="chart-header">
-          <span class="chart-title"><i class="fa-solid fa-layer-group"></i> Por Tipo</span>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Palabras</span>
-            <span>${stats.byType.word}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill primary" style="width: ${stats.total > 0 ? (stats.byType.word / stats.total * 100) : 0}%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Phrasal Verbs</span>
-            <span>${stats.byType.phrasal}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill success" style="width: ${stats.total > 0 ? (stats.byType.phrasal / stats.total * 100) : 0}%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Expresiones</span>
-            <span>${stats.byType.expression}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill warning" style="width: ${stats.total > 0 ? (stats.byType.expression / stats.total * 100) : 0}%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <span>Conectores</span>
-            <span>${stats.byType.connector}</span>
-          </div>
-          <div class="progress-bg">
-            <div class="progress-fill info" style="width: ${stats.total > 0 ? (stats.byType.connector / stats.total * 100) : 0}%"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    `}
 
-    <h2>Tu vocabulario</h2>
+    <h2 class="${!hasWords ? 'hidden' : ''}" style="margin-bottom: 1.5rem;">Tu vocabulario</h2>
     
-    <!-- Search and Controls Bar -->
-    <div class="controls-bar">
+    <!-- Search and Controls Bar (Hidden if empty) -->
+    <div class="controls-bar ${!hasWords ? 'hidden' : ''}">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
         <input type="text" id="search-input" placeholder="Buscar palabra, significado, ejemplo..." />
@@ -176,8 +92,8 @@ export function renderHome(container) {
       </div>
     </div>
     
-    <!-- Filters -->
-    <div class="filters">
+    <!-- Filters (Hidden if empty) -->
+    <div class="filters ${!hasWords ? 'hidden' : ''}">
       <div class="filter-group">
         <i class="fa-solid fa-sliders filter-icon"></i>
         <select id="filter-status">
