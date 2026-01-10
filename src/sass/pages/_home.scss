@@ -148,71 +148,224 @@
 // Gamification Hub
 .gamification-hub {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
-// Progress Ring
-.progress-ring {
+.stat-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-500);
+  }
+
+  // Icons
+  .icon-bg {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+
+    &.level {
+      background: rgba(245, 158, 11, 0.1);
+      color: #f59e0b;
+    }
+
+    &.flame {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+  }
+
+  // Content Layout
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &.full {
+      width: 100%;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-100);
+      line-height: 1.1;
+
+      small {
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: var(--gray-500);
+        margin-left: 0.3rem;
+      }
+
+      .separator {
+        color: var(--gray-600);
+        font-weight: 400;
+        margin: 0 0.2rem;
+        font-size: 1.25rem;
+      }
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.2rem;
+    }
+  }
+
+  // --- Specific Card Styles ---
+
+  // Level Card
+  &.level-card {
+    .stat-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      width: 100%;
+
+      .stat-value-sm {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--gray-100);
+      }
+    }
+
+    .xp-progress-container {
+      height: 8px;
+      background: var(--gray-800);
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+      width: 100%;
+
+      .xp-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        border-radius: 4px;
+        transition: width 1s ease;
+      }
+    }
+
+    .xp-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+  }
+
+  // Streak Badge
+  .streak-badge {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &.active {
+      color: #ef4444;
+      font-weight: 600;
+
+      i {
+        animation: pulse-flame 1.5s infinite;
+      }
+    }
+  }
+
+  // Daily Goal Extra
+  &.daily-goal-card {
+    justify-content: space-between;
+
+    .goal-msg-sm {
+      font-size: 0.8rem;
+      color: var(--primary-400);
+      margin-top: 0.2rem;
+    }
+  }
+}
+
+// Progress Ring Mini
+.progress-ring-mini {
+  position: relative;
   width: 60px;
   height: 60px;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  circle {
-    transition: stroke-dashoffset 0.35s;
+  svg {
     transform: rotate(-90deg);
-    transform-origin: 50% 50%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .bg {
+    stroke: var(--gray-800);
+  }
+
+  .fg {
+    stroke: var(--primary-500);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease;
+  }
+
+  .check-mark {
+    position: absolute;
+    color: var(--success-500);
+    font-size: 1.25rem;
+    animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 }
 
-// Progress Bar Styles
-.progress-item {
-  margin-bottom: 0.8rem;
-}
+@keyframes pulse-flame {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
 
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  color: var(--gray-600);
-  margin-bottom: 0.4rem;
-}
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
 
-.progress-bg {
-  height: 8px;
-  background: var(--gray-100);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-
-  // Ensure background is correct in dark mode
-  [data-theme="dark"] & {
-    background: var(--gray-800);
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
-.progress-fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 0.5s ease;
-
-  &.primary {
-    background: linear-gradient(90deg, var(--primary-400), var(--primary-600));
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
   }
 
-  &.success {
-    background: linear-gradient(90deg, var(--success-400, #34d399), var(--success-600));
-  }
-
-  &.warning {
-    background: linear-gradient(90deg, var(--warning-400, #fbbf24), var(--warning-600));
-  }
-
-  &.info {
-    background: linear-gradient(90deg, #38bdf8, #0284c7);
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 

@@ -41,26 +41,53 @@ export function renderHome(container) {
       </div>
     ` : `
       <!-- Gamification Hub -->
-      <div class="gamification-hub">
+      <div class="gamification-hub animate__animated animate__fadeIn">
+        
+        <!-- Level Card -->
+        <div class="stat-card level-card">
+           <div class="icon-bg level"><i class="fa-solid fa-trophy"></i></div>
+           <div class="stat-content full">
+              <div class="stat-header-row">
+                 <span class="stat-label">Nivel Actual</span>
+                 <span class="stat-value-sm">Lvl ${gameStats.level}</span>
+              </div>
+              
+              <div class="xp-progress-container">
+                 <div class="xp-bar" style="width: ${calculateXpProgress(gameStats.totalXp, gameStats.level)}%"></div>
+              </div>
+              <div class="xp-meta">
+                 <span>${gameStats.totalXp} XP Totales</span>
+                 <span>Siguiente: ${calculateNextLevelXp(gameStats.level)} XP</span>
+              </div>
+           </div>
+        </div>
+
+        <!-- Streak Card -->
         <div class="stat-card streak-card">
-          <div class="stat-icon streak-flame"><i class="fa-solid fa-fire"></i></div>
+          <div class="icon-bg flame"><i class="fa-solid fa-fire"></i></div>
           <div class="stat-content">
-            <span class="streak-count">${gameStats.streak} <span style="font-size: 1rem; color: #b45309;">días</span></span>
-            <span class="stat-label">Racha actual</span>
+            <span class="stat-value">${gameStats.streak} <small>días</small></span>
+            <span class="stat-label">Racha Actual</span>
+            ${gameStats.streak > 0 
+                ? '<div class="streak-badge active">¡En llamas! <i class="fa-solid fa-fire-flame-curved"></i></div>' 
+                : '<div class="streak-badge">¡Empieza hoy!</div>'}
           </div>
         </div>
         
+        <!-- Daily Goal Card -->
         <div class="stat-card daily-goal-card">
           <div class="stat-content">
-            <span class="stat-value">${gameStats.dailyGoal.count} / ${gameStats.dailyGoal.target}</span>
-            <span class="stat-label">Meta diaria</span>
+             <span class="stat-value">${gameStats.dailyGoal.count}<span class="separator">/</span>${gameStats.dailyGoal.target}</span>
+             <span class="stat-label">Meta Diaria</span>
+             <span class="goal-msg-sm">${getGoalMessage(gameStats.dailyGoal.count, gameStats.dailyGoal.target)}</span>
           </div>
-          <div class="progress-ring">
-            <svg width="60" height="60">
-              <circle stroke="#e5e7eb" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" />
-              <circle stroke="#3b82f6" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" 
-                style="stroke-dasharray: ${circumference} ${circumference}; stroke-dashoffset: ${offset};" />
+          <div class="progress-ring-mini">
+             <svg width="60" height="60">
+              <circle class="bg" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" />
+              <circle class="fg" stroke-width="4" fill="transparent" r="${radius}" cx="30" cy="30" 
+                style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${offset};" />
             </svg>
+             ${gameStats.dailyGoal.count >= gameStats.dailyGoal.target ? '<div class="check-mark"><i class="fa-solid fa-check"></i></div>' : ''}
           </div>
         </div>
       </div>
@@ -354,4 +381,23 @@ export function renderHome(container) {
   });
 
   renderList();
+}
+
+function calculateNextLevelXp(level) {
+    return 100 * Math.pow(level, 2);
+}
+
+function calculateXpProgress(currentXp, currentLevel) {
+    const currentLevelBaseXp = 100 * Math.pow(currentLevel - 1, 2);
+    const nextLevelXp = 100 * Math.pow(currentLevel, 2);
+    const range = nextLevelXp - currentLevelBaseXp;
+    const progress = currentXp - currentLevelBaseXp;
+    return Math.min(100, Math.max(0, (progress / range) * 100));
+}
+
+function getGoalMessage(count, target) {
+    if (count >= target) return "¡Objetivo completado!";
+    if (count >= target * 0.75) return "¡Casi lo tienes!";
+    if (count >= target * 0.5) return "¡Ya vas por la mitad!";
+    return "¡Vamos a por ello!";
 }
