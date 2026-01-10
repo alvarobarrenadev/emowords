@@ -26,6 +26,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  line-height: 1;
 
   i {
     font-size: 1.5rem;
@@ -38,6 +39,7 @@
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   list-style: none;
 }
@@ -55,6 +57,7 @@
   transition: all var(--transition);
   position: relative;
   overflow: hidden;
+  line-height: 1;
 
   &::before {
     content: '';

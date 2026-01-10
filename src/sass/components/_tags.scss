@@ -26,6 +26,30 @@
     background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-200) 100%);
     transform: translateY(-1px);
   }
+
+  &.type-word {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1e40af;
+    border-color: #bfdbfe;
+  }
+
+  &.type-phrasal {
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    color: #5b21b6;
+    border-color: #ddd6fe;
+  }
+
+  &.type-expression {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    color: #9a3412;
+    border-color: #fed7aa;
+  }
+
+  &.type-connector {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    color: #065f46;
+    border-color: #a7f3d0;
+  }
 }
 
 .category-tag {

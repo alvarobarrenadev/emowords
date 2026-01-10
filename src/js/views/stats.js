@@ -42,9 +42,9 @@ export function renderStats(container) {
   // --- HTML Template ---
   
   const html = `
-    <header class="dashboard-header">
-        <div class="header-content">
-            <h2 class="title"><i class="fa-solid fa-chart-pie"></i> Centro de Estadísticas</h2>
+    <header class="dashboard-header" style="text-align: center;">
+        <div class="header-content" style="display: flex; flex-direction: column; align-items: center;">
+            <h2 class="title">Centro de Estadísticas</h2>
             <p class="subtitle">Visualiza tu evolución y optimiza tu aprendizaje</p>
         </div>
         <div class="global-grade">

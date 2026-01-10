@@ -33,7 +33,7 @@ export function renderReview(container) {
     const todoCount = reviewQueue.length;
     
     container.innerHTML = `
-      <h2 style="text-align: center; margin-bottom: 0.5rem;">Modo de Repaso</h2>
+      <h2 style="text-align: center; justify-content: center; margin-bottom: 0.5rem;">Modo de Repaso</h2>
       <p style="text-align: center; color: var(--gray-500); margin-bottom: 2rem;">
         Tienes <strong style="color: var(--primary-600);">${todoCount}</strong> palabras pendientes
       </p>

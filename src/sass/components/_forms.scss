@@ -189,7 +189,7 @@
 
   input {
     width: 100%;
-    padding: 0.75rem 2.5rem;
+    padding: 1rem 2.5rem;
     border: 2px solid var(--gray-200);
     border-radius: var(--radius-full);
     font-size: 0.95rem;
@@ -212,45 +212,74 @@
 .filters {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  justify-content: center; // Center the filters
+  -webkit-overflow-scrolling: touch;
 
-  select {
-    padding: 0.6rem 1rem 0.6rem 2.25rem;
-    border: 2px solid var(--gray-200);
-    border-radius: var(--radius);
-    font-size: 0.9rem;
-    background: white;
-    color: var(--gray-700);
-    cursor: pointer;
-    transition: all var(--transition);
-    font-weight: 500;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    padding-right: 2rem;
 
-    &:focus {
-      outline: none;
-      border-color: var(--primary-400);
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 4px;
+  }
+
+  .filter-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    .filter-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--primary-500);
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    select {
+      appearance: none;
+      padding: 0.6rem 2.5rem 0.6rem 2.5rem;
+      border-radius: 50px;
+      border: 1px solid var(--gray-200);
+      background: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+
+      &:hover {
+        border-color: var(--primary-300);
+        background: var(--primary-50);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 3px var(--primary-100);
+      }
+    }
+
+    // Custom chevron
+    &::after {
+      content: '\f078';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      right: 1rem;
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      pointer-events: none;
     }
   }
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.filter-icon {
-  position: absolute;
-  left: 0.75rem;
-  color: var(--gray-400);
-  font-size: 0.8rem;
-  pointer-events: none;
-  z-index: 1;
 }
 
 // Typing Input

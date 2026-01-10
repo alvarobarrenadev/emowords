@@ -14,7 +14,7 @@ export function createWordCard(word, onUpdate) {
     ${word.image ? `<img src="${word.image}" alt="${word.word}" class="word-image" />` : ''}
 
     <div class="tags">
-      <span class="tag type-tag">${getTypeLabel(word.type)}</span>
+      <span class="tag type-tag type-${word.type}">${getTypeLabel(word.type)}</span>
       <span class="tag ${word.remembered ? 'remembered' : 'forgotten'}">
         <i class="fa-solid ${word.remembered ? 'fa-check' : 'fa-rotate'}"></i>
         ${word.remembered ? 'Recordada' : 'Olvidada'}
@@ -32,12 +32,16 @@ export function createWordCard(word, onUpdate) {
       <p class="meaning-text">${word.meaning}</p>
 
       ${word.emotion ? `
-        <p class="section-label"><i class="fa-solid fa-heart"></i> Asociación emocional</p>
-        <p class="emotion-text">${word.emotion}</p>` : ''}
+        <div class="card-section emotion-section">
+          <p class="section-label"><i class="fa-solid fa-heart"></i> Asociación emocional</p>
+          <p class="emotion-text">${word.emotion}</p>
+        </div>` : ''}
 
       ${word.example ? `
-        <p class="section-label"><i class="fa-solid fa-quote-left"></i> Ejemplo</p>
-        <p class="example">${word.example}</p>` : ''}
+        <div class="card-section example-section">
+          <p class="section-label"><i class="fa-solid fa-quote-left"></i> Ejemplo</p>
+          <p class="example">${word.example}</p>
+        </div>` : ''}
       
       <div class="word-meta">
         ${reviewCount > 0 ? `<span class="meta-item"><i class="fa-solid fa-chart-simple"></i> ${reviewCount} repasos</span>` : ''}
