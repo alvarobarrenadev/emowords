@@ -595,4 +595,75 @@
       color: white;
     }
   }
+
+  // ===== NEW: Mastery Tags for Dark Mode =====
+  .mastery-tag {
+    &.mastery-new {
+      background: rgba(34, 197, 94, 0.15);
+      color: #86efac;
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    &.mastery-apprentice {
+      background: rgba(234, 179, 8, 0.15);
+      color: #fde047;
+      border-color: rgba(234, 179, 8, 0.3);
+    }
+
+    &.mastery-guru {
+      background: rgba(249, 115, 22, 0.15);
+      color: #fdba74;
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    &.mastery-master {
+      background: rgba(217, 70, 239, 0.15);
+      color: #f0abfc;
+      border-color: rgba(217, 70, 239, 0.3);
+    }
+  }
+
+  .due-tag {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  // ===== Nav Badge =====
+  .nav-badge {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
+  }
+
+  // ===== Featured Mode Card (Mixed) =====
+  .mode-card.featured {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    border-color: rgba(99, 102, 241, 0.4);
+
+    .mode-icon {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    .mode-title {
+      color: #a5b4fc !important;
+    }
+
+    &:hover {
+      border-color: #818cf8;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
+    }
+  }
+
+  .mode-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  }
+
+  // Next review meta
+  .word-meta .next-review {
+    color: #34d399;
+
+    i {
+      color: #10b981;
+    }
+  }
 }

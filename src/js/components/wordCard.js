@@ -1,4 +1,4 @@
-import { updateWord, deleteWord, checkDuplicateWord } from '../storage/vocabStorage.js';
+import { updateWord, deleteWord, checkDuplicateWord, getMasteryInfo, getNextReviewLabel, isDueToday } from '../storage/vocabStorage.js';
 
 import { speak } from '../utils/tts.js';
 
@@ -9,16 +9,20 @@ export function createWordCard(word, onUpdate) {
 
   const reviewCount = word.reviewCount || 0;
   const createdDate = word.createdAt ? new Date(word.createdAt).toLocaleDateString() : '';
+  const mastery = getMasteryInfo(word);
+  const nextReview = getNextReviewLabel(word);
+  const dueNow = isDueToday(word);
 
   card.innerHTML = `
     ${word.image ? `<img src="${word.image}" alt="${word.word}" class="word-image" />` : ''}
 
     <div class="tags">
       <span class="tag type-tag type-${word.type}">${getTypeLabel(word.type)}</span>
-      <span class="tag ${word.remembered ? 'remembered' : 'forgotten'}">
-        <i class="fa-solid ${word.remembered ? 'fa-check' : 'fa-rotate'}"></i>
-        ${word.remembered ? 'Recordada' : 'Olvidada'}
+      <span class="tag mastery-tag ${mastery.class}" title="${mastery.label}">
+        <i class="fa-solid ${mastery.icon}"></i>
+        ${mastery.label}
       </span>
+      ${dueNow ? `<span class="tag due-tag"><i class="fa-solid fa-clock"></i> ${nextReview}</span>` : ''}
       ${word.category ? `<span class="tag category-tag"><i class="fa-solid fa-folder"></i> ${word.category}</span>` : ''}
     </div>
 
@@ -45,6 +49,7 @@ export function createWordCard(word, onUpdate) {
       
       <div class="word-meta">
         ${reviewCount > 0 ? `<span class="meta-item"><i class="fa-solid fa-chart-simple"></i> ${reviewCount} repasos</span>` : ''}
+        ${!dueNow && word.nextReviewAt ? `<span class="meta-item next-review"><i class="fa-solid fa-calendar-check"></i> Próximo: ${nextReview}</span>` : ''}
         ${createdDate ? `<span class="meta-item"><i class="fa-regular fa-calendar"></i> ${createdDate}</span>` : ''}
       </div>
     </div>

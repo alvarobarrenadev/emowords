@@ -1,5 +1,5 @@
-import { getAllWords, searchWords, sortWords, getStatistics, getAllCategories, exportData, importData } from '../storage/vocabStorage.js';
-import { getGamificationStats } from '../storage/gamification.js';
+import { getAllWords, searchWords, sortWords, getStatistics, getAllCategories, exportData, importData, getMasteryLevel, getWordsDueCount } from '../storage/vocabStorage.js';
+import { getGamificationStats, setDailyTarget } from '../storage/gamification.js';
 import { starterPacks } from '../data/starterPacks.js';
 import { createWordCard } from '../components/wordCard.js';
 import { showToast } from '../utils/ui.js';
@@ -76,6 +76,9 @@ export function renderHome(container) {
         
         <!-- Daily Goal Card -->
         <div class="stat-card daily-goal-card">
+          <button class="goal-settings-btn" id="goal-settings-btn" title="Cambiar meta diaria">
+            <i class="fa-solid fa-gear"></i>
+          </button>
           <div class="stat-content">
              <span class="stat-value">${gameStats.dailyGoal.count}<span class="separator">/</span>${gameStats.dailyGoal.target}</span>
              <span class="stat-label">Meta Diaria</span>
@@ -122,11 +125,14 @@ export function renderHome(container) {
     <!-- Filters (Hidden if empty) -->
     <div class="filters ${!hasWords ? 'hidden' : ''}">
       <div class="filter-group">
-        <i class="fa-solid fa-sliders filter-icon"></i>
-        <select id="filter-status">
-          <option value="all">Todas</option>
-          <option value="remembered">Recordadas</option>
-          <option value="forgotten">Olvidadas</option>
+        <i class="fa-solid fa-trophy filter-icon"></i>
+        <select id="filter-mastery">
+          <option value="all">Todos los niveles</option>
+          <option value="due">🔔 Pendientes (${stats.dueForReview})</option>
+          <option value="new">🌱 Nuevo</option>
+          <option value="apprentice">🌿 Aprendiz</option>
+          <option value="guru">🌳 Experto</option>
+          <option value="master">👑 Maestro</option>
         </select>
       </div>
       <div class="filter-group">
@@ -170,7 +176,7 @@ export function renderHome(container) {
   `;
 
   const list = document.getElementById('word-list');
-  const filterStatus = document.getElementById('filter-status');
+  const filterMastery = document.getElementById('filter-mastery');
   const filterType = document.getElementById('filter-type');
   const filterCategory = document.getElementById('filter-category');
   const sortBy = document.getElementById('sort-by');
@@ -190,16 +196,24 @@ export function renderHome(container) {
       : getAllWords();
     
     // Apply filters
+    const now = Date.now();
     words = words.filter(word => {
-      const statusMatch =
-        filterStatus.value === 'all' ||
-        (filterStatus.value === 'remembered' && word.remembered) ||
-        (filterStatus.value === 'forgotten' && !word.remembered);
+      // Mastery filter
+      let masteryMatch = true;
+      if (filterMastery.value !== 'all') {
+        if (filterMastery.value === 'due') {
+          // Due for review (nextReviewAt <= now or never set)
+          masteryMatch = !word.nextReviewAt || word.nextReviewAt <= now;
+        } else {
+          masteryMatch = getMasteryLevel(word) === filterMastery.value;
+        }
+      }
+      
       const typeMatch =
         filterType.value === 'all' || word.type === filterType.value;
       const categoryMatch =
         filterCategory.value === 'all' || word.category === filterCategory.value;
-      return statusMatch && typeMatch && categoryMatch;
+      return masteryMatch && typeMatch && categoryMatch;
     });
     
     // Apply sorting
@@ -326,7 +340,7 @@ export function renderHome(container) {
   }
 
   // Event listeners
-  filterStatus.addEventListener('change', renderList);
+  filterMastery.addEventListener('change', renderList);
   filterType.addEventListener('change', renderList);
   filterCategory.addEventListener('change', renderList);
   sortBy.addEventListener('change', renderList);
@@ -379,6 +393,82 @@ export function renderHome(container) {
     };
     reader.readAsText(file);
   });
+
+  // Daily Goal Settings Modal
+  const goalSettingsBtn = document.getElementById('goal-settings-btn');
+  if (goalSettingsBtn) {
+    goalSettingsBtn.addEventListener('click', () => {
+      openGoalSettingsModal();
+    });
+  }
+
+  function openGoalSettingsModal() {
+    // Remove existing modal if any
+    document.querySelector('.goal-settings-modal')?.remove();
+    
+    const currentTarget = getGamificationStats().dailyGoal.target;
+    const options = [5, 10, 15, 20, 30, 50];
+    
+    const modal = document.createElement('div');
+    modal.className = 'goal-settings-modal edit-modal';
+    modal.innerHTML = `
+      <div class="modal-overlay"></div>
+      <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-bullseye"></i> Meta Diaria</h3>
+          <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="goal-options-grid">
+          ${options.map(opt => `
+            <button class="goal-option ${opt === currentTarget ? 'active' : ''}" data-value="${opt}">
+              <span class="goal-number">${opt}</span>
+              <span class="goal-label">palabras</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="modal-actions" style="margin-top: 1.5rem;">
+          <button type="button" class="btn-cancel">Cancelar</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+      modal.classList.add('active');
+    });
+    
+    // Close handlers
+    const closeModal = () => {
+      modal.classList.remove('active');
+      setTimeout(() => modal.remove(), 300);
+    };
+    
+    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.querySelector('.btn-cancel').addEventListener('click', closeModal);
+    
+    // Goal option selection
+    modal.querySelectorAll('.goal-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const value = parseInt(btn.dataset.value);
+        setDailyTarget(value);
+        showToast('Meta actualizada', `Tu nueva meta diaria es ${value} palabras.`, 'success');
+        closeModal();
+        // Re-render home to update the display
+        renderHome(container);
+      });
+    });
+    
+    // Close on Escape
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', escHandler);
+      }
+    });
+  }
 
   renderList();
 }

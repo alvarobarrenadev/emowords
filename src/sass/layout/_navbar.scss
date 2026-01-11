@@ -100,6 +100,38 @@
   }
 }
 
+// ===== NAV BADGE (Review counter) =====
+.nav-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border-radius: 10px;
+  position: relative;
+  z-index: 2;
+  margin-left: 4px;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+  animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 // ===== THEME TOGGLE =====
 .theme-toggle {
   display: flex;

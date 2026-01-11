@@ -3,7 +3,7 @@ import { renderHome } from './views/home.js';
 import { renderAdd } from './views/add.js';
 import { renderReview } from './views/review.js';
 import { renderStats } from './views/stats.js';
-import { getSettings, saveSettings } from './storage/vocabStorage.js';
+import { getSettings, saveSettings, getWordsDueCount } from './storage/vocabStorage.js';
 import { showToast } from './utils/ui.js';
 
 const app = document.getElementById('app');
@@ -88,6 +88,20 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 
 // ==================== NAVIGATION ====================
 
+// Update review badge with pending words count
+function updateReviewBadge() {
+  const badge = document.getElementById('review-badge');
+  if (!badge) return;
+  
+  const count = getWordsDueCount();
+  if (count > 0) {
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
 function setActive(view) {
   navLinks.forEach(link => {
     if (link.dataset.view === view) {
@@ -141,6 +155,9 @@ function render(view) {
       app.style.opacity = '1';
       app.style.transform = 'translateY(0)';
     });
+    
+    // Update badge after view renders
+    updateReviewBadge();
   }, 150);
 }
 
@@ -168,6 +185,7 @@ if (logo && logo.dataset.view) {
 // ==================== INITIALIZATION ====================
 
 initTheme();
+updateReviewBadge();
 render('home');
 
 

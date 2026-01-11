@@ -138,28 +138,135 @@ export function getStatistics() {
   };
 }
 
-// ==================== SPACED REPETITION ====================
+// ==================== SPACED REPETITION (SM-2 Algorithm) ====================
+
+// SM-2 Intervals in days: [1, 3, 7, 14, 30, 60, 120, 240]
+const SM2_INTERVALS = [1, 3, 7, 14, 30, 60, 120, 240];
+
+/**
+ * Get mastery level based on correct count
+ * @returns 'new' | 'apprentice' | 'guru' | 'master'
+ */
+export function getMasteryLevel(word) {
+  const wins = word.correctCount || 0;
+  if (wins >= 10) return 'master';
+  if (wins >= 5) return 'guru';
+  if (wins >= 2) return 'apprentice';
+  return 'new';
+}
+
+/**
+ * Get mastery info with label and color class
+ */
+export function getMasteryInfo(word) {
+  const level = getMasteryLevel(word);
+  const info = {
+    new: { label: 'Nuevo', class: 'mastery-new', icon: 'fa-seedling', percent: 10 },
+    apprentice: { label: 'Aprendiz', class: 'mastery-apprentice', icon: 'fa-leaf', percent: 40 },
+    guru: { label: 'Experto', class: 'mastery-guru', icon: 'fa-tree', percent: 75 },
+    master: { label: 'Maestro', class: 'mastery-master', icon: 'fa-crown', percent: 100 }
+  };
+  return { level, ...info[level] };
+}
+
+/**
+ * Check if a word is due for review today
+ */
+export function isDueToday(word) {
+  if (!word.nextReviewAt) return true;
+  const now = Date.now();
+  const endOfToday = new Date().setHours(23, 59, 59, 999);
+  return word.nextReviewAt <= endOfToday;
+}
+
+/**
+ * Get count of words due for review
+ */
+export function getWordsDueCount() {
+  const words = getAllWords();
+  const now = Date.now();
+  return words.filter(w => !w.nextReviewAt || w.nextReviewAt <= now).length;
+}
+
+/**
+ * Get words due today (for dashboard)
+ */
+export function getWordsDueToday() {
+  const words = getAllWords();
+  const endOfToday = new Date().setHours(23, 59, 59, 999);
+  return words.filter(w => !w.nextReviewAt || w.nextReviewAt <= endOfToday);
+}
+
+/**
+ * Calculate next review date using SM-2 algorithm
+ */
+function calculateNextReviewDate(word, remembered) {
+  const now = Date.now();
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  
+  if (!remembered) {
+    // Failed: Reset to review again in 10 minutes (for immediate retry) or next session
+    return now + (10 * 60 * 1000); // 10 minutes
+  }
+  
+  // Success: Calculate interval based on consecutive successes
+  const consecutiveWins = word.correctCount || 0;
+  const intervalIndex = Math.min(consecutiveWins, SM2_INTERVALS.length - 1);
+  const baseDays = SM2_INTERVALS[intervalIndex];
+  
+  // Adjust by difficulty factor (-3 to +3)
+  const difficulty = word.difficulty || 0;
+  const difficultyMultiplier = 1 - (difficulty * 0.1); // Range: 0.7 to 1.3
+  const adjustedDays = Math.max(1, Math.round(baseDays * difficultyMultiplier));
+  
+  return now + (adjustedDays * DAY_MS);
+}
+
+/**
+ * Format next review date for display
+ */
+export function getNextReviewLabel(word) {
+  if (!word.nextReviewAt) return 'Ahora';
+  
+  const now = Date.now();
+  const diff = word.nextReviewAt - now;
+  
+  if (diff <= 0) return 'Ahora';
+  
+  const minutes = Math.floor(diff / (60 * 1000));
+  const hours = Math.floor(diff / (60 * 60 * 1000));
+  const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+  
+  if (minutes < 60) return `${minutes}min`;
+  if (hours < 24) return `${hours}h`;
+  if (days === 1) return 'Mañana';
+  if (days < 7) return `${days} días`;
+  if (days < 30) return `${Math.floor(days / 7)} sem`;
+  return `${Math.floor(days / 30)} mes${Math.floor(days / 30) > 1 ? 'es' : ''}`;
+}
 
 export function getWordsForReview() {
   const words = getAllWords();
   const now = Date.now();
   
-  // Prioritize: 1) Forgotten words, 2) Due for review, 3) Never reviewed
-  const forgotten = words.filter(w => !w.remembered);
-  const dueForReview = words.filter(w => w.remembered && (!w.nextReviewAt || w.nextReviewAt <= now));
-  const neverReviewed = words.filter(w => !w.lastReviewedAt);
+  // Get words due for review (nextReviewAt <= now)
+  const dueWords = words.filter(w => !w.nextReviewAt || w.nextReviewAt <= now);
   
-  // Combine and remove duplicates
-  const prioritized = [...forgotten, ...neverReviewed, ...dueForReview];
-  const seen = new Set();
-  const unique = prioritized.filter(w => {
-    if (seen.has(w.id)) return false;
-    seen.add(w.id);
-    return true;
+  // Sort by priority: 1) Most overdue, 2) Highest difficulty, 3) Least reviewed
+  return dueWords.sort((a, b) => {
+    // First by how overdue they are
+    const overdueA = now - (a.nextReviewAt || 0);
+    const overdueB = now - (b.nextReviewAt || 0);
+    if (overdueA !== overdueB) return overdueB - overdueA;
+    
+    // Then by difficulty (harder first)
+    const diffA = a.difficulty || 0;
+    const diffB = b.difficulty || 0;
+    if (diffA !== diffB) return diffB - diffA;
+    
+    // Then by review count (less reviewed first)
+    return (a.reviewCount || 0) - (b.reviewCount || 0);
   });
-  
-  // If all words are mastered, return all for review
-  return unique.length > 0 ? unique : words;
 }
 
 export function recordReview(wordId, remembered) {
@@ -173,14 +280,14 @@ export function recordReview(wordId, remembered) {
   if (remembered) {
     word.correctCount = (word.correctCount || 0) + 1;
     word.difficulty = Math.max(-3, (word.difficulty || 0) - 1);
-    // Schedule next review based on success streak
-    const baseInterval = 24 * 60 * 60 * 1000; // 1 day in ms
-    const multiplier = Math.pow(2, Math.min(word.correctCount, 5)); // 1, 2, 4, 8, 16, 32 days
-    word.nextReviewAt = Date.now() + (baseInterval * multiplier);
+    // SM-2: Increase interval on success
+    word.nextReviewAt = calculateNextReviewDate(word, true);
   } else {
     word.incorrectCount = (word.incorrectCount || 0) + 1;
     word.difficulty = Math.min(3, (word.difficulty || 0) + 1);
-    word.nextReviewAt = Date.now(); // Review again soon
+    // Reset streak on failure
+    word.correctCount = Math.max(0, (word.correctCount || 0) - 2);
+    word.nextReviewAt = calculateNextReviewDate(word, false);
   }
   
   updateWord(word);

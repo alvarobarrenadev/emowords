@@ -39,6 +39,13 @@ export function renderReview(container) {
       </p>
       
       <div class="mode-grid">
+        <div class="mode-card featured" data-mode="mixed">
+          <div class="mode-badge">⭐ Recomendado</div>
+          <div class="mode-icon"><i class="fa-solid fa-shuffle"></i></div>
+          <div class="mode-title">Mixto</div>
+          <div class="mode-desc">Combina todos los modos aleatoriamente. ¡La forma más completa de repasar!</div>
+        </div>
+        
         <div class="mode-card" data-mode="flashcard">
           <div class="mode-icon"><i class="fa-solid fa-layer-group"></i></div>
           <div class="mode-title">Flashcards</div>
@@ -173,8 +180,17 @@ export function renderReview(container) {
         return;
     }
     
+    // Determine which renderer to use
+    let activeMode = currentMode;
+    
+    // Mixed mode: randomly select a mode for each word
+    if (currentMode === 'mixed') {
+      const modes = ['flashcard', 'quiz', 'typing', 'listening'];
+      activeMode = modes[Math.floor(Math.random() * modes.length)];
+    }
+    
     // Dispatch to specific renderer
-    switch (currentMode) {
+    switch (activeMode) {
       case 'flashcard': renderFlashcard(content); break;
       case 'quiz': renderQuiz(content); break;
       case 'typing': renderTyping(content); break;
