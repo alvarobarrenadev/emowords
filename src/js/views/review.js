@@ -1,5 +1,7 @@
-import { getAllWords, getWordsForReview, recordReview, getStatistics } from '../storage/vocabStorage.js';
-import { updateProgress, getGamificationStats } from '../storage/gamification.js';
+import { getAllWords, getWordsForReview, recordReview, getStatistics, getMasteryLevel } from '../storage/vocabStorage.js';
+import { updateProgress, getGamificationStats, getStatsForAchievements } from '../storage/gamification.js';
+import { checkAchievements } from '../storage/achievements.js';
+import { showAchievementsUnlocked, showLevelUp, checkAndShowTimeAchievements } from '../components/achievementNotification.js';
 import { speak } from '../utils/tts.js';
 import { showToast } from '../utils/ui.js';
 
@@ -491,7 +493,11 @@ export function renderReview(container) {
 
   function renderSummary(container) {
     try {
-        updateProgress(0); // Ensure streak is saved/displayed
+        // Check if it was a perfect session (no mistakes, at least 5 words)
+        const isPerfect = sessionStats.incorrect === 0 && sessionStats.correct >= 5;
+        
+        // Update progress and check for level up
+        const progressResult = updateProgress(0, { perfectSession: isPerfect });
         
         // Hide session header for cleaner summary view
         const sessionHeader = document.querySelector('.review-header');
@@ -505,11 +511,25 @@ export function renderReview(container) {
             game = { streak: 0, dailyGoal: { count: 0, target: 20 } };
         }
         
+        // Check for new achievements
+        const vocabStats = getStatistics();
+        const statsForAchievements = getStatsForAchievements(vocabStats);
+        const newAchievements = checkAchievements(statsForAchievements);
+        
+        // Check time-based achievements
+        checkAndShowTimeAchievements();
+        
         container.innerHTML = `
           <div class="empty-review-state">
             <div class="empty-icon" style="color: var(--success-500); animation: bounce 1s infinite;"><i class="fa-solid fa-trophy"></i></div>
             <h3>¡Sesión completada!</h3>
             <p>Has ganado <strong style="color:var(--warning-500)">${sessionStats.xp} XP</strong></p>
+            
+            ${isPerfect ? `
+              <div class="perfect-session-badge" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 0.5rem 1rem; border-radius: 999px; font-weight: 600; margin: 0.5rem 0;">
+                <i class="fa-solid fa-star"></i> ¡Sesión Perfecta!
+              </div>
+            ` : ''}
             
             <div class="session-summary">
                 <div class="summary-stats">
@@ -526,6 +546,20 @@ export function renderReview(container) {
             <button class="add-word-btn" id="finish-btn">Volver al inicio</button>
           </div>
         `;
+        
+        // Show level up celebration if applicable
+        if (progressResult.leveledUp) {
+          setTimeout(() => {
+            showLevelUp(progressResult.newLevel);
+          }, 500);
+        }
+        
+        // Show achievement notifications
+        if (newAchievements.length > 0) {
+          setTimeout(() => {
+            showAchievementsUnlocked(newAchievements);
+          }, progressResult.leveledUp ? 5500 : 1000);
+        }
         
         // Fire confetti!
         if (window.confetti || window.canvasConfetti) {

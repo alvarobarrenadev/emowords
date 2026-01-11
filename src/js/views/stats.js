@@ -1,4 +1,5 @@
 import { getStatistics, getAllWords } from '../storage/vocabStorage.js';
+import { getAchievementsSummary, getAllAchievementsWithStatus, getAchievementsByCategory } from '../storage/achievements.js';
 
 export function renderStats(container) {
   const allWords = getAllWords();
@@ -187,13 +188,23 @@ export function renderStats(container) {
                 ` : ''}
             </div>
 
-            <!-- Motivation / Fun Fact -->
-            <div class="dashboard-card tip-card">
-                <div class="tip-icon"><i class="fa-regular fa-lightbulb"></i></div>
-                <div class="tip-content">
-                    <h4>La Consistencia es Clave</h4>
-                    <p>Pequeños repasos diarios son más efectivos que largas sesiones semanales.</p>
+            <!-- Achievements Section -->
+            <div class="dashboard-card achievements-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-medal"></i> Logros</h3>
+                    <span class="achievements-counter">${getAchievementsSummary().unlocked}/${getAchievementsSummary().total}</span>
                 </div>
+                <div class="achievements-progress-bar">
+                    <div class="fill" style="width: ${getAchievementsSummary().percent}%"></div>
+                </div>
+                <div class="achievements-mini-grid">
+                    ${getAllAchievementsWithStatus().slice(0, 8).map(a => `
+                        <div class="achievement-mini ${a.unlocked ? 'unlocked' : 'locked'}" title="${a.name}: ${a.description}">
+                            <i class="fa-solid ${a.icon}"></i>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn-secondary full-width-btn" id="view-all-achievements">Ver todos los logros</button>
             </div>
 
         </div>

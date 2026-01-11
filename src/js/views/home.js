@@ -1,5 +1,7 @@
-import { getAllWords, searchWords, sortWords, getStatistics, getAllCategories, exportData, importData, getMasteryLevel, getWordsDueCount } from '../storage/vocabStorage.js';
-import { getGamificationStats, setDailyTarget } from '../storage/gamification.js';
+import { getAllWords, searchWords, sortWords, getStatistics, getAllCategories, exportData, importData, importCSV, exportCSV, getMasteryLevel, getWordsDueCount } from '../storage/vocabStorage.js';
+import { getGamificationStats, setDailyTarget, getStatsForAchievements } from '../storage/gamification.js';
+import { checkAchievements, getAchievementsSummary } from '../storage/achievements.js';
+import { showAchievementsUnlocked, showLevelUp, checkAndShowTimeAchievements } from '../components/achievementNotification.js';
 import { starterPacks } from '../data/starterPacks.js';
 import { createWordCard } from '../components/wordCard.js';
 import { showToast } from '../utils/ui.js';
@@ -26,14 +28,14 @@ export function renderHome(container) {
           <div class="hero-icon">
             <i class="fa-solid fa-layer-group"></i>
           </div>
-          <h1>Tu vocabulario, <br/>conectado con tus emociones.</h1>
-          <p>Olvida las listas interminables. EmoWords utiliza tus recuerdos y sensaciones para que cada palabra se quede contigo para siempre.</p>
+          <h1>Domina el inglés <br/>usando tus recuerdos.</h1>
+          <p>Conecta cada palabra con un recuerdo personal. La ciencia demuestra que las emociones multiplican tu memoria por 10.</p>
           
           <div class="hero-actions">
             <button class="primary-hero-btn" onclick="document.querySelector('[data-view=add]').click()">
               <i class="fa-solid fa-plus"></i> Añadir mi primera palabra
             </button>
-            <button class="secondary-hero-btn" onclick="document.getElementById('import-packs-btn').click()">
+            <button class="secondary-hero-btn" id="explore-packs-btn">
               <i class="fa-solid fa-download"></i> Explorar packs
             </button>
           </div>
@@ -171,8 +173,8 @@ export function renderHome(container) {
     <!-- Word list -->
     <div id="word-list" class="word-list"></div>
     
-    <!-- Hidden file input for import -->
-    <input type="file" id="import-file" accept=".json" style="display: none;" />
+    <!-- Hidden file input for import (JSON and CSV) -->
+    <input type="file" id="import-file" accept=".json,.csv" style="display: none;" />
   `;
 
   const list = document.getElementById('word-list');
@@ -380,18 +382,40 @@ export function renderHome(container) {
     const file = e.target.files[0];
     if (!file) return;
     
+    const isCSV = file.name.toLowerCase().endsWith('.csv');
+    
     const reader = new FileReader();
     reader.onload = (event) => {
-      const result = importData(event.target.result);
-
-      if (result.success) {
-        showToast('Importación completada', `${result.imported} palabras importadas correctamente.`, 'success');
-        setTimeout(() => location.reload(), 1500);
+      const content = event.target.result;
+      let result;
+      
+      if (isCSV) {
+        // Import CSV
+        result = importCSV(content);
+        if (result.success) {
+          let message = `${result.imported} palabras importadas.`;
+          if (result.duplicates > 0) message += ` ${result.duplicates} duplicadas omitidas.`;
+          if (result.skipped > 0) message += ` ${result.skipped} con errores.`;
+          showToast('Importación CSV completada', message, 'success');
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showToast('Error de importación CSV', result.error, 'error');
+        }
       } else {
-        showToast('Error de importación', result.error, 'error');
+        // Import JSON
+        result = importData(content);
+        if (result.success) {
+          showToast('Importación completada', `${result.imported} palabras importadas.`, 'success');
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showToast('Error de importación', result.error, 'error');
+        }
       }
     };
     reader.readAsText(file);
+    
+    // Reset input
+    e.target.value = '';
   });
 
   // Daily Goal Settings Modal
@@ -399,6 +423,116 @@ export function renderHome(container) {
   if (goalSettingsBtn) {
     goalSettingsBtn.addEventListener('click', () => {
       openGoalSettingsModal();
+    });
+  }
+
+  // Explore Packs Button (for welcome hero)
+  const explorePacksBtn = document.getElementById('explore-packs-btn');
+  if (explorePacksBtn) {
+    explorePacksBtn.addEventListener('click', () => {
+      openStarterPacksModal();
+    });
+  }
+
+  function openStarterPacksModal() {
+    // Remove existing modal
+    document.querySelector('.packs-modal')?.remove();
+    
+    let selectedPacks = new Set();
+    
+    const modal = document.createElement('div');
+    modal.className = 'packs-modal edit-modal';
+    modal.innerHTML = `
+      <div class="modal-overlay"></div>
+      <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-layer-group"></i> Packs de Inicio</h3>
+          <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p style="padding: 0 1.5rem; color: var(--gray-500); margin-bottom: 1rem;">Selecciona los packs que quieras añadir a tu vocabulario:</p>
+        <div class="packs-modal-grid">
+          ${starterPacks.map(pack => `
+            <div class="pack-card-modal" data-pack-id="${pack.id}">
+              <div class="pack-check"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="pack-icon"><i class="fa-solid ${pack.icon}"></i></div>
+              <div class="pack-info">
+                <h4>${pack.name}</h4>
+                <p>${pack.description}</p>
+                <div class="pack-count"><i class="fa-solid fa-layer-group"></i> ${pack.words.length} palabras</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="modal-actions" style="padding: 1.5rem;">
+          <button type="button" class="btn-cancel">Cancelar</button>
+          <button type="button" class="btn-save btn-import-packs" disabled>Selecciona packs</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    requestAnimationFrame(() => {
+      modal.classList.add('active');
+    });
+    
+    const closeModal = () => {
+      modal.classList.remove('active');
+      setTimeout(() => modal.remove(), 300);
+    };
+    
+    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.querySelector('.btn-cancel').addEventListener('click', closeModal);
+    
+    const importBtnModal = modal.querySelector('.btn-import-packs');
+    
+    const updateButton = () => {
+      const count = selectedPacks.size;
+      importBtnModal.disabled = count === 0;
+      if (count === 0) {
+        importBtnModal.textContent = 'Selecciona packs';
+      } else {
+        let totalWords = 0;
+        selectedPacks.forEach(id => {
+          const p = starterPacks.find(pack => pack.id === id);
+          if (p) totalWords += p.words.length;
+        });
+        importBtnModal.innerHTML = `<i class="fa-solid fa-download"></i> Añadir ${count} pack${count > 1 ? 's' : ''} (${totalWords} palabras)`;
+      }
+    };
+    
+    modal.querySelectorAll('.pack-card-modal').forEach(card => {
+      card.addEventListener('click', () => {
+        const packId = card.dataset.packId;
+        if (selectedPacks.has(packId)) {
+          selectedPacks.delete(packId);
+          card.classList.remove('selected');
+        } else {
+          selectedPacks.add(packId);
+          card.classList.add('selected');
+        }
+        updateButton();
+      });
+    });
+    
+    importBtnModal.addEventListener('click', () => {
+      if (selectedPacks.size === 0) return;
+      
+      let allWords = [];
+      selectedPacks.forEach(id => {
+        const pack = starterPacks.find(p => p.id === id);
+        if (pack) allWords = [...allWords, ...pack.words];
+      });
+      
+      const result = importData(JSON.stringify({ words: allWords }));
+      if (result.success) {
+        showToast('¡Packs importados!', `Se añadieron ${result.imported} palabras.`, 'success');
+        closeModal();
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        showToast('Error', result.error, 'error');
+      }
     });
   }
 

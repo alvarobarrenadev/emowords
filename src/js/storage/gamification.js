@@ -12,7 +12,9 @@ function getGameData() {
       target: 20
     },
     totalXp: 0,
-    level: 1
+    level: 1,
+    perfectSessions: 0,
+    totalReviews: 0
   };
 }
 
@@ -51,17 +53,26 @@ export function getGamificationStats() {
   return data;
 }
 
-export function updateProgress(count = 1) {
+export function updateProgress(count = 1, options = {}) {
   const data = getGameData();
   const today = new Date().toLocaleDateString();
+  const previousLevel = data.level;
   
   // Initialize today if needed
   if (data.dailyGoal.date !== today) {
-    data.dailyGoal = { date: today, count: 0, target: 20 };
+    data.dailyGoal = { date: today, count: 0, target: data.dailyGoal.target || 20 };
   }
   
   // Update daily count
   data.dailyGoal.count += count;
+  
+  // Update total reviews
+  data.totalReviews = (data.totalReviews || 0) + count;
+  
+  // Track perfect sessions
+  if (options.perfectSession) {
+    data.perfectSessions = (data.perfectSessions || 0) + 1;
+  }
   
   // Update streak if this is the first activity of the day
   if (data.lastStudyDate !== today) {
@@ -87,7 +98,15 @@ export function updateProgress(count = 1) {
   data.level = Math.floor(Math.sqrt(data.totalXp / 100)) + 1;
   
   saveGameData(data);
-  return data;
+  
+  // Return level up info if applicable
+  const leveledUp = data.level > previousLevel;
+  
+  return {
+    ...data,
+    leveledUp,
+    newLevel: leveledUp ? data.level : null
+  };
 }
 
 export function setDailyTarget(target) {
@@ -95,3 +114,24 @@ export function setDailyTarget(target) {
   data.dailyGoal.target = target;
   saveGameData(data);
 }
+
+/**
+ * Get stats for achievement checking
+ */
+export function getStatsForAchievements(vocabStats) {
+  const gameData = getGameData();
+  
+  return {
+    totalWords: vocabStats?.total || 0,
+    masteredWords: vocabStats?.mastered || 0,
+    wordsByType: vocabStats?.byType || { word: 0, phrasal: 0, expression: 0, connector: 0 },
+    maxStreak: gameData.maxStreak || 0,
+    streak: gameData.streak || 0,
+    totalReviews: gameData.totalReviews || 0,
+    perfectSessions: gameData.perfectSessions || 0,
+    level: gameData.level || 1,
+    studiedAtNight: false,
+    studiedEarly: false
+  };
+}
+

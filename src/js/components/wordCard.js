@@ -145,8 +145,25 @@ function openEditModal(word, onUpdate) {
           <input type="text" id="edit-example" value="${escapeHtml(word.example || '')}" />
         </div>
         <div class="form-field">
-          <label><i class="fa-solid fa-image"></i> URL de imagen</label>
-          <input type="url" id="edit-image" value="${escapeHtml(word.image || '')}" />
+          <label><i class="fa-solid fa-image"></i> Imagen</label>
+          <div class="image-tabs">
+            <button type="button" class="image-tab active" data-tab="url"><i class="fa-solid fa-link"></i> URL</button>
+            <button type="button" class="image-tab" data-tab="upload"><i class="fa-solid fa-upload"></i> Subir</button>
+          </div>
+          <div class="image-tab-content" id="tab-url">
+            <input type="url" id="edit-image" value="${escapeHtml(word.image || '')}" placeholder="https://ejemplo.com/imagen.jpg" />
+          </div>
+          <div class="image-tab-content" id="tab-upload" style="display: none;">
+            <div class="file-dropzone" id="edit-dropzone">
+              <input type="file" id="edit-image-file" accept="image/*" />
+              <div class="dropzone-content">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span class="dropzone-text">Arrastra una imagen aquí</span>
+                <span class="dropzone-subtext">o haz clic para seleccionar</span>
+              </div>
+            </div>
+          </div>
+          ${word.image ? `<div class="image-preview-mini"><img src="${escapeHtml(word.image)}" alt="Preview" /></div>` : ''}
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-cancel">Cancelar</button>
@@ -174,6 +191,77 @@ function openEditModal(word, onUpdate) {
   modal.querySelector('.modal-close').addEventListener('click', closeModal);
   modal.querySelector('.btn-cancel').addEventListener('click', closeModal);
   
+  // Image tabs logic
+  let uploadedImageData = null;
+  
+  modal.querySelectorAll('.image-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      modal.querySelectorAll('.image-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      
+      const tabId = tab.dataset.tab;
+      modal.querySelector('#tab-url').style.display = tabId === 'url' ? 'block' : 'none';
+      modal.querySelector('#tab-upload').style.display = tabId === 'upload' ? 'block' : 'none';
+    });
+  });
+  
+  // Handle file upload
+  const fileInput = modal.querySelector('#edit-image-file');
+  const dropzone = modal.querySelector('#edit-dropzone');
+  
+  if (fileInput && dropzone) {
+    // Drag and drop events
+    ['dragenter', 'dragover'].forEach(event => {
+      dropzone.addEventListener(event, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+    
+    ['dragleave', 'drop'].forEach(event => {
+      dropzone.addEventListener(event, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+    
+    dropzone.addEventListener('drop', (e) => {
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        processFile(file);
+      }
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) processFile(file);
+    });
+    
+    function processFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        uploadedImageData = event.target.result;
+        
+        // Update dropzone appearance
+        dropzone.classList.add('has-file');
+        const dropzoneText = dropzone.querySelector('.dropzone-text');
+        const dropzoneSubtext = dropzone.querySelector('.dropzone-subtext');
+        if (dropzoneText) dropzoneText.textContent = file.name;
+        if (dropzoneSubtext) dropzoneSubtext.textContent = `${(file.size / 1024).toFixed(1)} KB`;
+        
+        // Show preview
+        let previewContainer = modal.querySelector('.image-preview-mini');
+        if (!previewContainer) {
+          previewContainer = document.createElement('div');
+          previewContainer.className = 'image-preview-mini';
+          dropzone.parentElement.after(previewContainer);
+        }
+        previewContainer.innerHTML = `<img src="${uploadedImageData}" alt="Preview" />`;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
   // Save handler
   modal.querySelector('.edit-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -193,7 +281,13 @@ function openEditModal(word, onUpdate) {
     word.category = document.getElementById('edit-category').value.trim() || null;
     word.emotion = document.getElementById('edit-emotion').value.trim();
     word.example = document.getElementById('edit-example').value.trim();
-    word.image = document.getElementById('edit-image').value.trim();
+    
+    // Use uploaded image if available, otherwise use URL
+    if (uploadedImageData) {
+      word.image = uploadedImageData;
+    } else {
+      word.image = document.getElementById('edit-image').value.trim();
+    }
     
     updateWord(word);
     closeModal();

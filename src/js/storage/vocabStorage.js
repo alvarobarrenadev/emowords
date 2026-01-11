@@ -351,6 +351,157 @@ export function importData(jsonString) {
   }
 }
 
+/**
+ * Import words from CSV format
+ * Expected columns: word, meaning, type, category, example, emotion
+ * First row should be headers
+ */
+export function importCSV(csvString) {
+  try {
+    const lines = csvString.trim().split('\n');
+    if (lines.length < 2) {
+      throw new Error('El archivo CSV debe tener al menos una fila de encabezados y una de datos');
+    }
+
+    // Parse headers
+    const headers = parseCSVLine(lines[0]).map(h => h.toLowerCase().trim());
+    
+    // Find column indices
+    const wordIndex = headers.findIndex(h => h === 'word' || h === 'palabra' || h === 'english');
+    const meaningIndex = headers.findIndex(h => h === 'meaning' || h === 'significado' || h === 'spanish' || h === 'traduccion' || h === 'traducción');
+    
+    if (wordIndex === -1 || meaningIndex === -1) {
+      throw new Error('El CSV debe tener columnas "word" y "meaning" (o "palabra" y "significado")');
+    }
+
+    const typeIndex = headers.findIndex(h => h === 'type' || h === 'tipo');
+    const categoryIndex = headers.findIndex(h => h === 'category' || h === 'categoria' || h === 'categoría');
+    const exampleIndex = headers.findIndex(h => h === 'example' || h === 'ejemplo');
+    const emotionIndex = headers.findIndex(h => h === 'emotion' || h === 'emocion' || h === 'emoción' || h === 'association' || h === 'asociacion');
+
+    const existingWords = getAllWords();
+    const existingLowerWords = new Set(existingWords.map(w => w.word.toLowerCase().trim()));
+    
+    let imported = 0;
+    let skipped = 0;
+    let duplicates = 0;
+
+    // Parse data rows
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+
+      const values = parseCSVLine(line);
+      const word = values[wordIndex]?.trim();
+      const meaning = values[meaningIndex]?.trim();
+
+      if (!word || !meaning) {
+        skipped++;
+        continue;
+      }
+
+      // Check for duplicates
+      if (existingLowerWords.has(word.toLowerCase())) {
+        duplicates++;
+        continue;
+      }
+
+      // Determine type
+      let type = 'word';
+      if (typeIndex !== -1 && values[typeIndex]) {
+        const typeValue = values[typeIndex].toLowerCase().trim();
+        if (['phrasal', 'phrasal verb', 'phrasal-verb'].includes(typeValue)) type = 'phrasal';
+        else if (['expression', 'expresion', 'expresión'].includes(typeValue)) type = 'expression';
+        else if (['connector', 'conector'].includes(typeValue)) type = 'connector';
+        else if (['word', 'palabra'].includes(typeValue)) type = 'word';
+      }
+
+      const newWord = {
+        id: Date.now() + Math.random(),
+        word,
+        meaning,
+        type,
+        category: categoryIndex !== -1 ? values[categoryIndex]?.trim() || null : null,
+        example: exampleIndex !== -1 ? values[exampleIndex]?.trim() || '' : '',
+        emotion: emotionIndex !== -1 ? values[emotionIndex]?.trim() || '' : '',
+        image: '',
+        remembered: false,
+        createdAt: Date.now(),
+        lastReviewedAt: null,
+        reviewCount: 0,
+        correctCount: 0,
+        incorrectCount: 0,
+        nextReviewAt: Date.now(),
+        difficulty: 0
+      };
+
+      existingWords.push(newWord);
+      existingLowerWords.add(word.toLowerCase());
+      imported++;
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(existingWords));
+
+    return { success: true, imported, skipped, duplicates };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Parse a CSV line handling quoted values
+ */
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if ((char === ',' || char === ';') && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  
+  result.push(current.trim());
+  return result;
+}
+
+/**
+ * Export data as CSV
+ */
+export function exportCSV() {
+  const words = getAllWords();
+  const headers = ['word', 'meaning', 'type', 'category', 'example', 'emotion'];
+  
+  const rows = words.map(w => {
+    return [
+      escapeCSV(w.word),
+      escapeCSV(w.meaning),
+      w.type || 'word',
+      escapeCSV(w.category || ''),
+      escapeCSV(w.example || ''),
+      escapeCSV(w.emotion || '')
+    ].join(',');
+  });
+
+  return [headers.join(','), ...rows].join('\n');
+}
+
+function escapeCSV(value) {
+  if (!value) return '';
+  if (value.includes(',') || value.includes('"') || value.includes('\n')) {
+    return '"' + value.replace(/"/g, '""') + '"';
+  }
+  return value;
+}
+
 
 
 // ==================== HELPER ====================
