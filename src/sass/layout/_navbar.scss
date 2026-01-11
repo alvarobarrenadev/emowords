@@ -27,6 +27,9 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition);
 
   i {
     font-size: 1.5rem;
@@ -34,6 +37,15 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    transition: transform var(--transition);
+  }
+
+  &:hover {
+    transform: scale(1.02);
+
+    i {
+      transform: rotate(-5deg);
+    }
   }
 }
 

@@ -1,369 +1,361 @@
 export const starterPacks = [
-  // --- NIVEL A1/A2 (BÁSICO / SUPERVIVENCIA) ---
+  // ==========================================
+  // NIVEL A1 - SUPERVIVENCIA BÁSICA
+  // ==========================================
   {
-    id: 'survival-a1',
-    name: 'Survival Essentials (A1)',
-    icon: 'fa-life-ring',
-    description: 'Palabras sin las que no puedes vivir.',
+    id: 'a1-complete',
+    name: 'A1 - Beginner Pack',
+    icon: 'fa-seedling',
+    description: 'Lo esencial para sobrevivir: verbos del día a día, conectores básicos, tus primeros phrasal verbs y frases que usarás constantemente.',
+    level: 'A1',
     words: [
-      { word: 'Water', meaning: 'Agua', type: 'word', category: 'Esencial', example: 'Can I have some water, please?' },
-      { word: 'Bathroom', meaning: 'Baño', type: 'word', category: 'Esencial', example: 'Where is the bathroom?' },
-      { word: 'Wifi', meaning: 'Wifi/Internet', type: 'word', category: 'Esencial', example: 'What is the wifi password?' },
-      { word: 'Charger', meaning: 'Cargador', type: 'word', category: 'Tecnología', example: 'Do you have a phone charger?' },
-      { word: 'Password', meaning: 'Contraseña', type: 'word', category: 'Seguridad', example: 'I forgot my password.' },
-      { word: 'ATM', meaning: 'Cajero automático', type: 'word', category: 'Dinero', example: 'Is there an ATM near here?' },
-      { word: 'Help', meaning: 'Ayuda', type: 'word', category: 'Esencial', emotion: 'Urgencia, necesidad' },
-      { word: 'Late', meaning: 'Tarde', type: 'word', category: 'Tiempo', example: 'Sorry I\'m late.' },
-      { word: 'Ready', meaning: 'Listo/Preparado', type: 'word', category: 'Estado', example: 'Are you ready?' },
-      { word: 'Bill', meaning: 'Cuenta (restaurante)', type: 'word', category: 'Viajes', example: 'Can we have the bill?' }
-    ]
-  },
-  {
-    id: 'digital-life-a2',
-    name: 'Digital Life (A2)',
-    icon: 'fa-mobile-screen',
-    description: 'Para moverte en apps y redes.',
-    words: [
-      { word: 'Share', meaning: 'Compartir', type: 'word', category: 'Redes Sociales', example: 'Share this post.' },
-      { word: 'Like', meaning: 'Gustar / Dar like', type: 'word', category: 'Redes Sociales', example: 'Like and subscribe.' },
-      { word: 'Search', meaning: 'Buscar', type: 'word', category: 'Internet', example: 'Search on Google.' },
-      { word: 'Download', meaning: 'Descargar', type: 'word', category: 'Tecnología', example: 'Download the app.' },
-      { word: 'Login', meaning: 'Iniciar sesión', type: 'word', category: 'Seguridad', example: 'Login to your account.' },
-      { word: 'Settings', meaning: 'Ajustes/Configuración', type: 'word', category: 'Tecnología', example: 'Check your privacy settings.' },
-      { word: 'Message', meaning: 'Mensaje', type: 'word', category: 'Comunicación', example: 'Send me a message.' },
-      { word: 'Profile', meaning: 'Perfil', type: 'word', category: 'Redes Sociales', example: 'Update your profile picture.' },
-      { word: 'Link', meaning: 'Enlace', type: 'word', category: 'Internet', example: 'Click the link in bio.' },
-      { word: 'Follow', meaning: 'Seguir', type: 'word', category: 'Redes Sociales', example: 'Follow me on Instagram.' }
-    ]
-  },
-  {
-    id: 'daily-routine-a2',
-    name: 'Modern Routine (A2)',
-    icon: 'fa-mug-hot',
-    description: 'Tu día a día real.',
-    words: [
-      { word: 'Coffee', meaning: 'Café', type: 'word', category: 'Rutina', emotion: 'Energía mañanera' },
-      { word: 'Gym', meaning: 'Gimnasio', type: 'word', category: 'Estilo de vida', example: 'I go to the gym after work.' },
-      { word: 'Traffic', meaning: 'Tráfico', type: 'word', category: 'Transporte', emotion: 'Estrés, bocinas' },
-      { word: 'Meeting', meaning: 'Reunión', type: 'word', category: 'Trabajo', example: 'I have a Zoom meeting.' },
-      { word: 'Lunch', meaning: 'Almuerzo', type: 'word', category: 'Comida', example: 'Let\'s grab lunch.' },
-      { word: 'Tired', meaning: 'Cansado', type: 'word', category: 'Estado', emotion: 'Necesito dormir' },
-      { word: 'Weekend', meaning: 'Fin de semana', type: 'word', category: 'Tiempo', emotion: 'Libertad, descanso' },
-      { word: 'Watch', meaning: 'Mirar (pantallas)', type: 'word', category: 'Ocio', example: 'Watch Netflix.' },
-      { word: 'Cook', meaning: 'Cocinar', type: 'word', category: 'Casa', example: 'I don\'t like to cook.' },
-      { word: 'Clean', meaning: 'Limpiar', type: 'word', category: 'Casa', example: 'Clean your room.' }
-    ]
-  },
-  {
-    id: 'cool-slang-a2',
-    name: 'Basic Slang (A1/A2)',
-    icon: 'fa-bolt',
-    description: 'Palabras que oyes en series y YouTube.',
-    words: [
-      { word: 'Cool', meaning: 'Genial/Guay', type: 'word', category: 'Slang', example: 'That car is so cool.' },
-      { word: 'Dude', meaning: 'Tío/Colega', type: 'word', category: 'Slang', example: 'Hey dude, what\'s up?' },
-      { word: 'Chill', meaning: 'Relajado/Tranquilo', type: 'word', category: 'Slang', example: 'Just chill out.' },
-      { word: 'No way', meaning: 'Ni de broma / No me digas', type: 'expression', category: 'Slang', emotion: 'Sorpresa total' },
-      { word: 'Awesome', meaning: 'Impresionante', type: 'word', category: 'Slang', example: 'The movie was awesome.' },
-      { word: 'Weird', meaning: 'Raro', type: 'word', category: 'Adjetivos', example: 'That guy is weird.' },
-      { word: 'Guys', meaning: 'Chicos/Gente', type: 'word', category: 'Slang', example: 'Hi guys!' },
-      { word: 'Stuff', meaning: 'Cosas', type: 'word', category: 'General', example: 'I have a lot of stuff to do.' },
-      { word: 'Sucks', meaning: 'Apesta (es malo)', type: 'word', category: 'Slang', example: 'This weather sucks.' },
-      { word: 'Whatever', meaning: 'Lo que sea / Me da igual', type: 'word', category: 'Slang', emotion: 'Indiferencia' }
-    ]
-  },
-  {
-    id: 'travel-smart-a2',
-    name: 'Smart Travel (A2)',
-    icon: 'fa-plane-departure',
-    description: 'Viajar hoy en día.',
-    words: [
-      { word: 'Booking', meaning: 'Reserva', type: 'word', category: 'Viajes', example: 'I made a booking online.' },
-      { word: 'Review', meaning: 'Reseña/Opinión', type: 'word', category: 'Internet', example: 'Check the reviews first.' },
-      { word: 'Location', meaning: 'Ubicación', type: 'word', category: 'Viajes', example: 'Send me your location.' },
-      { word: 'Ticket', meaning: 'Entrada/Billete', type: 'word', category: 'Viajes', example: 'Digital ticket.' },
-      { word: 'Delay', meaning: 'Retraso', type: 'word', category: 'Viajes', emotion: 'Espera en aeropuerto' },
-      { word: 'Subway', meaning: 'Metro', type: 'word', category: 'Transporte', example: 'Take the subway.' },
-      { word: 'Cheap', meaning: 'Barato', type: 'word', category: 'Dinero', example: 'It is very cheap.' },
-      { word: 'Safe', meaning: 'Seguro', type: 'word', category: 'Seguridad', example: 'Is this area safe?' },
-      { word: 'Trip', meaning: 'Viaje (corto)', type: 'word', category: 'Viajes', example: 'Have a nice trip.' },
-      { word: 'Bag', meaning: 'Bolsa/Maleta', type: 'word', category: 'Viajes', example: 'Pack your bags.' }
+      // --- 10 VERBOS ESENCIALES ---
+      { word: 'Be', meaning: 'Ser / Estar', type: 'word', category: 'Verbos', example: 'I am tired. She is my friend.' },
+      { word: 'Have', meaning: 'Tener', type: 'word', category: 'Verbos', example: 'I have a question.' },
+      { word: 'Want', meaning: 'Querer', type: 'word', category: 'Verbos', example: 'I want coffee, please.' },
+      { word: 'Need', meaning: 'Necesitar', type: 'word', category: 'Verbos', example: 'I need help.' },
+      { word: 'Like', meaning: 'Gustar', type: 'word', category: 'Verbos', example: 'I like this song.' },
+      { word: 'Go', meaning: 'Ir', type: 'word', category: 'Verbos', example: 'I go to work by metro.' },
+      { word: 'Know', meaning: 'Saber / Conocer', type: 'word', category: 'Verbos', example: 'I don\'t know.' },
+      { word: 'Think', meaning: 'Pensar / Creer', type: 'word', category: 'Verbos', example: 'I think so.' },
+      { word: 'See', meaning: 'Ver', type: 'word', category: 'Verbos', example: 'See you tomorrow!' },
+      { word: 'Work', meaning: 'Trabajar / Funcionar', type: 'word', category: 'Verbos', example: 'It doesn\'t work.' },
+
+      // --- 10 CONECTORES BÁSICOS ---
+      { word: 'And', meaning: 'Y', type: 'connector', category: 'Conectores', example: 'Coffee and a sandwich, please.' },
+      { word: 'But', meaning: 'Pero', type: 'connector', category: 'Conectores', example: 'I like it, but it\'s expensive.' },
+      { word: 'Or', meaning: 'O', type: 'connector', category: 'Conectores', example: 'Tea or coffee?' },
+      { word: 'Because', meaning: 'Porque', type: 'connector', category: 'Conectores', example: 'I\'m late because of the traffic.' },
+      { word: 'So', meaning: 'Así que / Entonces', type: 'connector', category: 'Conectores', example: 'I was hungry, so I ordered food.' },
+      { word: 'Then', meaning: 'Luego / Entonces', type: 'connector', category: 'Conectores', example: 'First we eat, then we go.' },
+      { word: 'Also', meaning: 'También', type: 'connector', category: 'Conectores', example: 'I also want dessert.' },
+      { word: 'Maybe', meaning: 'Quizás / A lo mejor', type: 'connector', category: 'Conectores', example: 'Maybe tomorrow.' },
+      { word: 'Really', meaning: 'De verdad / Muy', type: 'connector', category: 'Conectores', example: 'I\'m really tired.' },
+      { word: 'Actually', meaning: 'En realidad', type: 'connector', category: 'Conectores', example: 'Actually, I changed my mind.' },
+
+      // --- 10 PHRASAL VERBS BÁSICOS ---
+      { word: 'Wake up', meaning: 'Despertarse', type: 'phrasal', category: 'Phrasal Verbs', example: 'I wake up at 7.' },
+      { word: 'Get up', meaning: 'Levantarse', type: 'phrasal', category: 'Phrasal Verbs', example: 'Get up, we\'re late!' },
+      { word: 'Turn on', meaning: 'Encender', type: 'phrasal', category: 'Phrasal Verbs', example: 'Turn on the lights.' },
+      { word: 'Turn off', meaning: 'Apagar', type: 'phrasal', category: 'Phrasal Verbs', example: 'Turn off your phone.' },
+      { word: 'Come in', meaning: 'Entrar / Pasa', type: 'phrasal', category: 'Phrasal Verbs', example: 'Come in, sit down!' },
+      { word: 'Go out', meaning: 'Salir', type: 'phrasal', category: 'Phrasal Verbs', example: 'Let\'s go out tonight.' },
+      { word: 'Sit down', meaning: 'Sentarse', type: 'phrasal', category: 'Phrasal Verbs', example: 'Please sit down.' },
+      { word: 'Put on', meaning: 'Ponerse (ropa)', type: 'phrasal', category: 'Phrasal Verbs', example: 'Put on your jacket, it\'s cold.' },
+      { word: 'Take off', meaning: 'Quitarse (ropa)', type: 'phrasal', category: 'Phrasal Verbs', example: 'Take off your shoes.' },
+      { word: 'Look at', meaning: 'Mirar', type: 'phrasal', category: 'Phrasal Verbs', example: 'Look at this!' },
+
+      // --- 10 EXPRESIONES DEL DÍA A DÍA ---
+      { word: 'How are you?', meaning: '¿Cómo estás?', type: 'expression', category: 'Expresiones', example: 'Hey! How are you?' },
+      { word: 'I\'m fine, thanks', meaning: 'Bien, gracias', type: 'expression', category: 'Expresiones', example: 'I\'m fine, thanks. And you?' },
+      { word: 'Nice to meet you', meaning: 'Encantado/a', type: 'expression', category: 'Expresiones', example: 'Hi, I\'m Ana. Nice to meet you.' },
+      { word: 'See you later', meaning: 'Hasta luego', type: 'expression', category: 'Expresiones', example: 'Bye! See you later.' },
+      { word: 'No problem', meaning: 'No hay problema / De nada', type: 'expression', category: 'Expresiones', example: 'Thanks! - No problem.' },
+      { word: 'I don\'t understand', meaning: 'No entiendo', type: 'expression', category: 'Expresiones', example: 'Sorry, I don\'t understand.' },
+      { word: 'Can you repeat?', meaning: '¿Puedes repetir?', type: 'expression', category: 'Expresiones', example: 'Can you repeat, please?' },
+      { word: 'Excuse me', meaning: 'Disculpa / Perdona', type: 'expression', category: 'Expresiones', example: 'Excuse me, where is the bathroom?' },
+      { word: 'I\'m sorry', meaning: 'Lo siento', type: 'expression', category: 'Expresiones', example: 'I\'m sorry, I\'m late.' },
+      { word: 'Of course', meaning: 'Por supuesto / Claro', type: 'expression', category: 'Expresiones', example: 'Can I sit here? - Of course!' }
     ]
   },
 
-  // --- NIVEL B1 (INTERMEDIO - EL MÁS ÚTIL) ---
+  // ==========================================
+  // NIVEL A2 - CONVERSACIÓN BÁSICA
+  // ==========================================
   {
-    id: 'remote-work-b1',
-    name: 'Remote Work (B1)',
-    icon: 'fa-laptop-house',
-    description: 'Inglés para trabajar desde casa o la oficina.',
+    id: 'a2-complete',
+    name: 'A2 - Elementary Pack',
+    icon: 'fa-leaf',
+    description: 'Para empezar a conversar: verbos de acción, conectores para contar cosas, phrasal verbs súper comunes y expresiones que oyes en todas partes.',
+    level: 'A2',
     words: [
-      { word: 'Schedule', meaning: 'Horario/Agendar', type: 'word', category: 'Trabajo', example: 'Let\'s schedule a call.' },
-      { word: 'Deadline', meaning: 'Fecha límite', type: 'word', category: 'Trabajo', emotion: 'Reloj tic-tac, entrega' },
-      { word: 'Feedback', meaning: 'Opinión/Corrección', type: 'word', category: 'Trabajo', example: 'Thanks for the feedback.' },
-      { word: 'Screen', meaning: 'Pantalla', type: 'word', category: 'Tecnología', example: 'Can you see my screen?' },
-      { word: 'Update', meaning: 'Poner al día/Actualizar', type: 'word', category: 'Trabajo', example: 'Give me an update.' },
-      { word: 'Bug', meaning: 'Error (informático)', type: 'word', category: 'Tecnología', example: 'There is a bug in the system.' },
-      { word: 'Team', meaning: 'Equipo', type: 'word', category: 'Trabajo', example: 'Great team work.' },
-      { word: 'Break', meaning: 'Descanso', type: 'word', category: 'Trabajo', emotion: 'Café, relax 5 min' },
-      { word: 'Task', meaning: 'Tarea', type: 'word', category: 'Trabajo', example: 'Focus on this task.' },
-      { word: 'Support', meaning: 'Soporte/Apoyo', type: 'word', category: 'Trabajo', example: 'Contact tech support.' }
-    ]
-  },
-  {
-    id: 'phrasals-must-b1',
-    name: 'Must-Know Phrasals (B1)',
-    icon: 'fa-star',
-    description: 'Los 10 phrasal verbs que USAS cada día.',
-    words: [
-      { word: 'Pick up', meaning: 'Recoger/Contestar', type: 'word', category: 'Phrasal Verbs', example: 'Pick up the phone.' },
-      { word: 'Find out', meaning: 'Descubrir/Enterarse', type: 'word', category: 'Phrasal Verbs', emotion: 'Luz, información nueva' },
-      { word: 'Give up', meaning: 'Rendirse/Dejar (hábito)', type: 'word', category: 'Phrasal Verbs', example: 'Don\'t give up.' },
-      { word: 'Go on', meaning: 'Continuar/Suceder', type: 'word', category: 'Phrasal Verbs', example: 'What is going on?' },
-      { word: 'Come back', meaning: 'Volver', type: 'word', category: 'Phrasal Verbs', example: 'Come back here.' },
-      { word: 'Turn on', meaning: 'Encender', type: 'word', category: 'Phrasal Verbs', example: 'Turn on the TV.' },
-      { word: 'Wake up', meaning: 'Despertarse', type: 'word', category: 'Phrasal Verbs', emotion: 'Ojos abiertos, mañana' },
-      { word: 'Log in', meaning: 'Entrar (web)', type: 'word', category: 'Phrasal Verbs', example: 'Log in with your email.' },
-      { word: 'Set up', meaning: 'Configurar/Montar', type: 'word', category: 'Phrasal Verbs', example: 'Set up the wifi.' },
-      { word: 'Work out', meaning: 'Hacer ejercicio / Funcionar', type: 'word', category: 'Phrasal Verbs', example: 'I work out every day.' }
-    ]
-  },
-  {
-    id: 'streaming-b1',
-    name: 'Streaming & Media (B1)',
-    icon: 'fa-play',
-    description: 'Vocabulario de Netflix, YouTube y Podcasts.',
-    words: [
-      { word: 'Episode', meaning: 'Episodio', type: 'word', category: 'Ocio', example: 'Last episode was crazy.' },
-      { word: 'Season', meaning: 'Temporada', type: 'word', category: 'Ocio', example: 'Waiting for season 2.' },
-      { word: 'Spoiler', meaning: 'Destripe', type: 'word', category: 'Ocio', emotion: 'Arruinar la sorpresa' },
-      { word: 'Trending', meaning: 'Tendencia', type: 'word', category: 'Redes Sociales', example: 'It is trending on Twitter.' },
-      { word: 'Skip', meaning: 'Saltar (intro/anuncio)', type: 'word', category: 'Acción', example: 'Skip intro.' },
-      { word: 'Subscribe', meaning: 'Suscribirse', type: 'word', category: 'Internet', example: 'Subscribe for more.' },
-      { word: 'Content', meaning: 'Contenido', type: 'word', category: 'Internet', example: 'Creator of content.' },
-      { word: 'Ad/Advertisement', meaning: 'Anuncio', type: 'word', category: 'Marketing', example: 'Too many ads.' },
-      { word: 'Stream', meaning: 'Retransmitir', type: 'word', category: 'Internet', example: 'Live stream.' },
-      { word: 'Host', meaning: 'Anfitrión/Presentador', type: 'word', category: 'Personas', example: 'The podcast host.' }
-    ]
-  },
-  {
-    id: 'dating-social-b1',
-    name: 'Dating & Social (B1)',
-    icon: 'fa-heart',
-    description: 'Relaciones modernas y vida social.',
-    words: [
-      { word: 'Date', meaning: 'Cita (romántica)', type: 'word', category: 'Relaciones', example: 'I have a date tonight.' },
-      { word: 'Hang out', meaning: 'Pasar el rato', type: 'word', category: 'Social', example: 'Let\'s hang out later.' },
-      { word: 'Single', meaning: 'Soltero/a', type: 'word', category: 'Relaciones', example: 'Are you single?' },
-      { word: 'Break up', meaning: 'Romper (relación)', type: 'word', category: 'Phrasal Verbs', emotion: 'Corazón roto' },
-      { word: 'Ex', meaning: 'Ex pareja', type: 'word', category: 'Relaciones', example: 'Don\'t text your ex.' },
-      { word: 'Couple', meaning: 'Pareja', type: 'word', category: 'Relaciones', example: 'Cute couple.' },
-      { word: 'Ghosting', meaning: 'Desaparecer (ignorar)', type: 'word', category: 'Slang', emotion: 'Silencio, visto' },
-      { word: 'Crush', meaning: 'Amor platónico', type: 'word', category: 'Slang', emotion: 'Mariposas, ilusión' },
-      { word: 'Friendzone', meaning: 'Zona de amigos', type: 'word', category: 'Slang', example: 'I am in the friendzone.' },
-      { word: 'Cheat', meaning: 'Engañar (infiel)', type: 'word', category: 'Relaciones', emotion: 'Mentira, traición' }
-    ]
-  },
-  {
-    id: 'fitness-health-b1',
-    name: 'Fitness Lifestyle (B1)',
-    icon: 'fa-dumbbell',
-    description: 'Cuerpo sano, mente sana.',
-    words: [
-      { word: 'Workout', meaning: 'Entrenamiento', type: 'word', category: 'Deporte', example: 'Good workout today.' },
-      { word: 'Healthy', meaning: 'Saludable', type: 'word', category: 'Salud', example: 'Eat healthy food.' },
-      { word: 'Muscle', meaning: 'Músculo', type: 'word', category: 'Cuerpo', example: 'Build muscle.' },
-      { word: 'Weight', meaning: 'Peso', type: 'word', category: 'Salud', example: 'Lose weight.' },
-      { word: 'Tired', meaning: 'Cansado', type: 'word', category: 'Estado', emotion: 'Sin energía' },
-      { word: 'Shape', meaning: 'Forma física', type: 'word', category: 'Salud', example: 'Get in shape.' },
-      { word: 'Stretch', meaning: 'Estirar', type: 'word', category: 'Deporte', example: 'Stretch after ranning.' },
-      { word: 'Injured', meaning: 'Lesionado', type: 'word', category: 'Salud', emotion: 'Dolor, vendaje' },
-      { word: 'Laziness', meaning: 'Pereza', type: 'word', category: 'Estado', emotion: 'Sofá, no hacer nada' },
-      { word: 'Goal', meaning: 'Meta/Objetivo', type: 'word', category: 'Motivación', example: 'Fitness goals.' }
+      // --- 10 VERBOS DE ACCIÓN ---
+      { word: 'Try', meaning: 'Intentar / Probar', type: 'word', category: 'Verbos', example: 'Try this, it\'s delicious!' },
+      { word: 'Wait', meaning: 'Esperar', type: 'word', category: 'Verbos', example: 'Wait for me!' },
+      { word: 'Tell', meaning: 'Decir / Contar', type: 'word', category: 'Verbos', example: 'Tell me more.' },
+      { word: 'Ask', meaning: 'Preguntar / Pedir', type: 'word', category: 'Verbos', example: 'Can I ask you something?' },
+      { word: 'Feel', meaning: 'Sentir / Sentirse', type: 'word', category: 'Verbos', example: 'I feel tired today.' },
+      { word: 'Remember', meaning: 'Recordar', type: 'word', category: 'Verbos', example: 'I don\'t remember his name.' },
+      { word: 'Forget', meaning: 'Olvidar', type: 'word', category: 'Verbos', example: 'I forgot my wallet.' },
+      { word: 'Leave', meaning: 'Irse / Dejar', type: 'word', category: 'Verbos', example: 'I\'m leaving now.' },
+      { word: 'Stay', meaning: 'Quedarse', type: 'word', category: 'Verbos', example: 'Stay here, I\'ll be back.' },
+      { word: 'Send', meaning: 'Enviar', type: 'word', category: 'Verbos', example: 'Send me the details.' },
+
+      // --- 10 CONECTORES PARA CONTAR COSAS ---
+      { word: 'After', meaning: 'Después de', type: 'connector', category: 'Conectores', example: 'After work, I go to the gym.' },
+      { word: 'Before', meaning: 'Antes de', type: 'connector', category: 'Conectores', example: 'Before I forget...' },
+      { word: 'When', meaning: 'Cuando', type: 'connector', category: 'Conectores', example: 'When I was young...' },
+      { word: 'While', meaning: 'Mientras', type: 'connector', category: 'Conectores', example: 'I listen to music while I work.' },
+      { word: 'If', meaning: 'Si (condicional)', type: 'connector', category: 'Conectores', example: 'If you want, we can go.' },
+      { word: 'Anyway', meaning: 'De todas formas / Bueno', type: 'connector', category: 'Conectores', example: 'Anyway, let\'s go.' },
+      { word: 'By the way', meaning: 'Por cierto', type: 'connector', category: 'Conectores', example: 'By the way, where is John?' },
+      { word: 'For example', meaning: 'Por ejemplo', type: 'connector', category: 'Conectores', example: 'I like fruits, for example, apples.' },
+      { word: 'I mean', meaning: 'O sea / Quiero decir', type: 'connector', category: 'Conectores', example: 'I mean, it\'s not bad.' },
+      { word: 'You know', meaning: 'Ya sabes / Sabes', type: 'connector', category: 'Conectores', example: 'It\'s like, you know, complicated.' },
+
+      // --- 10 PHRASAL VERBS COMUNES ---
+      { word: 'Look for', meaning: 'Buscar', type: 'phrasal', category: 'Phrasal Verbs', example: 'I\'m looking for my keys.' },
+      { word: 'Pick up', meaning: 'Recoger / Coger', type: 'phrasal', category: 'Phrasal Verbs', example: 'I\'ll pick you up at 8.' },
+      { word: 'Give up', meaning: 'Rendirse / Dejar de', type: 'phrasal', category: 'Phrasal Verbs', example: 'Don\'t give up!' },
+      { word: 'Come back', meaning: 'Volver', type: 'phrasal', category: 'Phrasal Verbs', example: 'When are you coming back?' },
+      { word: 'Find out', meaning: 'Descubrir / Enterarse', type: 'phrasal', category: 'Phrasal Verbs', example: 'I found out he lied.' },
+      { word: 'Hurry up', meaning: 'Darse prisa', type: 'phrasal', category: 'Phrasal Verbs', example: 'Hurry up, we\'re late!' },
+      { word: 'Grow up', meaning: 'Crecer / Madurar', type: 'phrasal', category: 'Phrasal Verbs', example: 'I grew up in Madrid.' },
+      { word: 'Give back', meaning: 'Devolver', type: 'phrasal', category: 'Phrasal Verbs', example: 'Give me back my phone!' },
+      { word: 'Write down', meaning: 'Apuntar / Anotar', type: 'phrasal', category: 'Phrasal Verbs', example: 'Write down the address.' },
+      { word: 'Log in', meaning: 'Iniciar sesión', type: 'phrasal', category: 'Phrasal Verbs', example: 'Log in with your email.' },
+
+      // --- 10 EXPRESIONES MUY COMUNES ---
+      { word: 'What\'s up?', meaning: '¿Qué pasa? / ¿Qué tal?', type: 'expression', category: 'Expresiones', example: 'Hey! What\'s up?' },
+      { word: 'Take care', meaning: 'Cuídate', type: 'expression', category: 'Expresiones', example: 'See you! Take care.' },
+      { word: 'Good luck', meaning: 'Buena suerte', type: 'expression', category: 'Expresiones', example: 'Good luck with your exam!' },
+      { word: 'Never mind', meaning: 'No importa / Déjalo', type: 'expression', category: 'Expresiones', example: 'Never mind, forget it.' },
+      { word: 'It doesn\'t matter', meaning: 'No importa / Da igual', type: 'expression', category: 'Expresiones', example: 'It doesn\'t matter, really.' },
+      { word: 'I have no idea', meaning: 'Ni idea / No tengo ni idea', type: 'expression', category: 'Expresiones', example: 'I have no idea what happened.' },
+      { word: 'Just a moment', meaning: 'Un momento', type: 'expression', category: 'Expresiones', example: 'Just a moment, please.' },
+      { word: 'That\'s fine', meaning: 'Está bien / Vale', type: 'expression', category: 'Expresiones', example: 'That\'s fine with me.' },
+      { word: 'I\'m not sure', meaning: 'No estoy seguro/a', type: 'expression', category: 'Expresiones', example: 'I\'m not sure if I can go.' },
+      { word: 'Well done!', meaning: '¡Bien hecho!', type: 'expression', category: 'Expresiones', example: 'You passed! Well done!' }
     ]
   },
 
-  // --- NIVEL B2 (FLUIDEZ REAL - NO ACADÉMICO) ---
+  // ==========================================
+  // NIVEL B1 - CONVERSACIÓN FLUIDA
+  // ==========================================
   {
-    id: 'speaking-connectors-b2',
-    name: 'Speaking Flow (B2)',
-    icon: 'fa-comments',
-    description: 'Conectores para no quedarte callado pensando.',
+    id: 'b1-complete',
+    name: 'B1 - Intermediate Pack',
+    icon: 'fa-tree',
+    description: 'Para hablar con fluidez: verbos para opinar y expresarte, conectores para no quedarte callado, phrasal verbs esenciales y expresiones que usas cada día.',
+    level: 'B1',
     words: [
-      { word: 'Actually', meaning: 'En realidad / De hecho', type: 'connector', category: 'Speaking', example: 'Actually, I don\'t know.' },
-      { word: 'Basically', meaning: 'Básicamente', type: 'connector', category: 'Speaking', example: 'Basically, it\'s done.' },
-      { word: 'Anyway', meaning: 'En fin / De todas formas', type: 'connector', category: 'Speaking', example: 'Anyway, let\'s go.' },
-      { word: 'Literally', meaning: 'Literalmente', type: 'connector', category: 'Speaking', example: 'I was literally dying.' },
-      { word: 'Though', meaning: 'Aunque (al final)', type: 'connector', category: 'Speaking', example: 'Thanks, though.' },
-      { word: 'I mean', meaning: 'O sea / Quiero decir', type: 'connector', category: 'Speaking', example: 'I mean, it\'s okay.' },
-      { word: 'On the other hand', meaning: 'Por otro lado', type: 'connector', category: 'Speaking', emotion: 'Balanza, otra opción' },
-      { word: 'Whatever', meaning: 'Lo que sea', type: 'connector', category: 'Speaking', example: 'Do whatever you want.' },
-      { word: 'Meaning', meaning: 'Es decir', type: 'connector', category: 'Speaking', example: 'It\'s red, meaning stop.' },
-      { word: 'Hopefully', meaning: 'Ojalá / Con suerte', type: 'connector', category: 'Speaking', emotion: 'Esperanza, dedos cruzados' }
+      // --- 10 VERBOS PARA EXPRESARTE ---
+      { word: 'Seem', meaning: 'Parecer', type: 'word', category: 'Verbos', example: 'It seems like a good idea.' },
+      { word: 'Guess', meaning: 'Suponer / Adivinar', type: 'word', category: 'Verbos', example: 'I guess you\'re right.' },
+      { word: 'Expect', meaning: 'Esperar (expectativa)', type: 'word', category: 'Verbos', example: 'I didn\'t expect that.' },
+      { word: 'Realize', meaning: 'Darse cuenta', type: 'word', category: 'Verbos', example: 'I just realized I forgot my wallet.' },
+      { word: 'Agree', meaning: 'Estar de acuerdo', type: 'word', category: 'Verbos', example: 'I totally agree with you.' },
+      { word: 'Suggest', meaning: 'Sugerir', type: 'word', category: 'Verbos', example: 'I suggest we take a break.' },
+      { word: 'Recommend', meaning: 'Recomendar', type: 'word', category: 'Verbos', example: 'I recommend this restaurant.' },
+      { word: 'Manage', meaning: 'Conseguir / Arreglárselas', type: 'word', category: 'Verbos', example: 'I managed to finish on time.' },
+      { word: 'Afford', meaning: 'Permitirse (dinero)', type: 'word', category: 'Verbos', example: 'I can\'t afford a new car.' },
+      { word: 'Improve', meaning: 'Mejorar', type: 'word', category: 'Verbos', example: 'My English is improving.' },
+
+      // --- 10 CONECTORES PARA HABLAR FLUIDO ---
+      { word: 'Although', meaning: 'Aunque', type: 'connector', category: 'Conectores', example: 'Although it was late, I finished.' },
+      { word: 'However', meaning: 'Sin embargo', type: 'connector', category: 'Conectores', example: 'It\'s cheap. However, it\'s bad quality.' },
+      { word: 'Instead', meaning: 'En su lugar', type: 'connector', category: 'Conectores', example: 'Let\'s do this instead.' },
+      { word: 'Besides', meaning: 'Además', type: 'connector', category: 'Conectores', example: 'It\'s late, and besides, I\'m tired.' },
+      { word: 'Otherwise', meaning: 'Si no / De lo contrario', type: 'connector', category: 'Conectores', example: 'Hurry up, otherwise we\'ll be late.' },
+      { word: 'Even though', meaning: 'Aunque (enfático)', type: 'connector', category: 'Conectores', example: 'Even though I studied, I failed.' },
+      { word: 'Basically', meaning: 'Básicamente', type: 'connector', category: 'Conectores', example: 'Basically, it\'s done.' },
+      { word: 'Apparently', meaning: 'Por lo visto / Al parecer', type: 'connector', category: 'Conectores', example: 'Apparently, he quit his job.' },
+      { word: 'Obviously', meaning: 'Obviamente', type: 'connector', category: 'Conectores', example: 'Obviously, I said yes.' },
+      { word: 'Hopefully', meaning: 'Ojalá / Con suerte', type: 'connector', category: 'Conectores', example: 'Hopefully, it will work.' },
+
+      // --- 10 PHRASAL VERBS ESENCIALES ---
+      { word: 'Figure out', meaning: 'Entender / Resolver', type: 'phrasal', category: 'Phrasal Verbs', example: 'I can\'t figure out this problem.' },
+      { word: 'Work out', meaning: 'Hacer ejercicio / Funcionar', type: 'phrasal', category: 'Phrasal Verbs', example: 'Things will work out, don\'t worry.' },
+      { word: 'Show up', meaning: 'Aparecer / Presentarse', type: 'phrasal', category: 'Phrasal Verbs', example: 'He didn\'t show up to the meeting.' },
+      { word: 'Run out of', meaning: 'Quedarse sin', type: 'phrasal', category: 'Phrasal Verbs', example: 'We ran out of milk.' },
+      { word: 'Get along with', meaning: 'Llevarse bien con', type: 'phrasal', category: 'Phrasal Verbs', example: 'I get along with my boss.' },
+      { word: 'Set up', meaning: 'Organizar / Configurar', type: 'phrasal', category: 'Phrasal Verbs', example: 'Let\'s set up a meeting.' },
+      { word: 'Catch up', meaning: 'Ponerse al día', type: 'phrasal', category: 'Phrasal Verbs', example: 'Let\'s catch up over coffee!' },
+      { word: 'Check out', meaning: 'Echar un vistazo', type: 'phrasal', category: 'Phrasal Verbs', example: 'Check out this video!' },
+      { word: 'Look forward to', meaning: 'Tener ganas de', type: 'phrasal', category: 'Phrasal Verbs', example: 'I\'m looking forward to the weekend!' },
+      { word: 'Put off', meaning: 'Posponer', type: 'phrasal', category: 'Phrasal Verbs', example: 'Stop putting it off, do it now!' },
+
+      // --- 10 EXPRESIONES PARA EL DÍA A DÍA ---
+      { word: 'It\'s up to you', meaning: 'Tú decides / Depende de ti', type: 'expression', category: 'Expresiones', example: 'Pizza or sushi? It\'s up to you.' },
+      { word: 'That makes sense', meaning: 'Tiene sentido', type: 'expression', category: 'Expresiones', example: 'Oh, that makes sense now!' },
+      { word: 'It\'s not a big deal', meaning: 'No es para tanto', type: 'expression', category: 'Expresiones', example: 'Relax, it\'s not a big deal.' },
+      { word: 'Let me know', meaning: 'Avísame / Dime', type: 'expression', category: 'Expresiones', example: 'Let me know if you need help.' },
+      { word: 'To be honest', meaning: 'Para ser sincero/a', type: 'expression', category: 'Expresiones', example: 'To be honest, I don\'t like it.' },
+      { word: 'I\'m not in the mood', meaning: 'No me apetece', type: 'expression', category: 'Expresiones', example: 'I\'m not in the mood for a party.' },
+      { word: 'Fair enough', meaning: 'Me parece bien / Vale', type: 'expression', category: 'Expresiones', example: 'Fair enough, let\'s do it.' },
+      { word: 'It depends', meaning: 'Depende', type: 'expression', category: 'Expresiones', example: 'Are you coming? It depends.' },
+      { word: 'That\'s the thing', meaning: 'Esa es la cuestión', type: 'expression', category: 'Expresiones', example: 'That\'s the thing, I don\'t know.' },
+      { word: 'I\'ll let you know', meaning: 'Ya te diré / Te aviso', type: 'expression', category: 'Expresiones', example: 'I\'ll let you know tomorrow.' }
     ]
   },
+
+  // ==========================================
+  // NIVEL B2 - SONAR NATURAL
+  // ==========================================
   {
-    id: 'startup-tech-b2',
-    name: 'Startup & Tech (B2)',
+    id: 'b2-complete',
+    name: 'B2 - Upper-Intermediate Pack',
+    icon: 'fa-mountain',
+    description: 'Para sonar natural: verbos que usan los nativos, conectores para debatir, phrasal verbs del día a día y expresiones que escuchas en series y películas.',
+    level: 'B2',
+    words: [
+      // --- 10 VERBOS QUE USAN LOS NATIVOS ---
+      { word: 'Assume', meaning: 'Suponer / Asumir', type: 'word', category: 'Verbos', example: 'I assume you know about it.' },
+      { word: 'Consider', meaning: 'Considerar / Plantearse', type: 'word', category: 'Verbos', example: 'Have you considered moving?' },
+      { word: 'Tend to', meaning: 'Tender a / Soler', type: 'word', category: 'Verbos', example: 'I tend to wake up early.' },
+      { word: 'Involve', meaning: 'Implicar / Involucrar', type: 'word', category: 'Verbos', example: 'What does the job involve?' },
+      { word: 'Struggle', meaning: 'Luchar / Costar (esfuerzo)', type: 'word', category: 'Verbos', example: 'I struggle with mornings.' },
+      { word: 'Achieve', meaning: 'Lograr / Conseguir', type: 'word', category: 'Verbos', example: 'She achieved her goals.' },
+      { word: 'Avoid', meaning: 'Evitar', type: 'word', category: 'Verbos', example: 'I try to avoid sugar.' },
+      { word: 'Convince', meaning: 'Convencer', type: 'word', category: 'Verbos', example: 'You convinced me!' },
+      { word: 'Complain', meaning: 'Quejarse', type: 'word', category: 'Verbos', example: 'Stop complaining!' },
+      { word: 'Appreciate', meaning: 'Agradecer / Valorar', type: 'word', category: 'Verbos', example: 'I really appreciate your help.' },
+
+      // --- 10 CONECTORES PARA DEBATIR ---
+      { word: 'Therefore', meaning: 'Por lo tanto', type: 'connector', category: 'Conectores', example: 'It was late, therefore we left.' },
+      { word: 'Nevertheless', meaning: 'Sin embargo / Aun así', type: 'connector', category: 'Conectores', example: 'It was hard. Nevertheless, I did it.' },
+      { word: 'On the other hand', meaning: 'Por otro lado', type: 'connector', category: 'Conectores', example: 'It\'s cheap, but on the other hand, it\'s slow.' },
+      { word: 'In that case', meaning: 'En ese caso', type: 'connector', category: 'Conectores', example: 'In that case, count me in!' },
+      { word: 'As long as', meaning: 'Siempre que / Mientras', type: 'connector', category: 'Conectores', example: 'You can go as long as you\'re back by 10.' },
+      { word: 'Unless', meaning: 'A menos que', type: 'connector', category: 'Conectores', example: 'I\'ll go unless it rains.' },
+      { word: 'Despite', meaning: 'A pesar de', type: 'connector', category: 'Conectores', example: 'Despite the rain, we had fun.' },
+      { word: 'Whereas', meaning: 'Mientras que', type: 'connector', category: 'Conectores', example: 'I like tea, whereas he prefers coffee.' },
+      { word: 'On top of that', meaning: 'Además de eso / Encima', type: 'connector', category: 'Conectores', example: 'I\'m tired and, on top of that, hungry.' },
+      { word: 'That being said', meaning: 'Dicho esto', type: 'connector', category: 'Conectores', example: 'That being said, I still think it\'s worth it.' },
+
+      // --- 10 PHRASAL VERBS NATIVOS ---
+      { word: 'Come up with', meaning: 'Idear / Se me ocurrió', type: 'phrasal', category: 'Phrasal Verbs', example: 'She came up with a great idea.' },
+      { word: 'Turn out', meaning: 'Resultar ser', type: 'phrasal', category: 'Phrasal Verbs', example: 'It turned out to be a good decision.' },
+      { word: 'Bring up', meaning: 'Sacar un tema', type: 'phrasal', category: 'Phrasal Verbs', example: 'Why did you bring that up?' },
+      { word: 'Get over', meaning: 'Superar', type: 'phrasal', category: 'Phrasal Verbs', example: 'I can\'t get over it.' },
+      { word: 'Put up with', meaning: 'Aguantar / Tolerar', type: 'phrasal', category: 'Phrasal Verbs', example: 'I can\'t put up with this noise.' },
+      { word: 'Get away with', meaning: 'Salirse con la suya', type: 'phrasal', category: 'Phrasal Verbs', example: 'You won\'t get away with this!' },
+      { word: 'Hold on', meaning: 'Espera / Aguanta', type: 'phrasal', category: 'Phrasal Verbs', example: 'Hold on, I\'ll be right back.' },
+      { word: 'Mess up', meaning: 'Cagarla / Estropear', type: 'phrasal', category: 'Phrasal Verbs', example: 'I totally messed up.' },
+      { word: 'Freak out', meaning: 'Flipar / Entrar en pánico', type: 'phrasal', category: 'Phrasal Verbs', example: 'Don\'t freak out, it\'s fine.' },
+      { word: 'End up', meaning: 'Acabar / Terminar', type: 'phrasal', category: 'Phrasal Verbs', example: 'We ended up staying until midnight.' },
+
+      // --- 10 EXPRESIONES DE SERIES Y PELÍCULAS ---
+      { word: 'No way!', meaning: '¡Ni de broma! / ¡No me digas!', type: 'expression', category: 'Expresiones', example: 'You quit your job? No way!' },
+      { word: 'I\'m done', meaning: 'He terminado / Paso de esto', type: 'expression', category: 'Expresiones', example: 'I\'m done with this situation.' },
+      { word: 'That\'s insane', meaning: 'Eso es una locura', type: 'expression', category: 'Expresiones', example: 'You swam 5km? That\'s insane!' },
+      { word: 'Get the point', meaning: 'Captar la idea / Entender', type: 'expression', category: 'Expresiones', example: 'I get the point, you can stop.' },
+      { word: 'You\'re kidding', meaning: 'Estás de broma', type: 'expression', category: 'Expresiones', example: 'You won? You\'re kidding!' },
+      { word: 'I couldn\'t care less', meaning: 'Me importa un bledo', type: 'expression', category: 'Expresiones', example: 'I couldn\'t care less about what he thinks.' },
+      { word: 'That\'s not the point', meaning: 'Esa no es la cuestión', type: 'expression', category: 'Expresiones', example: 'Yeah but that\'s not the point.' },
+      { word: 'Keep it real', meaning: 'Sé auténtico / Sin rollos', type: 'expression', category: 'Expresiones', example: 'Forget the drama, keep it real.' },
+      { word: 'Been there, done that', meaning: 'Ya pasé por eso', type: 'expression', category: 'Expresiones', example: 'Drama at work? Been there, done that.' },
+      { word: 'It is what it is', meaning: 'Es lo que hay', type: 'expression', category: 'Expresiones', example: 'The deadline is tomorrow. It is what it is.' }
+    ]
+  },
+
+  // ==========================================
+  // NIVEL C1 - INGLÉS AVANZADO REAL
+  // ==========================================
+  {
+    id: 'c1-complete',
+    name: 'C1 - Advanced Pack',
     icon: 'fa-rocket',
-    description: 'Lenguaje de negocios modernos y startups.',
+    description: 'Para sonar sofisticado: verbos de trabajo y negocios, conectores elegantes pero naturales, phrasal verbs de nivel nativo y expresiones de persona culta.',
+    level: 'C1',
     words: [
-      { word: 'Pitch', meaning: 'Presentación breve', type: 'word', category: 'Business', example: 'Sales pitch.' },
-      { word: 'Founder', meaning: 'Fundador', type: 'word', category: 'Business', example: 'The founder of Amazon.' },
-      { word: 'Launch', meaning: 'Lanzar (producto)', type: 'word', category: 'Business', emotion: 'Cohete, inicio' },
-      { word: 'Growth', meaning: 'Crecimiento', type: 'word', category: 'Business', emotion: 'Gráfica subiendo' },
-      { word: 'Remote', meaning: 'Remoto', type: 'word', category: 'Trabajo', example: 'Remote job.' },
-      { word: 'Skill', meaning: 'Habilidad', type: 'word', category: 'Trabajo', example: 'Soft skills.' },
-      { word: 'Data', meaning: 'Datos', type: 'word', category: 'Tecnología', example: 'Big data.' },
-      { word: 'User', meaning: 'Usuario', type: 'word', category: 'Tecnología', example: 'User experience (UX).' },
-      { word: 'Networking', meaning: 'Hacer contactos', type: 'word', category: 'Business', emotion: 'Conexiones, café' },
-      { word: 'Value', meaning: 'Valor', type: 'word', category: 'Business', example: 'Add value.' }
-    ]
-  },
-  {
-    id: 'phrasals-native-b2',
-    name: 'Sounding Native (B2)',
-    icon: 'fa-microphone',
-    description: 'Phrasal verbs para dejar de sonar como un libro.',
-    words: [
-      { word: 'Figure out', meaning: 'Resolver / Entender', type: 'word', category: 'Phrasal Verbs', example: 'I will figure it out.' },
-      { word: 'Run out of', meaning: 'Quedarse sin', type: 'word', category: 'Phrasal Verbs', example: 'We ran out of coffee.' },
-      { word: 'Show up', meaning: 'Aparecer (llegar)', type: 'word', category: 'Phrasal Verbs', example: 'He didn\'t show up.' },
-      { word: 'Get along', meaning: 'Llevarse bien', type: 'word', category: 'Phrasal Verbs', emotion: 'Amigos, sin peleas' },
-      { word: 'Freak out', meaning: 'Entrar en pánico / Flipar', type: 'word', category: 'Phrasal Verbs', emotion: 'Grito, locura' },
-      { word: 'Hang on', meaning: 'Esperar un momento', type: 'word', category: 'Phrasal Verbs', example: 'Hang on a second.' },
-      { word: 'Mess up', meaning: 'Estropear / Cagarla', type: 'word', category: 'Phrasal Verbs', example: 'I messed up the exam.' },
-      { word: 'Catch up', meaning: 'Ponerse al día', type: 'word', category: 'Phrasal Verbs', example: 'Let\'s catch up soon.' },
-      { word: 'Chill out', meaning: 'Relajarse', type: 'word', category: 'Phrasal Verbs', emotion: 'Sofá, calma' },
-      { word: 'Check out', meaning: 'Echar un vistazo', type: 'word', category: 'Phrasal Verbs', example: 'Check out this video.' }
-    ]
-  },
-  {
-    id: 'emotions-deep-b2',
-    name: 'Deep Emotions (B2)',
-    icon: 'fa-masks-theater',
-    description: 'Para expresar cómo te sientes de verdad.',
-    words: [
-      { word: 'Overwhelmed', meaning: 'Abrumado/Agobiado', type: 'word', category: 'Emociones', emotion: 'Demasiadas cosas, peso' },
-      { word: 'Relieved', meaning: 'Aliviado', type: 'word', category: 'Emociones', emotion: 'Suspiro, peso fuera' },
-      { word: 'Awkward', meaning: 'Incómodo (situación)', type: 'word', category: 'Emociones', emotion: 'Silencio, tierra trágame' },
-      { word: 'Proud', meaning: 'Orgulloso', type: 'word', category: 'Emociones', emotion: 'Pecho inflado' },
-      { word: 'Disappointed', meaning: 'Decepcionado', type: 'word', category: 'Emociones', emotion: 'Expectativa rota' },
-      { word: 'Annoying', meaning: 'Molesto', type: 'word', category: 'Adjetivos', example: 'He is so annoying.' },
-      { word: 'Grateful', meaning: 'Agradecido', type: 'word', category: 'Emociones', emotion: 'Gracias, plenitud' },
-      { word: 'Upset', meaning: 'Disgustado/Molesto', type: 'word', category: 'Emociones', emotion: 'Triste y enfadado' },
-      { word: 'Excited', meaning: 'Emocionado', type: 'word', category: 'Emociones', emotion: 'Energía, ganas' },
-      { word: 'Mood', meaning: 'Estado de ánimo / "Yo total"', type: 'word', category: 'Slang', example: 'Big mood.' }
-    ]
-  },
-  {
-    id: 'debating-b2',
-    name: 'Winning Debates (B2)',
-    icon: 'fa-gavel',
-    description: 'Para dar tu opinión y tener razón.',
-    words: [
-      { word: 'Agree', meaning: 'Estar de acuerdo', type: 'word', category: 'Opinión', example: 'I totally agree.' },
-      { word: 'Disagree', meaning: 'No estar de acuerdo', type: 'word', category: 'Opinión', example: 'I respectfully disagree.' },
-      { word: 'Depend', meaning: 'Depender', type: 'word', category: 'Opinión', example: 'It depends on the price.' },
-      { word: 'Point', meaning: 'Punto/Argumento', type: 'word', category: 'Opinión', example: 'That is a good point.' },
-      { word: 'Sense', meaning: 'Sentido', type: 'word', category: 'Opinión', example: 'That makes no sense.' },
-      { word: 'Guess', meaning: 'Suponer/Adivinar', type: 'word', category: 'Opinión', example: 'I guess you are right.' },
-      { word: 'Sure', meaning: 'Seguro', type: 'word', category: 'Certeza', example: 'Are you sure?' },
-      { word: 'Notice', meaning: 'Notar/Darse cuenta', type: 'word', category: 'Percepción', example: 'Did you notice that?' },
-      { word: 'Advice', meaning: 'Consejo', type: 'word', category: 'Ayuda', example: 'Give me some advice.' },
-      { word: 'Fair', meaning: 'Justo', type: 'word', category: 'Justicia', example: 'That is not fair.' }
+      // --- 10 VERBOS DE TRABAJO Y NEGOCIOS ---
+      { word: 'Address', meaning: 'Abordar / Tratar (un tema)', type: 'word', category: 'Verbos', example: 'We need to address this issue.' },
+      { word: 'Implement', meaning: 'Implementar', type: 'word', category: 'Verbos', example: 'We\'ll implement the changes next week.' },
+      { word: 'Ensure', meaning: 'Asegurar(se)', type: 'word', category: 'Verbos', example: 'Please ensure everyone is informed.' },
+      { word: 'Clarify', meaning: 'Aclarar', type: 'word', category: 'Verbos', example: 'Let me clarify what I mean.' },
+      { word: 'Prioritize', meaning: 'Priorizar', type: 'word', category: 'Verbos', example: 'We need to prioritize this task.' },
+      { word: 'Overcome', meaning: 'Superar', type: 'word', category: 'Verbos', example: 'She overcame many challenges.' },
+      { word: 'Acknowledge', meaning: 'Reconocer / Admitir', type: 'word', category: 'Verbos', example: 'I acknowledge my mistake.' },
+      { word: 'Pursue', meaning: 'Perseguir (objetivo)', type: 'word', category: 'Verbos', example: 'She decided to pursue her dreams.' },
+      { word: 'Delegate', meaning: 'Delegar', type: 'word', category: 'Verbos', example: 'Learn to delegate tasks.' },
+      { word: 'Leverage', meaning: 'Aprovechar / Sacar partido', type: 'word', category: 'Verbos', example: 'Let\'s leverage our experience.' },
+
+      // --- 10 CONECTORES ELEGANTES PERO NATURALES ---
+      { word: 'Having said that', meaning: 'Dicho esto', type: 'connector', category: 'Conectores', example: 'It\'s expensive. Having said that, it\'s worth it.' },
+      { word: 'That said', meaning: 'Dicho esto (más corto)', type: 'connector', category: 'Conectores', example: 'He\'s difficult. That said, he\'s talented.' },
+      { word: 'Either way', meaning: 'De cualquier forma', type: 'connector', category: 'Conectores', example: 'Either way, we need to decide.' },
+      { word: 'At the end of the day', meaning: 'Al fin y al cabo', type: 'connector', category: 'Conectores', example: 'At the end of the day, it\'s your choice.' },
+      { word: 'To be fair', meaning: 'Para ser justos', type: 'connector', category: 'Conectores', example: 'To be fair, he did apologize.' },
+      { word: 'As a matter of fact', meaning: 'De hecho', type: 'connector', category: 'Conectores', example: 'As a matter of fact, I agree with you.' },
+      { word: 'For what it\'s worth', meaning: 'Por lo que pueda valer', type: 'connector', category: 'Conectores', example: 'For what it\'s worth, I think you\'re great.' },
+      { word: 'Mind you', meaning: 'Eso sí / Aunque', type: 'connector', category: 'Conectores', example: 'Good restaurant. Mind you, it\'s pricey.' },
+      { word: 'Not to mention', meaning: 'Por no hablar de', type: 'connector', category: 'Conectores', example: 'It\'s cold, not to mention raining.' },
+      { word: 'In a nutshell', meaning: 'En resumen / Resumiendo', type: 'connector', category: 'Conectores', example: 'In a nutshell, we need more time.' },
+
+      // --- 10 PHRASAL VERBS DE NIVEL NATIVO ---
+      { word: 'Play it down', meaning: 'Quitarle importancia', type: 'phrasal', category: 'Phrasal Verbs', example: 'Don\'t play it down, it\'s serious.' },
+      { word: 'Rule out', meaning: 'Descartar', type: 'phrasal', category: 'Phrasal Verbs', example: 'We can\'t rule out that option.' },
+      { word: 'Back out', meaning: 'Echarse atrás', type: 'phrasal', category: 'Phrasal Verbs', example: 'He backed out at the last minute.' },
+      { word: 'Step up', meaning: 'Dar un paso al frente', type: 'phrasal', category: 'Phrasal Verbs', example: 'Someone needs to step up.' },
+      { word: 'Fall through', meaning: 'Fracasar / No salir adelante', type: 'phrasal', category: 'Phrasal Verbs', example: 'The deal fell through.' },
+      { word: 'Look into', meaning: 'Investigar / Estudiar', type: 'phrasal', category: 'Phrasal Verbs', example: 'I\'ll look into it.' },
+      { word: 'Iron out', meaning: 'Resolver / Limar', type: 'phrasal', category: 'Phrasal Verbs', example: 'Let\'s iron out the details.' },
+      { word: 'Pull off', meaning: 'Lograr (algo difícil)', type: 'phrasal', category: 'Phrasal Verbs', example: 'I can\'t believe we pulled it off!' },
+      { word: 'Get back to', meaning: 'Volver a contactar', type: 'phrasal', category: 'Phrasal Verbs', example: 'I\'ll get back to you on that.' },
+      { word: 'Follow through', meaning: 'Cumplir / Llevar a cabo', type: 'phrasal', category: 'Phrasal Verbs', example: 'Make sure you follow through.' },
+
+      // --- 10 EXPRESIONES DE PERSONA CULTA ---
+      { word: 'The thing is', meaning: 'El caso es / La cosa es que', type: 'expression', category: 'Expresiones', example: 'The thing is, I need more time.' },
+      { word: 'To cut a long story short', meaning: 'Resumiendo / Yendo al grano', type: 'expression', category: 'Expresiones', example: 'To cut a long story short, we won.' },
+      { word: 'Go the extra mile', meaning: 'Hacer un esfuerzo extra', type: 'expression', category: 'Expresiones', example: 'She always goes the extra mile.' },
+      { word: 'Be on the same page', meaning: 'Estar en la misma onda', type: 'expression', category: 'Expresiones', example: 'Let\'s make sure we\'re on the same page.' },
+      { word: 'Think outside the box', meaning: 'Pensar de forma creativa', type: 'expression', category: 'Expresiones', example: 'We need to think outside the box.' },
+      { word: 'Hit the ground running', meaning: 'Empezar con buen pie', type: 'expression', category: 'Expresiones', example: 'I want to hit the ground running.' },
+      { word: 'A steep learning curve', meaning: 'Una curva de aprendizaje', type: 'expression', category: 'Expresiones', example: 'This job has a steep learning curve.' },
+      { word: 'Touch base', meaning: 'Ponerse en contacto', type: 'expression', category: 'Expresiones', example: 'Let\'s touch base next week.' },
+      { word: 'Get the ball rolling', meaning: 'Poner algo en marcha', type: 'expression', category: 'Expresiones', example: 'Let\'s get the ball rolling.' },
+      { word: 'Keep me in the loop', meaning: 'Mantenme informado', type: 'expression', category: 'Expresiones', example: 'Keep me in the loop, please.' }
     ]
   },
 
-  // --- NIVEL C1 (ELITE - SOLO LO ÚTIL) ---
+  // ==========================================
+  // NIVEL C2 - INGLÉS DE EXPERTO
+  // ==========================================
   {
-    id: 'mindset-c1',
-    name: 'Growth Mindset (C1)',
-    icon: 'fa-brain',
-    description: 'Palabras para desarrollo personal y éxito.',
+    id: 'c2-complete',
+    name: 'C2 - Proficiency Pack',
+    icon: 'fa-crown',
+    description: 'Para impresionar: verbos precisos de alto nivel, conectores para argumentar con elegancia, phrasal verbs sutiles e idioms para sonar como un nativo educado.',
+    level: 'C2',
     words: [
-      { word: 'Mindset', meaning: 'Mentalidad', type: 'word', category: 'Psicología', example: 'Change your mindset.' },
-      { word: 'Challenge', meaning: 'Desafío/Reto', type: 'word', category: 'Desarrollo', emotion: 'Montaña a escalar' },
-      { word: 'Achieve', meaning: 'Lograr/Conseguir', type: 'word', category: 'Éxito', emotion: 'Meta cruzada' },
-      { word: 'Failure', meaning: 'Fracaso', type: 'word', category: 'Aprendizaje', emotion: 'Caída, lección' },
-      { word: 'Improve', meaning: 'Mejorar', type: 'word', category: 'Desarrollo', example: 'Improve yourself.' },
-      { word: 'Habit', meaning: 'Hábito', type: 'word', category: 'Rutina', example: 'Good habits.' },
-      { word: 'Focus', meaning: 'Enfoque/Concentración', type: 'word', category: 'Productividad', emotion: 'Láser' },
-      { word: 'Aware', meaning: 'Consciente', type: 'word', category: 'Mente', example: 'Be aware of your thoughts.' },
-      { word: 'Purpose', meaning: 'Propósito', type: 'word', category: 'Vida', emotion: 'Brújula, razón de ser' },
-      { word: 'Struggle', meaning: 'Lucha/Esfuerzo costoso', type: 'word', category: 'Vida', emotion: 'Cuesta arriba' }
-    ]
-  },
-  {
-    id: 'pro-connectors-c1',
-    name: 'Smart Connectors (C1)',
-    icon: 'fa-link',
-    description: 'Para conectar ideas como un intelectual.',
-    words: [
-      { word: 'However', meaning: 'Sin embargo', type: 'connector', category: 'Escritura', example: 'Cheap. However, bad quality.' },
-      { word: 'Therefore', meaning: 'Por lo tanto', type: 'connector', category: 'Escritura', example: 'I think, therefore I am.' },
-      { word: 'Although', meaning: 'Aunque', type: 'connector', category: 'Escritura', example: 'Although it rained...' },
-      { word: 'Instead', meaning: 'En su lugar', type: 'connector', category: 'Escritura', example: 'Do this instead.' },
-      { word: 'Unless', meaning: 'A menos que', type: 'connector', category: 'Condición', example: 'Don\'t call unless it\'s urgent.' },
-      { word: 'Meanwhile', meaning: 'Mientras tanto', type: 'connector', category: 'Tiempo', example: 'Meanwhile, in London...' },
-      { word: 'Despite', meaning: 'A pesar de', type: 'connector', category: 'Contraste', example: 'Despite the weather.' },
-      { word: 'Eventually', meaning: 'Finalmente (tras tiempo)', type: 'connector', category: 'Tiempo', emotion: 'Al final de todo' },
-      { word: 'Overall', meaning: 'En general / Globalmente', type: 'connector', category: 'Resumen', example: 'Overall, it was good.' },
-      { word: 'Apparently', meaning: 'Al parecer / Por lo visto', type: 'connector', category: 'Duda', example: 'Apparently, he left.' }
-    ]
-  },
-  {
-    id: 'news-media-c1',
-    name: 'News & Media (C1)',
-    icon: 'fa-newspaper',
-    description: 'Para entender lo que pasa en el mundo.',
-    words: [
-      { word: 'Issue', meaning: 'Asunto/Problema clave', type: 'word', category: 'Actualidad', example: 'Global issues.' },
-      { word: 'Source', meaning: 'Fuente (info)', type: 'word', category: 'Periodismo', example: 'Check your sources.' },
-      { word: 'Claim', meaning: 'Afirmar/Reclamar', type: 'word', category: 'Verbos', example: 'He claims to be innocent.' },
-      { word: 'Report', meaning: 'Informe/Informar', type: 'word', category: 'Business', example: 'Read the report.' },
-      { word: 'Statement', meaning: 'Declaración', type: 'word', category: 'Legal', example: 'Official statement.' },
-      { word: 'Threat', meaning: 'Amenaza', type: 'word', category: 'Seguridad', emotion: 'Peligro inminente' },
-      { word: 'Crisis', meaning: 'Crisis', type: 'word', category: 'Actualidad', example: 'Economic crisis.' },
-      { word: 'Policy', meaning: 'Política/Normativa', type: 'word', category: 'Gobierno', example: 'Privacy policy.' },
-      { word: 'Strike', meaning: 'Huelga / Golpe', type: 'word', category: 'Actualidad', example: 'Workers on strike.' },
-      { word: 'Trend', meaning: 'Tendencia', type: 'word', category: 'Actualidad', example: 'Market trends.' }
-    ]
-  },
-  {
-    id: 'abstract-feelings-c1',
-    name: 'Complex & Abstract (C1)',
-    icon: 'fa-cloud-moon',
-    description: 'Para describir sensaciones difíciles.',
-    words: [
-      { word: 'Nostalgia', meaning: 'Nostalgia', type: 'word', category: 'Sentimientos', emotion: 'Dolor y amor al pasado' },
-      { word: 'Vibe', meaning: 'Vibra / Ambiente', type: 'word', category: 'Slang', emotion: 'Energía del lugar' },
-      { word: 'Gut feeling', meaning: 'Corazonada / Instinto', type: 'expression', category: 'Instinto', emotion: 'Estómago avisando' },
-      { word: 'Burnout', meaning: 'Agotamiento extremo', type: 'word', category: 'Salud', emotion: 'Batería muerta, cenizas' },
-      { word: 'Hype', meaning: 'Expectación exagerada', type: 'word', category: 'Slang', emotion: 'Ruido, marketing' },
-      { word: 'Red flag', meaning: 'Señal de alerta', type: 'expression', category: 'Slang', emotion: 'Bandera roja, peligro' },
-      { word: 'Cringe', meaning: 'Vergüenza ajena', type: 'word', category: 'Slang', emotion: 'Escalofrío, arrugarse' },
-      { word: 'FOMO', meaning: 'Miedo a perderse algo', type: 'word', category: 'Acronimo', emotion: 'Ansiedad social' },
-      { word: 'Mood swing', meaning: 'Cambio de humor', type: 'expression', category: 'Psicología', emotion: 'Montaña rusa' },
-      { word: 'Comfort zone', meaning: 'Zona de confort', type: 'expression', category: 'Desarrollo', emotion: 'Sofá seguro' }
-    ]
-  },
-  {
-    id: 'idioms-useful-c1',
-    name: 'Real Idioms (C1)',
-    icon: 'fa-comment-dots',
-    description: 'Expresiones que SÍ se usan.',
-    words: [
-      { word: 'Piece of cake', meaning: 'Pan comido (muy fácil)', type: 'expression', category: 'Idioms', example: 'The test was a piece of cake.' },
-      { word: 'Break a leg', meaning: 'Mucha mierda (suerte)', type: 'expression', category: 'Idioms', example: 'Go on stage and break a leg.' },
-      { word: 'Call it a day', meaning: 'Dar por terminado (trabajo)', type: 'expression', category: 'Idioms', emotion: 'Cerrar portátil' },
-      { word: 'So far so good', meaning: 'Hasta ahora todo bien', type: 'expression', category: 'Idioms', example: 'How is it going? So far so good.' },
-      { word: 'Make sense', meaning: 'Tener sentido', type: 'expression', category: 'Común', example: 'It makes sense.' },
-      { word: 'Keep in touch', meaning: 'Mantenerse en contacto', type: 'expression', category: 'Social', example: 'Let\'s keep in touch.' },
-      { word: 'Take it easy', meaning: 'Tomárselo con calma', type: 'expression', category: 'Consejo', emotion: 'Relax' },
-      { word: 'Better safe than sorry', meaning: 'Mejor prevenir que curar', type: 'expression', category: 'Consejo', emotion: 'Casco, seguro' },
-      { word: 'Long story short', meaning: 'Resumiendo', type: 'expression', category: 'Speaking', emotion: 'Tijeras al relato' },
-      { word: 'Get used to', meaning: 'Acostumbrarse', type: 'expression', category: 'Hábito', example: 'I got used to the cold.' }
+      // --- 10 VERBOS PRECISOS DE ALTO NIVEL ---
+      { word: 'Anticipate', meaning: 'Anticipar / Prever', type: 'word', category: 'Verbos', example: 'We didn\'t anticipate this problem.' },
+      { word: 'Undermine', meaning: 'Socavar / Minar', type: 'word', category: 'Verbos', example: 'Don\'t undermine my authority.' },
+      { word: 'Advocate', meaning: 'Defender / Abogar por', type: 'word', category: 'Verbos', example: 'I advocate for change.' },
+      { word: 'Tackle', meaning: 'Abordar / Hacer frente a', type: 'word', category: 'Verbos', example: 'Let\'s tackle this problem.' },
+      { word: 'Navigate', meaning: 'Navegar / Manejarse en', type: 'word', category: 'Verbos', example: 'It\'s hard to navigate office politics.' },
+      { word: 'Thrive', meaning: 'Prosperar / Florecer', type: 'word', category: 'Verbos', example: 'She thrives under pressure.' },
+      { word: 'Resonate', meaning: 'Resonar / Conectar (con)', type: 'word', category: 'Verbos', example: 'This message resonates with me.' },
+      { word: 'Overlook', meaning: 'Pasar por alto / Ignorar', type: 'word', category: 'Verbos', example: 'Don\'t overlook the details.' },
+      { word: 'Embrace', meaning: 'Abrazar / Aceptar', type: 'word', category: 'Verbos', example: 'Embrace change.' },
+      { word: 'Streamline', meaning: 'Simplificar / Optimizar', type: 'word', category: 'Verbos', example: 'We need to streamline the process.' },
+
+      // --- 10 CONECTORES PARA ARGUMENTAR CON ELEGANCIA ---
+      { word: 'Be that as it may', meaning: 'Sea como sea', type: 'connector', category: 'Conectores', example: 'Be that as it may, we still need to act.' },
+      { word: 'More often than not', meaning: 'La mayoría de las veces', type: 'connector', category: 'Conectores', example: 'More often than not, he\'s right.' },
+      { word: 'By and large', meaning: 'En general', type: 'connector', category: 'Conectores', example: 'By and large, people are kind.' },
+      { word: 'All things considered', meaning: 'Teniendo todo en cuenta', type: 'connector', category: 'Conectores', example: 'All things considered, it was a success.' },
+      { word: 'For the most part', meaning: 'En su mayor parte', type: 'connector', category: 'Conectores', example: 'For the most part, I agree.' },
+      { word: 'On balance', meaning: 'Sopesándolo todo', type: 'connector', category: 'Conectores', example: 'On balance, it was worth it.' },
+      { word: 'As it turns out', meaning: 'Resulta que', type: 'connector', category: 'Conectores', example: 'As it turns out, I was wrong.' },
+      { word: 'Needless to say', meaning: 'Ni que decir tiene', type: 'connector', category: 'Conectores', example: 'Needless to say, I was shocked.' },
+      { word: 'That notwithstanding', meaning: 'A pesar de eso', type: 'connector', category: 'Conectores', example: 'That notwithstanding, we should proceed.' },
+      { word: 'With that in mind', meaning: 'Teniendo eso en cuenta', type: 'connector', category: 'Conectores', example: 'With that in mind, let\'s continue.' },
+
+      // --- 10 PHRASAL VERBS SUTILES ---
+      { word: 'Brush off', meaning: 'Ignorar / No hacer caso', type: 'phrasal', category: 'Phrasal Verbs', example: 'Don\'t brush off my concerns.' },
+      { word: 'Chime in', meaning: 'Intervenir / Meter baza', type: 'phrasal', category: 'Phrasal Verbs', example: 'Feel free to chime in.' },
+      { word: 'Pan out', meaning: 'Resultar / Salir', type: 'phrasal', category: 'Phrasal Verbs', example: 'Let\'s see how things pan out.' },
+      { word: 'Touch on', meaning: 'Tocar / Mencionar brevemente', type: 'phrasal', category: 'Phrasal Verbs', example: 'I\'d like to touch on one point.' },
+      { word: 'Zone out', meaning: 'Desconectar / Quedarse en blanco', type: 'phrasal', category: 'Phrasal Verbs', example: 'Sorry, I zoned out for a moment.' },
+      { word: 'Play up', meaning: 'Exagerar / Dar problemas', type: 'phrasal', category: 'Phrasal Verbs', example: 'My back is playing up again.' },
+      { word: 'Kick in', meaning: 'Empezar a hacer efecto', type: 'phrasal', category: 'Phrasal Verbs', example: 'The coffee is starting to kick in.' },
+      { word: 'Wind down', meaning: 'Relajarse / Ir terminando', type: 'phrasal', category: 'Phrasal Verbs', example: 'Time to wind down for the day.' },
+      { word: 'Mull over', meaning: 'Darle vueltas a', type: 'phrasal', category: 'Phrasal Verbs', example: 'I need to mull it over.' },
+      { word: 'Stumble upon', meaning: 'Encontrar por casualidad', type: 'phrasal', category: 'Phrasal Verbs', example: 'I stumbled upon this article.' },
+
+      // --- 10 IDIOMS DE NATIVO EDUCADO ---
+      { word: 'The elephant in the room', meaning: 'El tema incómodo que nadie menciona', type: 'expression', category: 'Expresiones', example: 'Let\'s address the elephant in the room.' },
+      { word: 'A blessing in disguise', meaning: 'Una bendición disfrazada', type: 'expression', category: 'Expresiones', example: 'Losing that job was a blessing in disguise.' },
+      { word: 'Break the ice', meaning: 'Romper el hielo', type: 'expression', category: 'Expresiones', example: 'Let\'s play a game to break the ice.' },
+      { word: 'Hit the nail on the head', meaning: 'Dar en el clavo', type: 'expression', category: 'Expresiones', example: 'You hit the nail on the head.' },
+      { word: 'Easier said than done', meaning: 'Del dicho al hecho hay un trecho', type: 'expression', category: 'Expresiones', example: 'Getting fit is easier said than done.' },
+      { word: 'The ball is in your court', meaning: 'Te toca a ti', type: 'expression', category: 'Expresiones', example: 'I made my offer, the ball is in your court.' },
+      { word: 'Read the room', meaning: 'Leer el ambiente', type: 'expression', category: 'Expresiones', example: 'You need to learn to read the room.' },
+      { word: 'Miss the boat', meaning: 'Perder la oportunidad', type: 'expression', category: 'Expresiones', example: 'If you don\'t apply now, you\'ll miss the boat.' },
+      { word: 'Put your foot in your mouth', meaning: 'Meter la pata', type: 'expression', category: 'Expresiones', example: 'I really put my foot in my mouth there.' },
+      { word: 'Under the weather', meaning: 'Pachucho / Indispuesto', type: 'expression', category: 'Expresiones', example: 'I\'m feeling a bit under the weather.' }
     ]
   }
 ];

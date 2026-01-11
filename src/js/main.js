@@ -156,6 +156,15 @@ navLinks.forEach(link => {
   });
 });
 
+// Logo click handler (navigate to home)
+const logo = document.querySelector('.logo');
+if (logo && logo.dataset.view) {
+  logo.addEventListener('click', e => {
+    e.preventDefault();
+    render(logo.dataset.view);
+  });
+}
+
 // ==================== INITIALIZATION ====================
 
 initTheme();
