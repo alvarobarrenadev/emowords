@@ -1,39 +1,67 @@
 /**
  * Lightweight Onboarding System
  * Shows tooltips to guide new users through the app
+ * Fixed: proper positioning, spotlight effect, reliable navigation
  */
 
 const ONBOARDING_KEY = 'emowords_onboarding_completed';
 
-// Onboarding steps configuration
+// Simplified onboarding steps - fewer steps, more focused
 const onboardingSteps = [
   {
     id: 'welcome',
-    target: null, // Modal, no target
-    title: '¡Bienvenido a EmoWords!',
-    content: 'Aprende vocabulario conectando palabras con tus recuerdos personales. Te guiaremos en tus primeros pasos.',
-    position: 'center'
+    target: null,
+    title: '¡Bienvenido a EmoWords! 👋',
+    content: 'Aprende vocabulario conectando cada palabra con tus recuerdos personales. Te guiaremos en 30 segundos.',
+    position: 'center',
+    icon: 'fa-solid fa-rocket'
   },
   {
-    id: 'add-word',
+    id: 'nav-add',
     target: '[data-view="add"]',
-    title: 'Añadir palabras',
-    content: 'Aquí puedes añadir nuevas palabras con su significado y una conexión emocional.',
-    position: 'bottom'
+    title: '1. Añadir Vocabulario',
+    content: 'Aquí añades palabras, phrasal verbs o expresiones con su significado.',
+    position: 'bottom',
+    icon: 'fa-solid fa-plus'
   },
   {
-    id: 'emotion-field',
-    target: null, // Will be set dynamically
-    title: '🧠 El secreto está aquí',
-    content: 'Conecta cada palabra con un recuerdo personal. Las emociones hacen que tu memoria sea 10x más fuerte.',
-    position: 'top',
-    highlight: true
+    id: 'nav-review',
+    target: '[data-view="review"]',
+    title: '2. Repasar',
+    content: '5 modos de práctica: Flashcards, Quiz, Escritura, Listening y Mixto.',
+    position: 'bottom',
+    icon: 'fa-solid fa-graduation-cap'
+  },
+  {
+    id: 'nav-stats',
+    target: '[data-view="stats"]',
+    title: '3. Tu Progreso',
+    content: 'Visualiza tu evolución, logros y palabras que necesitan más atención.',
+    position: 'bottom',
+    icon: 'fa-solid fa-chart-line'
+  },
+  {
+    id: 'secret',
+    target: null,
+    title: '🧠 El Secreto de EmoWords',
+    content: 'Al añadir palabras, conecta cada una con un recuerdo personal o emoción. ¡Tu memoria será 10 veces más fuerte!',
+    position: 'center',
+    icon: 'fa-solid fa-heart'
+  },
+  {
+    id: 'ready',
+    target: null,
+    title: '¡Listo para aprender! 🚀',
+    content: 'Empieza añadiendo tu primera palabra o explora los packs predefinidos. ¡Las emociones graban, la repetición se olvida!',
+    position: 'center',
+    icon: 'fa-solid fa-check-circle'
   }
 ];
 
 let currentStep = 0;
 let tooltipElement = null;
 let overlayElement = null;
+let spotlightElement = null;
 
 /**
  * Check if onboarding should be shown
@@ -64,10 +92,18 @@ export function startOnboarding() {
  * Create overlay element
  */
 function createOverlay() {
+  // Remove existing if any
+  document.querySelector('.onboarding-overlay')?.remove();
+  
   overlayElement = document.createElement('div');
   overlayElement.className = 'onboarding-overlay';
-  overlayElement.innerHTML = `<div class="onboarding-backdrop"></div>`;
+  overlayElement.innerHTML = `
+    <div class="onboarding-backdrop"></div>
+    <div class="onboarding-spotlight"></div>
+  `;
   document.body.appendChild(overlayElement);
+  
+  spotlightElement = overlayElement.querySelector('.onboarding-spotlight');
 }
 
 /**
@@ -85,24 +121,38 @@ function showStep(stepIndex) {
     tooltipElement.remove();
   }
 
+  // Hide spotlight for centered modals
+  if (step.position === 'center' || !step.target) {
+    spotlightElement.style.display = 'none';
+  } else {
+    spotlightElement.style.display = 'block';
+  }
+
   // Create tooltip
   tooltipElement = document.createElement('div');
-  tooltipElement.className = `onboarding-tooltip ${step.position || 'bottom'}`;
+  tooltipElement.className = 'onboarding-tooltip';
   
   const isLastStep = stepIndex === onboardingSteps.length - 1;
   const isFirstStep = stepIndex === 0;
+  const progress = ((stepIndex + 1) / onboardingSteps.length) * 100;
 
   tooltipElement.innerHTML = `
-    <div class="tooltip-header">
-      <span class="tooltip-step">${stepIndex + 1}/${onboardingSteps.length}</span>
+    <div class="tooltip-progress-bar">
+      <div class="tooltip-progress-fill" style="width: ${progress}%"></div>
+    </div>
+    <div class="tooltip-header-row">
+      <span class="tooltip-step">${stepIndex + 1} de ${onboardingSteps.length}</span>
       <button class="tooltip-skip" title="Saltar tutorial">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
-    <h4 class="tooltip-title">${step.title}</h4>
-    <p class="tooltip-content">${step.content}</p>
+    <div class="tooltip-body">
+      ${step.icon ? `<div class="tooltip-icon"><i class="${step.icon}"></i></div>` : ''}
+      <h4 class="tooltip-title">${step.title}</h4>
+      <p class="tooltip-content">${step.content}</p>
+    </div>
     <div class="tooltip-actions">
-      ${!isFirstStep ? '<button class="tooltip-prev"><i class="fa-solid fa-arrow-left"></i> Anterior</button>' : ''}
+      ${!isFirstStep ? '<button class="tooltip-prev"><i class="fa-solid fa-arrow-left"></i></button>' : '<div></div>'}
       <button class="tooltip-next ${isLastStep ? 'finish' : ''}">
         ${isLastStep ? '¡Empezar!' : 'Siguiente'} 
         ${!isLastStep ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-rocket"></i>'}
@@ -110,26 +160,32 @@ function showStep(stepIndex) {
     </div>
   `;
 
+  // Add tooltip to overlay
+  overlayElement.appendChild(tooltipElement);
+
   // Position tooltip
   if (step.position === 'center' || !step.target) {
     tooltipElement.classList.add('centered');
-    overlayElement.appendChild(tooltipElement);
+    removeHighlights();
   } else {
+    tooltipElement.classList.remove('centered');
     const targetEl = document.querySelector(step.target);
     if (targetEl) {
-      positionTooltip(tooltipElement, targetEl, step.position);
-      highlightElement(targetEl);
+      positionTooltipAndSpotlight(targetEl, step.position);
     } else {
+      // Fallback to centered if target not found
       tooltipElement.classList.add('centered');
+      spotlightElement.style.display = 'none';
     }
-    overlayElement.appendChild(tooltipElement);
   }
 
   // Add event listeners
-  tooltipElement.querySelector('.tooltip-skip').addEventListener('click', skipOnboarding);
-  tooltipElement.querySelector('.tooltip-next').addEventListener('click', nextStep);
-  
+  const skipBtn = tooltipElement.querySelector('.tooltip-skip');
+  const nextBtn = tooltipElement.querySelector('.tooltip-next');
   const prevBtn = tooltipElement.querySelector('.tooltip-prev');
+  
+  skipBtn.addEventListener('click', skipOnboarding);
+  nextBtn.addEventListener('click', nextStep);
   if (prevBtn) {
     prevBtn.addEventListener('click', prevStep);
   }
@@ -141,48 +197,72 @@ function showStep(stepIndex) {
 }
 
 /**
- * Position tooltip relative to target
+ * Position tooltip and spotlight relative to target
  */
-function positionTooltip(tooltip, target, position) {
+function positionTooltipAndSpotlight(target, position) {
   const rect = target.getBoundingClientRect();
-  const margin = 12;
-
+  const padding = 8;
+  const tooltipMargin = 16;
+  
+  // Position spotlight around target
+  spotlightElement.style.top = `${rect.top - padding}px`;
+  spotlightElement.style.left = `${rect.left - padding}px`;
+  spotlightElement.style.width = `${rect.width + padding * 2}px`;
+  spotlightElement.style.height = `${rect.height + padding * 2}px`;
+  
+  // Get tooltip dimensions
+  const tooltipRect = tooltipElement.getBoundingClientRect();
+  
+  // Position tooltip based on position parameter
+  let top, left;
+  
   switch (position) {
     case 'bottom':
-      tooltip.style.top = `${rect.bottom + margin + window.scrollY}px`;
-      tooltip.style.left = `${rect.left + rect.width / 2}px`;
-      tooltip.style.transform = 'translateX(-50%)';
+      top = rect.bottom + tooltipMargin;
+      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
       break;
     case 'top':
-      tooltip.style.bottom = `${window.innerHeight - rect.top + margin}px`;
-      tooltip.style.left = `${rect.left + rect.width / 2}px`;
-      tooltip.style.transform = 'translateX(-50%)';
+      top = rect.top - tooltipMargin - tooltipRect.height;
+      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
       break;
     case 'left':
-      tooltip.style.top = `${rect.top + rect.height / 2 + window.scrollY}px`;
-      tooltip.style.right = `${window.innerWidth - rect.left + margin}px`;
-      tooltip.style.transform = 'translateY(-50%)';
+      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+      left = rect.left - tooltipMargin - tooltipRect.width;
       break;
     case 'right':
-      tooltip.style.top = `${rect.top + rect.height / 2 + window.scrollY}px`;
-      tooltip.style.left = `${rect.right + margin}px`;
-      tooltip.style.transform = 'translateY(-50%)';
+      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+      left = rect.right + tooltipMargin;
       break;
+    default:
+      top = rect.bottom + tooltipMargin;
+      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
   }
+  
+  // Keep tooltip within viewport bounds
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  if (left < 16) left = 16;
+  if (left + tooltipRect.width > viewportWidth - 16) {
+    left = viewportWidth - tooltipRect.width - 16;
+  }
+  if (top < 16) top = 16;
+  if (top + tooltipRect.height > viewportHeight - 16) {
+    top = viewportHeight - tooltipRect.height - 16;
+  }
+  
+  tooltipElement.style.position = 'fixed';
+  tooltipElement.style.top = `${top}px`;
+  tooltipElement.style.left = `${left}px`;
 }
 
 /**
- * Highlight target element
+ * Remove all highlights
  */
-function highlightElement(target) {
-  // Remove previous highlight
+function removeHighlights() {
   document.querySelectorAll('.onboarding-highlight').forEach(el => {
     el.classList.remove('onboarding-highlight');
   });
-  
-  if (target) {
-    target.classList.add('onboarding-highlight');
-  }
 }
 
 /**
@@ -190,20 +270,7 @@ function highlightElement(target) {
  */
 function nextStep() {
   currentStep++;
-  
-  // If step requires navigation, handle it
-  const step = onboardingSteps[currentStep];
-  if (step && step.id === 'emotion-field') {
-    // Navigate to add view first
-    document.querySelector('[data-view="add"]').click();
-    setTimeout(() => {
-      // Update target to the actual emotion field
-      step.target = '.emotion-field';
-      showStep(currentStep);
-    }, 300);
-  } else {
-    showStep(currentStep);
-  }
+  showStep(currentStep);
 }
 
 /**
@@ -212,15 +279,7 @@ function nextStep() {
 function prevStep() {
   currentStep--;
   if (currentStep < 0) currentStep = 0;
-  
-  // Navigate back if needed
-  const step = onboardingSteps[currentStep];
-  if (step && step.id === 'add-word') {
-    document.querySelector('[data-view="home"]').click();
-    setTimeout(() => showStep(currentStep), 100);
-  } else {
-    showStep(currentStep);
-  }
+  showStep(currentStep);
 }
 
 /**
@@ -239,17 +298,15 @@ function endOnboarding() {
   // Clean up
   if (tooltipElement) {
     tooltipElement.classList.remove('visible');
-    setTimeout(() => tooltipElement.remove(), 200);
+    setTimeout(() => tooltipElement?.remove(), 200);
   }
   
   if (overlayElement) {
     overlayElement.classList.add('fade-out');
-    setTimeout(() => overlayElement.remove(), 300);
+    setTimeout(() => overlayElement?.remove(), 300);
   }
   
-  document.querySelectorAll('.onboarding-highlight').forEach(el => {
-    el.classList.remove('onboarding-highlight');
-  });
+  removeHighlights();
 }
 
 /**
