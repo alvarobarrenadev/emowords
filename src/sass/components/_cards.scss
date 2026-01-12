@@ -65,64 +65,7 @@
   font-weight: 500;
 }
 
-// ===== SWIPE CONTAINER (Mobile) =====
-.swipe-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px;
 
-  // Actions revealed on swipe (only visible on mobile)
-  .swipe-actions {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: none; // Hidden by default
-    align-items: center;
-    gap: 0;
-    padding-right: 0.5rem;
-    z-index: 1;
-
-    @media (max-width: 768px) {
-      display: flex;
-    }
-  }
-
-  .swipe-action {
-    width: 48px;
-    height: 100%;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    transition: all 0.2s;
-
-    &.swipe-edit {
-      background: var(--primary-500);
-      color: white;
-
-      &:hover {
-        background: var(--primary-600);
-      }
-    }
-
-    &.swipe-delete {
-      background: var(--danger-500);
-      color: white;
-
-      &:hover {
-        background: var(--danger-600);
-      }
-    }
-  }
-
-  // Card styles when swiped
-  &.swiped .word-card {
-    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-  }
-}
 
 // Word Card
 .word-card {
