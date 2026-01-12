@@ -330,7 +330,7 @@ export const starterPacks = [
       { word: 'On balance', meaning: 'Sopesándolo todo', type: 'connector', category: 'Conectores', example: 'On balance, it was worth it.' },
       { word: 'As it turns out', meaning: 'Resulta que', type: 'connector', category: 'Conectores', example: 'As it turns out, I was wrong.' },
       { word: 'Needless to say', meaning: 'Ni que decir tiene', type: 'connector', category: 'Conectores', example: 'Needless to say, I was shocked.' },
-      { word: 'That notwithstanding', meaning: 'A pesar de eso', type: 'connector', category: 'Conectores', example: 'That notwithstanding, we should proceed.' },
+      { word: 'Notwithstanding', meaning: 'No obstante / A pesar de', type: 'connector', category: 'Conectores', example: 'Notwithstanding the law, he did it.' },
       { word: 'With that in mind', meaning: 'Teniendo eso en cuenta', type: 'connector', category: 'Conectores', example: 'With that in mind, let\'s continue.' },
 
       // --- 10 PHRASAL VERBS SUTILES ---
