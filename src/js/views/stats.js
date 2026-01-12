@@ -209,6 +209,38 @@ export function renderStats(container) {
 
         </div>
     </div>
+    
+    <!-- Activity Heatmap Section -->
+    <div class="dashboard-card heatmap-card">
+        <div class="card-header">
+            <h3><i class="fa-solid fa-calendar-days"></i> Actividad de Estudio</h3>
+            <span class="period-badge">Últimos 3 meses</span>
+        </div>
+        <div class="heatmap-container" id="activity-heatmap">
+            ${renderActivityHeatmap(allWords)}
+        </div>
+        <div class="heatmap-legend">
+            <span class="legend-label">Menos</span>
+            <div class="legend-boxes">
+                <div class="legend-box level-0"></div>
+                <div class="legend-box level-1"></div>
+                <div class="legend-box level-2"></div>
+                <div class="legend-box level-3"></div>
+                <div class="legend-box level-4"></div>
+            </div>
+            <span class="legend-label">Más</span>
+        </div>
+    </div>
+    
+    <!-- Prediction Card -->
+    <div class="dashboard-card prediction-card">
+        <div class="card-header">
+            <h3><i class="fa-solid fa-crystal-ball"></i> Proyección de Progreso</h3>
+        </div>
+        <div class="prediction-content">
+            ${renderPrediction(allWords, growthData)}
+        </div>
+    </div>
   `;
 
   container.innerHTML = html;
@@ -442,4 +474,124 @@ function renderTypeBars(stats) {
             <div class="row-meta">Precisión: ${data.accuracy}%</div>
         </div>
     `).join('');
+}
+
+/**
+ * Render Activity Heatmap (GitHub style)
+ */
+function renderActivityHeatmap(words) {
+    const today = new Date();
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const WEEKS = 13; // 3 months
+    const days = WEEKS * 7;
+    
+    // Create activity map for last N days
+    const activityMap = new Map();
+    
+    // Count reviews per day
+    words.forEach(word => {
+        if (word.lastReviewedAt) {
+            const date = new Date(word.lastReviewedAt).toISOString().split('T')[0];
+            activityMap.set(date, (activityMap.get(date) || 0) + 1);
+        }
+        if (word.createdAt) {
+            const date = new Date(word.createdAt).toISOString().split('T')[0];
+            activityMap.set(date, (activityMap.get(date) || 0) + 1);
+        }
+    });
+    
+    // Find max for normalization
+    const maxActivity = Math.max(...Array.from(activityMap.values()), 1);
+    
+    // Generate grid
+    let html = '<div class="heatmap-grid">';
+    
+    // Start from Monday of the first week
+    const startDate = new Date(today);
+    startDate.setDate(startDate.getDate() - days + 1);
+    // Adjust to Monday
+    const dayOfWeek = startDate.getDay();
+    startDate.setDate(startDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+    
+    // Generate weeks
+    for (let week = 0; week < WEEKS; week++) {
+        html += '<div class="heatmap-week">';
+        for (let day = 0; day < 7; day++) {
+            const currentDate = new Date(startDate);
+            currentDate.setDate(startDate.getDate() + week * 7 + day);
+            const dateStr = currentDate.toISOString().split('T')[0];
+            const activity = activityMap.get(dateStr) || 0;
+            const level = activity === 0 ? 0 : Math.min(4, Math.ceil((activity / maxActivity) * 4));
+            const isFuture = currentDate > today;
+            
+            html += `<div class="heatmap-day level-${isFuture ? 'future' : level}" title="${dateStr}: ${activity} actividades"></div>`;
+        }
+        html += '</div>';
+    }
+    
+    html += '</div>';
+    return html;
+}
+
+/**
+ * Render Prediction Card
+ */
+function renderPrediction(words, growthData) {
+    const total = words.length;
+    
+    if (total < 2 || growthData.length < 2) {
+        return `
+            <div class="prediction-placeholder">
+                <i class="fa-solid fa-chart-line"></i>
+                <p>Añade más palabras para ver tu proyección de progreso</p>
+            </div>
+        `;
+    }
+    
+    // Calculate average words per day
+    const firstDate = growthData[0]?.date ? new Date(growthData[0].date) : new Date();
+    const lastDate = growthData[growthData.length - 1]?.date ? new Date(growthData[growthData.length - 1].date) : new Date();
+    const daysDiff = Math.max(1, Math.ceil((lastDate - firstDate) / (24 * 60 * 60 * 1000)));
+    const avgPerDay = total / daysDiff;
+    
+    // Predictions
+    const in30Days = Math.round(total + avgPerDay * 30);
+    const in90Days = Math.round(total + avgPerDay * 90);
+    const daysTo500 = total < 500 ? Math.ceil((500 - total) / avgPerDay) : 0;
+    const daysTo1000 = total < 1000 ? Math.ceil((1000 - total) / avgPerDay) : 0;
+    
+    return `
+        <div class="prediction-stats">
+            <div class="pred-stat">
+                <span class="pred-value">${avgPerDay.toFixed(1)}</span>
+                <span class="pred-label">palabras/día</span>
+            </div>
+            <div class="pred-stat highlight">
+                <span class="pred-value">${in30Days}</span>
+                <span class="pred-label">en 30 días</span>
+            </div>
+            <div class="pred-stat">
+                <span class="pred-value">${in90Days}</span>
+                <span class="pred-label">en 90 días</span>
+            </div>
+        </div>
+        ${total < 500 ? `
+            <div class="prediction-milestone">
+                <i class="fa-solid fa-flag-checkered"></i>
+                <span>Alcanzarás <strong>500 palabras</strong> en ~${daysTo500} días</span>
+            </div>
+        ` : ''}
+        ${total >= 500 && total < 1000 ? `
+            <div class="prediction-milestone">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Alcanzarás <strong>1000 palabras</strong> en ~${daysTo1000} días</span>
+            </div>
+        ` : ''}
+        ${total >= 1000 ? `
+            <div class="prediction-milestone achieved">
+                <i class="fa-solid fa-crown"></i>
+                <span>¡Increíble! Ya tienes <strong>${total}</strong> palabras 🎉</span>
+            </div>
+        ` : ''}
+    `;
 }

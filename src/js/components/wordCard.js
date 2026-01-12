@@ -3,9 +3,13 @@ import { updateWord, deleteWord, checkDuplicateWord, getMasteryInfo, getNextRevi
 import { speak } from '../utils/tts.js';
 
 export function createWordCard(word, onUpdate) {
+  // Create swipe container
+  const swipeContainer = document.createElement('div');
+  swipeContainer.className = 'swipe-container';
+  swipeContainer.dataset.wordId = word.id;
+
   const card = document.createElement('div');
   card.className = 'word-card';
-  card.dataset.wordId = word.id;
 
   const reviewCount = word.reviewCount || 0;
   const createdDate = word.createdAt ? new Date(word.createdAt).toLocaleDateString() : '';
@@ -24,6 +28,10 @@ export function createWordCard(word, onUpdate) {
       </span>
       ${dueNow ? `<span class="tag due-tag"><i class="fa-solid fa-clock"></i> ${nextReview}</span>` : ''}
       ${word.category ? `<span class="tag category-tag"><i class="fa-solid fa-folder"></i> ${word.category}</span>` : ''}
+    </div>
+
+    <div class="mastery-progress-bar ${mastery.class}">
+      <div class="mastery-progress-fill" style="width: ${mastery.percent}%"></div>
     </div>
 
     <div class="word-info">
@@ -94,7 +102,39 @@ export function createWordCard(word, onUpdate) {
     openEditModal(word, onUpdate);
   });
 
-  return card;
+  // Build swipe container with actions
+  const swipeActions = document.createElement('div');
+  swipeActions.className = 'swipe-actions';
+  swipeActions.innerHTML = `
+    <button class="swipe-action swipe-edit" title="Editar">
+      <i class="fa-solid fa-pen"></i>
+    </button>
+    <button class="swipe-action swipe-delete" title="Eliminar">
+      <i class="fa-solid fa-trash"></i>
+    </button>
+  `;
+
+  swipeContainer.appendChild(swipeActions);
+  swipeContainer.appendChild(card);
+
+  // Swipe action buttons
+  swipeActions.querySelector('.swipe-edit').addEventListener('click', () => {
+    resetSwipe(swipeContainer);
+    openEditModal(word, onUpdate);
+  });
+
+  swipeActions.querySelector('.swipe-delete').addEventListener('click', () => {
+    resetSwipe(swipeContainer);
+    if (confirm(`¿Eliminar "${word.word}"?`)) {
+      deleteWord(word.id);
+      onUpdate();
+    }
+  });
+
+  // Initialize swipe gestures (mobile only)
+  initSwipeGestures(swipeContainer, card);
+
+  return swipeContainer;
 }
 
 function openEditModal(word, onUpdate) {
@@ -321,4 +361,95 @@ function getTypeLabel(type) {
     case 'connector': return '<i class="fa-solid fa-arrows-left-right"></i> Conector';
     default: return '<i class="fa-solid fa-file"></i> Otro';
   }
+}
+
+// ===== SWIPE GESTURES =====
+
+const SWIPE_THRESHOLD = 50; // Minimum swipe distance to trigger action
+const SWIPE_REVEAL_DISTANCE = 80; // Distance to reveal actions
+
+function initSwipeGestures(container, card) {
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+  let isSwipedOpen = false;
+
+  const handleTouchStart = (e) => {
+    // Only enable on mobile (touch devices)
+    if (window.innerWidth > 768) return;
+    
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    card.style.transition = 'none';
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging || window.innerWidth > 768) return;
+    
+    currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    
+    // Only allow left swipe (negative diff)
+    if (diff < 0) {
+      const translateX = isSwipedOpen 
+        ? Math.max(-SWIPE_REVEAL_DISTANCE * 2, diff - SWIPE_REVEAL_DISTANCE)
+        : Math.max(-SWIPE_REVEAL_DISTANCE * 1.5, diff);
+      card.style.transform = `translateX(${translateX}px)`;
+    } else if (isSwipedOpen) {
+      // Allow right swipe to close
+      const translateX = Math.min(0, diff - SWIPE_REVEAL_DISTANCE);
+      card.style.transform = `translateX(${translateX}px)`;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging || window.innerWidth > 768) return;
+    
+    isDragging = false;
+    card.style.transition = 'transform 0.3s ease';
+    
+    const diff = currentX - startX;
+    
+    if (diff < -SWIPE_THRESHOLD && !isSwipedOpen) {
+      // Swipe left - reveal actions
+      card.style.transform = `translateX(-${SWIPE_REVEAL_DISTANCE}px)`;
+      container.classList.add('swiped');
+      isSwipedOpen = true;
+    } else if (diff > SWIPE_THRESHOLD && isSwipedOpen) {
+      // Swipe right - hide actions
+      resetSwipe(container);
+      isSwipedOpen = false;
+    } else {
+      // Return to previous state
+      if (isSwipedOpen) {
+        card.style.transform = `translateX(-${SWIPE_REVEAL_DISTANCE}px)`;
+      } else {
+        card.style.transform = 'translateX(0)';
+      }
+    }
+    
+    startX = 0;
+    currentX = 0;
+  };
+
+  card.addEventListener('touchstart', handleTouchStart, { passive: true });
+  card.addEventListener('touchmove', handleTouchMove, { passive: true });
+  card.addEventListener('touchend', handleTouchEnd);
+
+  // Close swipe when clicking elsewhere
+  document.addEventListener('touchstart', (e) => {
+    if (isSwipedOpen && !container.contains(e.target)) {
+      resetSwipe(container);
+      isSwipedOpen = false;
+    }
+  });
+}
+
+function resetSwipe(container) {
+  const card = container.querySelector('.word-card');
+  if (card) {
+    card.style.transition = 'transform 0.3s ease';
+    card.style.transform = 'translateX(0)';
+  }
+  container.classList.remove('swiped');
 }

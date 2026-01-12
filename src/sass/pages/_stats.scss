@@ -584,12 +584,20 @@
     margin-bottom: 0.75rem;
     justify-content: center;
     text-align: center;
+
+    [data-theme="light"] & {
+      color: var(--gray-900);
+    }
   }
 
   p {
     font-size: 1.1rem;
     color: var(--gray-400);
     line-height: 1.6;
+
+    [data-theme="light"] & {
+      color: var(--gray-600);
+    }
   }
 }
 
@@ -635,6 +643,21 @@
     color: var(--gray-500);
     line-height: 1.4;
   }
+
+  // Light theme
+  [data-theme="light"] & {
+    background: white;
+    border-color: var(--gray-200);
+    box-shadow: var(--shadow-sm);
+
+    h4 {
+      color: var(--gray-800);
+    }
+
+    p {
+      color: var(--gray-600);
+    }
+  }
 }
 
 .empty-stats-cta {
@@ -643,7 +666,8 @@
   justify-content: center;
   flex-wrap: wrap;
 
-  .primary-btn, .secondary-btn {
+  .primary-btn,
+  .secondary-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -761,5 +785,252 @@
     background: var(--gray-700);
     color: var(--gray-100);
     border-color: var(--gray-600);
+  }
+}
+
+// --- Activity Heatmap (GitHub style) ---
+.heatmap-card {
+  margin-top: 1.5rem;
+}
+
+.heatmap-container {
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.heatmap-grid {
+  display: flex;
+  gap: 3px;
+  min-width: fit-content;
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.heatmap-day {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &.level-0 {
+    background: var(--gray-800);
+  }
+
+  &.level-1 {
+    background: rgba(59, 130, 246, 0.25);
+  }
+
+  &.level-2 {
+    background: rgba(59, 130, 246, 0.5);
+  }
+
+  &.level-3 {
+    background: rgba(59, 130, 246, 0.75);
+  }
+
+  &.level-4 {
+    background: var(--primary-500);
+  }
+
+  &.level-future {
+    background: var(--gray-900);
+    border: 1px dashed var(--gray-700);
+  }
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--gray-500);
+
+  .legend-label {
+    font-weight: 500;
+  }
+
+  .legend-boxes {
+    display: flex;
+    gap: 3px;
+  }
+
+  .legend-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+
+    &.level-0 {
+      background: var(--gray-800);
+    }
+
+    &.level-1 {
+      background: rgba(59, 130, 246, 0.25);
+    }
+
+    &.level-2 {
+      background: rgba(59, 130, 246, 0.5);
+    }
+
+    &.level-3 {
+      background: rgba(59, 130, 246, 0.75);
+    }
+
+    &.level-4 {
+      background: var(--primary-500);
+    }
+  }
+}
+
+// --- Prediction Card ---
+.prediction-card {
+  margin-top: 1.5rem;
+}
+
+.prediction-content {
+  padding: 1rem;
+}
+
+.prediction-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.pred-stat {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  background: var(--gray-800);
+  border-radius: 12px;
+  border: 1px solid var(--gray-700);
+
+  .pred-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--gray-100);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .pred-label {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &.highlight {
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+    border-color: var(--primary-500);
+
+    .pred-value {
+      color: white;
+    }
+
+    .pred-label {
+      color: var(--primary-200);
+    }
+  }
+}
+
+.prediction-milestone {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--gray-800);
+  border-radius: 10px;
+  border: 1px solid var(--gray-700);
+
+  i {
+    font-size: 1.25rem;
+    color: var(--primary-500);
+  }
+
+  span {
+    color: var(--gray-300);
+    font-size: 0.95rem;
+
+    strong {
+      color: var(--primary-400);
+    }
+  }
+
+  &.achieved {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+    border-color: rgba(245, 158, 11, 0.3);
+
+    i {
+      color: #f59e0b;
+    }
+
+    strong {
+      color: #fbbf24;
+    }
+  }
+}
+
+.prediction-placeholder {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray-500);
+
+  i {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    color: var(--gray-600);
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+// Light theme adjustments
+[data-theme="light"] {
+  .heatmap-day {
+    &.level-0 {
+      background: var(--gray-200);
+    }
+
+    &.level-future {
+      background: var(--gray-100);
+      border-color: var(--gray-300);
+    }
+  }
+
+  .heatmap-legend .legend-box.level-0 {
+    background: var(--gray-200);
+  }
+
+  .pred-stat {
+    background: var(--gray-100);
+    border-color: var(--gray-200);
+
+    .pred-value {
+      color: var(--gray-900);
+    }
+  }
+
+  .prediction-milestone {
+    background: var(--gray-100);
+    border-color: var(--gray-200);
+
+    span {
+      color: var(--gray-700);
+    }
   }
 }

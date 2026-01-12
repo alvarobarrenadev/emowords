@@ -5,6 +5,7 @@
  */
 
 const ONBOARDING_KEY = 'emowords_onboarding_completed';
+const USER_LEVEL_KEY = 'emowords_user_level';
 
 // Simplified onboarding steps - fewer steps, more focused
 const onboardingSteps = [
@@ -15,6 +16,15 @@ const onboardingSteps = [
     content: 'Aprende vocabulario conectando cada palabra con tus recuerdos personales. Te guiaremos en 30 segundos.',
     position: 'center',
     icon: 'fa-solid fa-rocket'
+  },
+  {
+    id: 'level-select',
+    target: null,
+    title: '¿Cuál es tu nivel de inglés?',
+    content: 'Esto nos ayudará a sugerirte los packs más adecuados para ti.',
+    position: 'center',
+    icon: 'fa-solid fa-graduation-cap',
+    type: 'level-selection'
   },
   {
     id: 'nav-add',
@@ -58,6 +68,16 @@ const onboardingSteps = [
   }
 ];
 
+// Level options
+const levelOptions = [
+  { code: 'A1-A2', label: 'Básico', description: 'Principiante' },
+  { code: 'B1', label: 'Intermedio bajo', description: 'Pre-intermedio' },
+  { code: 'B2', label: 'Intermedio alto', description: 'Intermedio' },
+  { code: 'C1-C2', label: 'Avanzado', description: 'Avanzado/Nativo' }
+];
+
+let selectedLevel = null;
+
 let currentStep = 0;
 let tooltipElement = null;
 let overlayElement = null;
@@ -75,6 +95,13 @@ export function shouldShowOnboarding() {
  */
 export function completeOnboarding() {
   localStorage.setItem(ONBOARDING_KEY, 'true');
+}
+
+/**
+ * Get user's English level
+ */
+export function getUserLevel() {
+  return localStorage.getItem(USER_LEVEL_KEY) || null;
 }
 
 /**
@@ -134,7 +161,20 @@ function showStep(stepIndex) {
   
   const isLastStep = stepIndex === onboardingSteps.length - 1;
   const isFirstStep = stepIndex === 0;
+  const isLevelSelect = step.type === 'level-selection';
   const progress = ((stepIndex + 1) / onboardingSteps.length) * 100;
+
+  // Special rendering for level selection
+  const levelSelectHTML = isLevelSelect ? `
+    <div class="level-grid">
+      ${levelOptions.map(level => `
+        <button class="level-btn" data-level="${level.code}">
+          <span class="level-code">${level.code}</span>
+          <span class="level-label">${level.label}</span>
+        </button>
+      `).join('')}
+    </div>
+  ` : '';
 
   tooltipElement.innerHTML = `
     <div class="tooltip-progress-bar">
@@ -150,10 +190,11 @@ function showStep(stepIndex) {
       ${step.icon ? `<div class="tooltip-icon"><i class="${step.icon}"></i></div>` : ''}
       <h4 class="tooltip-title">${step.title}</h4>
       <p class="tooltip-content">${step.content}</p>
+      ${levelSelectHTML}
     </div>
     <div class="tooltip-actions">
       ${!isFirstStep ? '<button class="tooltip-prev"><i class="fa-solid fa-arrow-left"></i></button>' : '<div></div>'}
-      <button class="tooltip-next ${isLastStep ? 'finish' : ''}">
+      <button class="tooltip-next ${isLastStep ? 'finish' : ''}" ${isLevelSelect && !selectedLevel ? 'disabled' : ''}>
         ${isLastStep ? '¡Empezar!' : 'Siguiente'} 
         ${!isLastStep ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-rocket"></i>'}
       </button>
@@ -188,6 +229,24 @@ function showStep(stepIndex) {
   nextBtn.addEventListener('click', nextStep);
   if (prevBtn) {
     prevBtn.addEventListener('click', prevStep);
+  }
+
+  // Level selection event listeners
+  if (isLevelSelect) {
+    const levelBtns = tooltipElement.querySelectorAll('.level-btn');
+    levelBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active from all
+        levelBtns.forEach(b => b.classList.remove('active'));
+        // Add active to clicked
+        btn.classList.add('active');
+        // Store selected level
+        selectedLevel = btn.dataset.level;
+        localStorage.setItem(USER_LEVEL_KEY, selectedLevel);
+        // Enable next button
+        nextBtn.removeAttribute('disabled');
+      });
+    });
   }
 
   // Animate in

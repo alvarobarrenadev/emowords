@@ -9,50 +9,69 @@ export function renderAdd(container) {
       <div class="form-header">
         <h2 class="form-title-add"><i class="fa-solid fa-sparkles"></i> Añadir nueva palabra</h2>
         <p class="form-subtitle">Crea conexiones emocionales para recordar mejor</p>
-      </div>
-      
-      <div class="row two-columns">
-        <div class="form-field">
-          <label for="word">
-            <i class="fa-solid fa-font"></i> Palabra o Phrasal Verb
-            <span class="required">*</span>
-          </label>
-          <input type="text" id="word" placeholder="Ej. Break down, Serendipity" required autocomplete="off" />
-        </div>
-        <div class="form-field">
-          <label for="meaning">
-            <i class="fa-solid fa-language"></i> Traducción o Significado
-            <span class="required">*</span>
-          </label>
-          <input type="text" id="meaning" placeholder="Ej. Averiarse, hallazgo afortunado" required autocomplete="off" />
+        
+        <div class="form-mode-toggle">
+          <button type="button" class="mode-btn active" data-mode="quick">
+            <i class="fa-solid fa-bolt"></i> Rápido
+          </button>
+          <button type="button" class="mode-btn" data-mode="full">
+            <i class="fa-solid fa-sliders"></i> Completo
+          </button>
         </div>
       </div>
       
-      <div class="row two-columns">
-        <div class="form-field">
-          <label for="type">
-            <i class="fa-solid fa-tag"></i> Tipo
-          </label>
-          <select id="type">
-            <option value="word">Palabra</option>
-            <option value="phrasal">Phrasal verb</option>
-            <option value="expression">Expresión</option>
-            <option value="connector">Conector</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="category">
-            <i class="fa-solid fa-folder"></i> Categoría
-          </label>
-          <div class="category-input-wrapper">
-            <input type="text" id="category" list="category-list" placeholder="Ej. Trabajo, Viajes, Emociones..." autocomplete="off" />
-            <datalist id="category-list">
-              ${existingCategories.map(cat => `<option value="${cat}">`).join('')}
-            </datalist>
+      <!-- Essential fields (always visible) -->
+      <div class="essential-fields">
+        <div class="row two-columns">
+          <div class="form-field">
+            <label for="word">
+              <i class="fa-solid fa-font"></i> Palabra o Phrasal Verb
+              <span class="required">*</span>
+            </label>
+            <input type="text" id="word" placeholder="Ej. Break down, Serendipity" required autocomplete="off" />
           </div>
-          <small>Agrupa palabras por tema para organizarlas mejor</small>
+          <div class="form-field">
+            <label for="meaning">
+              <i class="fa-solid fa-language"></i> Traducción o Significado
+              <span class="required">*</span>
+            </label>
+            <input type="text" id="meaning" placeholder="Ej. Averiarse, hallazgo afortunado" required autocomplete="off" />
+          </div>
+        </div>
+        
+        <div class="row two-columns">
+          <div class="form-field">
+            <label for="type">
+              <i class="fa-solid fa-tag"></i> Tipo
+            </label>
+            <select id="type">
+              <option value="word">Palabra</option>
+              <option value="phrasal">Phrasal verb</option>
+              <option value="expression">Expresión</option>
+              <option value="connector">Conector</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="category">
+              <i class="fa-solid fa-folder"></i> Categoría
+            </label>
+            <div class="category-input-wrapper">
+              <input type="text" id="category" list="category-list" placeholder="Ej. Trabajo, Viajes..." autocomplete="off" />
+              <datalist id="category-list">
+                ${existingCategories.map(cat => `<option value="${cat}">`).join('')}
+              </datalist>
+            </div>
+          </div>
         </div>
       </div>
+      
+      <!-- Optional fields (collapsible) -->
+      <div class="optional-fields collapsed" id="optional-fields">
+        <div class="optional-header">
+          <span><i class="fa-solid fa-plus-circle"></i> Detalles opcionales</span>
+          <i class="fa-solid fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="optional-content">
       
       <div class="form-field emotion-field">
         <label for="emotion">
@@ -127,6 +146,9 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
         <input type="hidden" id="image-data" />
       </div>
       
+        </div><!-- /optional-content -->
+      </div><!-- /optional-fields -->
+      
       <div class="form-actions">
         <button type="button" id="clear-form" class="secondary-btn">
           <i class="fa-solid fa-rotate-left"></i> Limpiar
@@ -169,6 +191,43 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
   // URL elements
   const imageUrlInput = document.getElementById('image-url');
   const previewUrlBtn = document.getElementById('preview-url-btn');
+  
+  // Mode toggle elements
+  const modeToggleBtns = document.querySelectorAll('.mode-btn');
+  const optionalFields = document.getElementById('optional-fields');
+  const optionalHeader = optionalFields?.querySelector('.optional-header');
+  
+  // ===== MODE TOGGLE (Quick/Full) =====
+  modeToggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      
+      // Update active button
+      modeToggleBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Toggle optional fields visibility
+      if (mode === 'full') {
+        optionalFields?.classList.remove('collapsed');
+      } else {
+        optionalFields?.classList.add('collapsed');
+      }
+    });
+  });
+  
+  // ===== COLLAPSIBLE OPTIONAL SECTION =====
+  if (optionalHeader) {
+    optionalHeader.addEventListener('click', () => {
+      optionalFields.classList.toggle('collapsed');
+      
+      // If expanding, switch to full mode
+      if (!optionalFields.classList.contains('collapsed')) {
+        modeToggleBtns.forEach(b => {
+          b.classList.toggle('active', b.dataset.mode === 'full');
+        });
+      }
+    });
+  }
 
   // ===== TAB SWITCHING =====
   tabs.forEach(tab => {

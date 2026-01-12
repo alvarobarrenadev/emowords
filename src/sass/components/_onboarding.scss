@@ -193,6 +193,104 @@
   line-height: 1.5;
 }
 
+// Level Selection Grid
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.level-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  background: var(--gray-800);
+  border: 2px solid var(--gray-700);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  .level-code {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gray-200);
+  }
+
+  .level-label {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  &:hover {
+    border-color: var(--primary-400);
+    background: var(--gray-750);
+
+    .level-code {
+      color: var(--primary-400);
+    }
+  }
+
+  &.active {
+    border-color: var(--primary-500);
+    background: rgba(59, 130, 246, 0.15);
+
+    .level-code {
+      color: var(--primary-400);
+    }
+
+    .level-label {
+      color: var(--primary-300);
+    }
+  }
+}
+
+// Disabled state for next button
+.tooltip-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+
+  &:hover {
+    background: var(--primary-600);
+  }
+}
+
+[data-theme="light"] {
+  .level-btn {
+    background: var(--gray-100);
+    border-color: var(--gray-200);
+
+    .level-code {
+      color: var(--gray-800);
+    }
+
+    .level-label {
+      color: var(--gray-500);
+    }
+
+    &:hover {
+      border-color: var(--primary-400);
+      background: var(--primary-50);
+    }
+
+    &.active {
+      border-color: var(--primary-500);
+      background: var(--primary-50);
+
+      .level-code {
+        color: var(--primary-600);
+      }
+
+      .level-label {
+        color: var(--primary-500);
+      }
+    }
+  }
+}
+
 .tooltip-actions {
   display: flex;
   gap: 0.5rem;
