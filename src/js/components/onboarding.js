@@ -1,8 +1,11 @@
 /**
  * Lightweight Onboarding System
  * Shows tooltips to guide new users through the app
- * Fixed: proper positioning, spotlight effect, reliable navigation
  */
+
+import { starterPacks } from '../data/starterPacks.js';
+import { importData } from '../storage/vocabStorage.js';
+import { showToast } from '../utils/ui.js';
 
 const ONBOARDING_KEY = 'emowords_onboarding_completed';
 const USER_LEVEL_KEY = 'emowords_user_level';
@@ -25,6 +28,15 @@ const onboardingSteps = [
     position: 'center',
     icon: 'fa-solid fa-graduation-cap',
     type: 'level-selection'
+  },
+  {
+    id: 'pack-select',
+    target: null,
+    title: '¡Empieza con ventaja! 🎁',
+    content: 'Hemos seleccionado estos packs ideales para tu nivel. Añádelos para empezar con vocabulario útil desde el primer minuto.',
+    position: 'center',
+    type: 'pack-selection',
+    icon: 'fa-solid fa-gift'
   },
   {
     id: 'nav-add',
@@ -76,7 +88,7 @@ const levelOptions = [
   { code: 'C1-C2', label: 'Avanzado', description: 'Avanzado/Nativo' }
 ];
 
-let selectedLevel = null;
+let selectedLevel = localStorage.getItem(USER_LEVEL_KEY) || null;
 
 let currentStep = 0;
 let tooltipElement = null;
@@ -201,6 +213,47 @@ function showStep(stepIndex) {
     </div>
   `;
 
+  // Special rendering for pack selection
+  if (step.type === 'pack-selection' && selectedLevel) {
+    // Filter packs based on level
+    let relevantPacks = [];
+    if (selectedLevel === 'A1-A2') {
+      relevantPacks = starterPacks.filter(p => p.level === 'A1' || p.level === 'A2');
+    } else if (selectedLevel === 'C1-C2') {
+      relevantPacks = starterPacks.filter(p => p.level === 'C1' || p.level === 'C2');
+    } else {
+      relevantPacks = starterPacks.filter(p => p.level === selectedLevel);
+    }
+
+    const packsHTML = `
+      <div class="packs-grid-onboarding">
+        ${relevantPacks.map(pack => `
+          <div class="pack-card-mini ${localStorage.getItem('pack_' + pack.id) ? 'added' : ''}" data-pack-id="${pack.id}">
+            <div class="pack-icon-mini"><i class="fa-solid ${pack.icon}"></i></div>
+            <div class="pack-info-mini">
+              <h5>${pack.name}</h5>
+              <span>${pack.words.length} palabras</span>
+            </div>
+            <button class="pack-add-btn" title="Añadir pack">
+              <i class="fa-solid ${localStorage.getItem('pack_' + pack.id) ? 'fa-check' : 'fa-plus'}"></i>
+            </button>
+          </div>
+        `).join('')}
+      </div>
+      <p class="packs-note"><small>Puedes añadir más packs tarde en el Dashboard.</small></p>
+    `;
+    
+    // Inject packs HTML into tooltip body
+    // We do this by modifying the innerHTML we just set
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = tooltipElement.innerHTML;
+    const tooltipBody = tempDiv.querySelector('.tooltip-body');
+    if (tooltipBody) {
+       tooltipBody.insertAdjacentHTML('beforeend', packsHTML);
+       tooltipElement.innerHTML = tempDiv.innerHTML;
+    }
+  }
+
   // Add tooltip to overlay
   overlayElement.appendChild(tooltipElement);
 
@@ -245,6 +298,43 @@ function showStep(stepIndex) {
         localStorage.setItem(USER_LEVEL_KEY, selectedLevel);
         // Enable next button
         nextBtn.removeAttribute('disabled');
+      });
+    });
+  }
+
+  // Pack selection event listeners
+  if (step.type === 'pack-selection') {
+    const packCards = tooltipElement.querySelectorAll('.pack-card-mini');
+    packCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const packId = card.dataset.packId;
+        const btn = card.querySelector('.pack-add-btn');
+        const icon = btn.querySelector('i');
+        
+        // Find pack data
+        const pack = starterPacks.find(p => p.id === packId);
+        
+        if (card.classList.contains('added')) {
+           // Already added - ideally we might want to prevent removing or handle it, 
+           // but for simplicity in onboarding let's just show it's added.
+           // However, if the user clicks again, maybe they want to "undo"? 
+           // Implementation choice: allow multiple adds or just one-off?
+           // Let's assume one-off for now to avoid duplicates if importData doesn't check dupes heavily (it does check IDs usually).
+           showToast('Pack ya añadido', 'Este pack ya está en tu colección', 'info');
+        } else {
+           // Import pack
+           if (pack) {
+             const result = importData(JSON.stringify({ words: pack.words }));
+             if (result.success) {
+               card.classList.add('added');
+               icon.classList.remove('fa-plus');
+               icon.classList.add('fa-check');
+               // Mark as added in local storage so we remember for this session/device
+               localStorage.setItem('pack_' + packId, 'true');
+               showToast('Pack añadido', `Has añadido ${pack.name} a tu colección`, 'success');
+             }
+           }
+        }
       });
     });
   }

@@ -113,6 +113,10 @@ export function renderHome(container) {
       </div>
       
       <div class="action-buttons">
+        <button id="add-packs-btn" class="action-btn" title="Añadir packs">
+          <i class="fa-solid fa-gift"></i>
+          <span>Packs</span>
+        </button>
         <button id="export-btn" class="action-btn" title="Exportar datos">
           <i class="fa-solid fa-download"></i>
           <span>Exportar</span>
@@ -187,6 +191,7 @@ export function renderHome(container) {
   const resultsInfo = document.getElementById('results-info');
   const exportBtn = document.getElementById('export-btn');
   const importBtn = document.getElementById('import-btn');
+  const addPacksBtn = document.getElementById('add-packs-btn');
   const importFile = document.getElementById('import-file');
 
   function renderList() {
@@ -372,6 +377,13 @@ export function renderHome(container) {
     a.click();
     URL.revokeObjectURL(url);
   });
+
+  // Add Packs functionality
+  if (addPacksBtn) {
+    addPacksBtn.addEventListener('click', () => {
+      openStarterPacksModal();
+    });
+  }
   
   // Import functionality
   importBtn.addEventListener('click', () => {
@@ -451,9 +463,11 @@ export function renderHome(container) {
         </div>
         <p style="padding: 0 1.5rem; color: var(--gray-500); margin-bottom: 1rem;">Selecciona los packs que quieras añadir a tu vocabulario:</p>
         <div class="packs-modal-grid">
-          ${starterPacks.map(pack => `
-            <div class="pack-card-modal" data-pack-id="${pack.id}">
-              <div class="pack-check"><i class="fa-solid fa-circle-check"></i></div>
+          ${starterPacks.map(pack => {
+            const isAdded = localStorage.getItem('pack_' + pack.id);
+            return `
+            <div class="pack-card-modal ${isAdded ? 'added' : ''}" data-pack-id="${pack.id}">
+              <div class="pack-check"><i class="fa-solid ${isAdded ? 'fa-check' : 'fa-circle-check'}"></i></div>
               <div class="pack-icon"><i class="fa-solid ${pack.icon}"></i></div>
               <div class="pack-info">
                 <h4>${pack.name}</h4>
@@ -461,7 +475,7 @@ export function renderHome(container) {
                 <div class="pack-count"><i class="fa-solid fa-layer-group"></i> ${pack.words.length} palabras</div>
               </div>
             </div>
-          `).join('')}
+          `}).join('')}
         </div>
         <div class="modal-actions" style="padding: 1.5rem;">
           <button type="button" class="btn-cancel">Cancelar</button>
@@ -503,6 +517,8 @@ export function renderHome(container) {
     };
     
     modal.querySelectorAll('.pack-card-modal').forEach(card => {
+      if (card.classList.contains('added')) return; // Ignore clicks on added items
+      
       card.addEventListener('click', () => {
         const packId = card.dataset.packId;
         if (selectedPacks.has(packId)) {
@@ -522,7 +538,11 @@ export function renderHome(container) {
       let allWords = [];
       selectedPacks.forEach(id => {
         const pack = starterPacks.find(p => p.id === id);
-        if (pack) allWords = [...allWords, ...pack.words];
+        if (pack) {
+           allWords = [...allWords, ...pack.words];
+           // Mark as added in storage
+           localStorage.setItem('pack_' + id, 'true');
+        }
       });
       
       const result = importData(JSON.stringify({ words: allWords }));

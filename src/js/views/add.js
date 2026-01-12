@@ -10,14 +10,7 @@ export function renderAdd(container) {
         <h2 class="form-title-add"><i class="fa-solid fa-sparkles"></i> Añadir nueva palabra</h2>
         <p class="form-subtitle">Crea conexiones emocionales para recordar mejor</p>
         
-        <div class="form-mode-toggle">
-          <button type="button" class="mode-btn active" data-mode="quick">
-            <i class="fa-solid fa-bolt"></i> Rápido
-          </button>
-          <button type="button" class="mode-btn" data-mode="full">
-            <i class="fa-solid fa-sliders"></i> Completo
-          </button>
-        </div>
+
       </div>
       
       <!-- Essential fields (always visible) -->
@@ -65,13 +58,7 @@ export function renderAdd(container) {
         </div>
       </div>
       
-      <!-- Optional fields (collapsible) -->
-      <div class="optional-fields collapsed" id="optional-fields">
-        <div class="optional-header">
-          <span><i class="fa-solid fa-plus-circle"></i> Detalles opcionales</span>
-          <i class="fa-solid fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="optional-content">
+      <!-- Optional fields -->
       
       <div class="form-field emotion-field">
         <label for="emotion">
@@ -146,8 +133,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
         <input type="hidden" id="image-data" />
       </div>
       
-        </div><!-- /optional-content -->
-      </div><!-- /optional-fields -->
+
       
       <div class="form-actions">
         <button type="button" id="clear-form" class="secondary-btn">
@@ -192,42 +178,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
   const imageUrlInput = document.getElementById('image-url');
   const previewUrlBtn = document.getElementById('preview-url-btn');
   
-  // Mode toggle elements
-  const modeToggleBtns = document.querySelectorAll('.mode-btn');
-  const optionalFields = document.getElementById('optional-fields');
-  const optionalHeader = optionalFields?.querySelector('.optional-header');
-  
-  // ===== MODE TOGGLE (Quick/Full) =====
-  modeToggleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = btn.dataset.mode;
-      
-      // Update active button
-      modeToggleBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      // Toggle optional fields visibility
-      if (mode === 'full') {
-        optionalFields?.classList.remove('collapsed');
-      } else {
-        optionalFields?.classList.add('collapsed');
-      }
-    });
-  });
-  
-  // ===== COLLAPSIBLE OPTIONAL SECTION =====
-  if (optionalHeader) {
-    optionalHeader.addEventListener('click', () => {
-      optionalFields.classList.toggle('collapsed');
-      
-      // If expanding, switch to full mode
-      if (!optionalFields.classList.contains('collapsed')) {
-        modeToggleBtns.forEach(b => {
-          b.classList.toggle('active', b.dataset.mode === 'full');
-        });
-      }
-    });
-  }
+
 
   // ===== TAB SWITCHING =====
   tabs.forEach(tab => {

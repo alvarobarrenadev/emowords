@@ -517,6 +517,23 @@
       opacity: 1;
     }
   }
+
+  &.added {
+    border-color: var(--success-500);
+    background: rgba(16, 185, 129, 0.05);
+    opacity: 0.8;
+    cursor: default;
+
+    .pack-check {
+      background: var(--success-500);
+      opacity: 1;
+    }
+
+    &:hover {
+      background: rgba(16, 185, 129, 0.05);
+      border-color: var(--success-500);
+    }
+  }
 }
 
 [data-theme="dark"] .pack-card-modal {
@@ -550,5 +567,15 @@
   &.selected {
     background: rgba(59, 130, 246, 0.15);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+
+  &.added {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: none;
+
+    .pack-check {
+      background: var(--success-500);
+    }
   }
 }
