@@ -218,12 +218,55 @@ export function renderStats(container) {
 
 function renderEmptyState(container) {
     container.innerHTML = `
-        <div class="empty-stats">
-            <i class="fa-solid fa-chart-simple"></i>
-            <h2>Sin datos suficientes</h2>
-            <p>Añade algunas palabras para empezar a ver tus estadísticas.</p>
+        <div class="empty-stats-enhanced">
+            <div class="empty-stats-hero">
+                <div class="empty-icon-container">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h2>Tu historia de aprendizaje empieza aquí</h2>
+                <p>Añade tus primeras palabras y observa cómo crece tu dominio del inglés con el tiempo.</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fa-solid fa-brain"></i>
+                    <h4>Memoria Visual</h4>
+                    <p>Gráficos que muestran tu progreso real</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fa-solid fa-fire"></i>
+                    <h4>Racha de Estudio</h4>
+                    <p>Mantén la constancia día a día</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fa-solid fa-trophy"></i>
+                    <h4>Logros</h4>
+                    <p>Desbloquea medallas por tu esfuerzo</p>
+                </div>
+            </div>
+            
+            <div class="empty-stats-cta">
+                <button class="primary-btn" onclick="document.querySelector('[data-view=add]').click()">
+                    <i class="fa-solid fa-plus"></i> Añadir primera palabra
+                </button>
+                <button class="secondary-btn" id="explore-packs-stats-btn">
+                    <i class="fa-solid fa-download"></i> Explorar packs
+                </button>
+            </div>
         </div>
     `;
+    
+    // Add event listener for explore packs button
+    const exploreBtn = container.querySelector('#explore-packs-stats-btn');
+    if (exploreBtn) {
+        exploreBtn.addEventListener('click', () => {
+            document.querySelector('[data-view=home]').click();
+            setTimeout(() => {
+                const packBtn = document.getElementById('explore-packs-btn');
+                if (packBtn) packBtn.click();
+            }, 100);
+        });
+    }
 }
 
 function calculateGrowthData(words) {

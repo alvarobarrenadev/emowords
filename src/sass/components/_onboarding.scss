@@ -1,0 +1,223 @@
+// ===== ONBOARDING STYLES =====
+
+// Overlay
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: all;
+
+  &.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+  }
+}
+
+.onboarding-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(2px);
+}
+
+// Tooltip
+.onboarding-tooltip {
+  position: absolute;
+  width: 340px;
+  max-width: 90vw;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-700);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+
+    &.visible {
+      transform: translate(-50%, -50%) !important;
+    }
+  }
+
+  // Arrow indicators
+  &.bottom::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: var(--gray-700);
+  }
+
+  &.top::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: var(--gray-700);
+  }
+}
+
+.tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.tooltip-step {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-500);
+  background: rgba(59, 130, 246, 0.15);
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+}
+
+.tooltip-skip {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--gray-500);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--gray-800);
+    color: var(--gray-300);
+  }
+}
+
+.tooltip-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 0.5rem;
+}
+
+.tooltip-content {
+  font-size: 0.95rem;
+  color: var(--gray-400);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.tooltip-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tooltip-prev {
+    background: transparent;
+    border: 1px solid var(--gray-700);
+    color: var(--gray-400);
+
+    &:hover {
+      border-color: var(--gray-600);
+      color: var(--gray-300);
+    }
+  }
+
+  .tooltip-next {
+    background: var(--primary-600);
+    border: none;
+    color: white;
+
+    &:hover {
+      background: var(--primary-500);
+      transform: translateY(-1px);
+    }
+
+    &.finish {
+      background: linear-gradient(135deg, var(--primary-600), var(--success-500));
+    }
+  }
+}
+
+// Highlight effect
+.onboarding-highlight {
+  position: relative;
+  z-index: 10001;
+  box-shadow: 0 0 0 4px var(--primary-500), 0 0 20px rgba(59, 130, 246, 0.4);
+  border-radius: 8px;
+}
+
+// Light theme adjustments
+[data-theme="light"] {
+  .onboarding-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .onboarding-tooltip {
+    background: white;
+    border-color: var(--gray-200);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+
+    .tooltip-title {
+      color: var(--gray-900);
+    }
+
+    .tooltip-content {
+      color: var(--gray-600);
+    }
+  }
+
+  .tooltip-skip:hover {
+    background: var(--gray-100);
+  }
+
+  .tooltip-prev {
+    border-color: var(--gray-300);
+    color: var(--gray-600);
+
+    &:hover {
+      border-color: var(--gray-400);
+      color: var(--gray-800);
+    }
+  }
+
+  .onboarding-tooltip.bottom::before {
+    border-bottom-color: var(--gray-200);
+  }
+
+  .onboarding-tooltip.top::before {
+    border-top-color: var(--gray-200);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}

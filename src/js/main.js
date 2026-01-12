@@ -6,6 +6,7 @@ import { renderStats } from './views/stats.js';
 import { getSettings, saveSettings, getWordsDueCount } from './storage/vocabStorage.js';
 import { showToast } from './utils/ui.js';
 import { getTTSSettings, saveTTSSettings, speak, getAccentLabel, getSpeedLabel } from './utils/tts.js';
+import { startOnboarding, shouldShowOnboarding } from './components/onboarding.js';
 
 const app = document.getElementById('app');
 
@@ -190,6 +191,13 @@ initTheme();
 initAudioSettings();
 updateReviewBadge();
 render('home');
+
+// Start onboarding for new users (delay to ensure DOM is ready)
+setTimeout(() => {
+  if (shouldShowOnboarding()) {
+    startOnboarding();
+  }
+}, 500);
 
 // ==================== AUDIO SETTINGS ====================
 

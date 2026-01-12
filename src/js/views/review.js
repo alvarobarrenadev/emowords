@@ -40,6 +40,24 @@ export function renderReview(container) {
         Tienes <strong style="color: var(--primary-600);">${todoCount}</strong> palabras pendientes
       </p>
       
+      ${todoCount === 0 ? `
+        <div class="empty-review-state">
+          <div class="empty-review-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <h3>¡Todo al día!</h3>
+          <p>No tienes palabras pendientes para repasar. Añade más vocabulario para seguir aprendiendo.</p>
+          <div class="empty-review-actions">
+            <button class="primary-btn" onclick="document.querySelector('[data-view=add]').click()">
+              <i class="fa-solid fa-plus"></i> Añadir palabras
+            </button>
+            <button class="secondary-btn" id="explore-packs-review-btn">
+              <i class="fa-solid fa-download"></i> Explorar packs
+            </button>
+          </div>
+        </div>
+      ` : ''}
+      
       <div class="mode-grid">
         <div class="mode-card featured" data-mode="mixed">
           <div class="mode-badge">⭐ Recomendado</div>
@@ -93,6 +111,18 @@ export function renderReview(container) {
         renderWord();
       });
     });
+    
+    // Event listener for explore packs button in empty state
+    const exploreBtn = container.querySelector('#explore-packs-review-btn');
+    if (exploreBtn) {
+      exploreBtn.addEventListener('click', () => {
+        document.querySelector('[data-view=home]').click();
+        setTimeout(() => {
+          const packBtn = document.getElementById('explore-packs-btn');
+          if (packBtn) packBtn.click();
+        }, 100);
+      });
+    }
   }
 
   // ==================== SESSION UI ====================

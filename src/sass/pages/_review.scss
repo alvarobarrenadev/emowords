@@ -322,3 +322,105 @@
   margin: 0 auto;
   text-align: center;
 }
+
+// Empty Review State
+.empty-review-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  background: var(--gray-900);
+  border-radius: 16px;
+  border: 1px solid var(--gray-800);
+
+  .empty-review-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+
+    i {
+      font-size: 2rem;
+      color: var(--success-500);
+    }
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-100);
+    margin-bottom: 0.75rem;
+  }
+
+  >p {
+    font-size: 1rem;
+    color: var(--gray-400);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-review-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .primary-btn {
+      background: var(--primary-600);
+      color: white;
+      border: none;
+
+      &:hover {
+        background: var(--primary-500);
+        transform: translateY(-2px);
+      }
+    }
+
+    .secondary-btn {
+      background: transparent;
+      color: var(--gray-400);
+      border: 1px solid var(--gray-700);
+
+      &:hover {
+        border-color: var(--primary-500);
+        color: var(--primary-400);
+      }
+    }
+  }
+}
+
+[data-theme="light"] .empty-review-state {
+  background: var(--gray-50);
+  border-color: var(--gray-200);
+
+  h3 {
+    color: var(--gray-800);
+  }
+
+  >p {
+    color: var(--gray-600);
+  }
+
+  .empty-review-actions .secondary-btn {
+    border-color: var(--gray-300);
+    color: var(--gray-600);
+  }
+}
