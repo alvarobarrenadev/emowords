@@ -40,29 +40,33 @@ const audioSettingsBtn = document.getElementById('audio-settings-btn');
 
 function initTheme() {
   const settings = getSettings();
-  // Default to dark mode if no preference is set
-  const theme = settings.theme || 'dark';
-  
-  setTheme(theme);
+  // Check if user has a saved preference, otherwise use system preference
+  if (settings.theme) {
+    applyTheme(settings.theme);
+  } else {
+    // Detect system preference
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    applyTheme(systemTheme);
+  }
 }
 
-function setTheme(theme) {
+function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   
   // Update toggle icon
-  const icon = themeToggle.querySelector('i');
-  if (theme === 'dark') {
-    icon.className = 'fa-solid fa-sun';
-    themeToggle.title = 'Cambiar a modo claro';
-  } else {
-    icon.className = 'fa-solid fa-moon';
-    themeToggle.title = 'Cambiar a modo oscuro';
+  // Note: themeToggle might be null if script runs before DOM (though here it's deferred/module)
+  if (themeToggle) {
+    const icon = themeToggle.querySelector('i');
+    if (icon) {
+      if (theme === 'dark') {
+        icon.className = 'fa-solid fa-sun';
+        themeToggle.title = 'Cambiar a modo claro';
+      } else {
+        icon.className = 'fa-solid fa-moon';
+        themeToggle.title = 'Cambiar a modo oscuro';
+      }
+    }
   }
-  
-  // Save preference
-  const settings = getSettings();
-  settings.theme = theme;
-  saveSettings(settings);
 }
 
 function toggleTheme() {
@@ -71,21 +75,28 @@ function toggleTheme() {
   
   // Add transition class for smooth theme change
   document.body.classList.add('theme-transitioning');
-  setTheme(newTheme);
+  applyTheme(newTheme);
+  
+  // Save user preference explicitly when they toggle
+  const settings = getSettings();
+  settings.theme = newTheme;
+  saveSettings(settings);
   
   setTimeout(() => {
     document.body.classList.remove('theme-transitioning');
   }, 300);
 }
 
-themeToggle.addEventListener('click', toggleTheme);
+if (themeToggle) {
+  themeToggle.addEventListener('click', toggleTheme);
+}
 
 // Listen for system theme changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
   const settings = getSettings();
-  // Only auto-switch if user hasn't set a preference
+  // Only auto-switch if user hasn't manually set a preference
   if (!settings.theme) {
-    setTheme(e.matches ? 'dark' : 'light');
+    applyTheme(e.matches ? 'dark' : 'light');
   }
 });
 
