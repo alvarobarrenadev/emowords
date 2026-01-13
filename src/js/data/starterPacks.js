@@ -59,6 +59,56 @@ export const starterPacks = [
     ]
   },
 
+  {
+    id: 'a1-travel',
+    name: 'A1 - Viajes y Supervivencia',
+    icon: 'fa-plane-departure',
+    description: 'Vocabulario esencial para sobrevivir viajando: aeropuertos, hoteles, restaurantes y emergencias.',
+    level: 'A1',
+    words: [
+      { word: 'Ticket', meaning: 'Billete / Entrada', type: 'word', category: 'Viajes', example: 'I need a ticket to London.', emotionalTip: 'Ese papel o código que te abre puertas a otro lugar. La llave a la aventura.' },
+      { word: 'Passport', meaning: 'Pasaporte', type: 'word', category: 'Viajes', example: 'Don\'t forget your passport!', emotionalTip: 'El pánico de buscarlo en el aeropuerto. Tu identidad en un pequeño libro.' },
+      { word: 'Luggage', meaning: 'Equipaje', type: 'word', category: 'Viajes', example: 'My luggage is too heavy.', emotionalTip: 'Cargar con todo lo que crees necesitar. A veces demasiado, siempre algo falta.' },
+      { word: 'Flight', meaning: 'Vuelo', type: 'word', category: 'Viajes', example: 'My flight is delayed.', emotionalTip: 'La emoción del despegue o el estrés del retraso. Estar suspendido entre dos mundos.' },
+      { word: 'Gate', meaning: 'Puerta de embarque', type: 'word', category: 'Viajes', example: 'Gate 23, please hurry!', emotionalTip: 'Correr por el aeropuerto buscando tu puerta. El corazón acelerado.' },
+      { word: 'Delay', meaning: 'Retraso', type: 'word', category: 'Viajes', example: 'There\'s a 2-hour delay.', emotionalTip: 'La frustración de esperar sin poder hacer nada. Tiempo robado.' },
+      { word: 'Book', meaning: 'Reservar', type: 'word', category: 'Viajes', example: 'I want to book a room.', emotionalTip: 'Asegurar tu sitio en algún lugar. La tranquilidad de tener un plan.' },
+      { word: 'Check in', meaning: 'Registrarse', type: 'phrasal', category: 'Viajes', example: 'What time can I check in?', emotionalTip: 'El momento de entrar oficialmente. Por fin has llegado.' },
+      { word: 'Check out', meaning: 'Dejar el hotel', type: 'phrasal', category: 'Viajes', example: 'We check out at 11.', emotionalTip: 'Dejar un lugar que fue tu casa temporal. Un pequeño adiós.' },
+      { word: 'Room', meaning: 'Habitación', type: 'word', category: 'Viajes', example: 'Is there a room available?', emotionalTip: 'Tu refugio en un lugar desconocido. Donde caes agotado después de explorar.' },
+      { word: 'Bill', meaning: 'Cuenta', type: 'word', category: 'Viajes', example: 'Can I have the bill, please?', emotionalTip: 'El momento de verdad: cuánto costó todo. A veces sorprende, a veces duele.' },
+      { word: 'Tip', meaning: 'Propina', type: 'word', category: 'Viajes', example: 'Should I leave a tip?', emotionalTip: 'La duda de cuánto dejar. No quieres parecer tacaño ni exagerado.' },
+      { word: 'Menu', meaning: 'Carta / Menú', type: 'word', category: 'Viajes', example: 'Can I see the menu?', emotionalTip: 'Estudiar opciones en un idioma que no dominas. El dedo apuntando y la esperanza.' },
+      { word: 'Order', meaning: 'Pedir / Pedido', type: 'word', category: 'Viajes', example: 'I\'d like to order now.', emotionalTip: 'El momento de decidirte. Esperar que llegue lo que imaginabas.' },
+      { word: 'Change', meaning: 'Cambio / Cambiar', type: 'word', category: 'Viajes', example: 'Keep the change.', emotionalTip: 'Las monedas que pesan en el bolsillo. El gesto de generosidad pequeña.' },
+      { word: 'Where is...?', meaning: '¿Dónde está...?', type: 'expression', category: 'Viajes', example: 'Where is the bathroom?', emotionalTip: 'La pregunta más importante cuando estás perdido. Tu salvavidas.' },
+      { word: 'How much?', meaning: '¿Cuánto cuesta?', type: 'expression', category: 'Viajes', example: 'How much is this?', emotionalTip: 'La pregunta antes de decidir. El nervio de no saber si puedes permitírtelo.' },
+      { word: 'I\'m lost', meaning: 'Estoy perdido/a', type: 'expression', category: 'Viajes', example: 'Sorry, I\'m lost.', emotionalTip: 'Admitir que no sabes dónde estás. Vulnerabilidad que pide ayuda.' },
+      { word: 'Help me', meaning: 'Ayúdame', type: 'expression', category: 'Viajes', example: 'Can you help me, please?', emotionalTip: 'Pedir auxilio a un desconocido. Confiar en la bondad de otros.' },
+      { word: 'I don\'t speak...', meaning: 'No hablo...', type: 'expression', category: 'Viajes', example: 'I don\'t speak French.', emotionalTip: 'La barrera del idioma. Sentirte fuera y querer conectar igual.' },
+      { word: 'Slowly please', meaning: 'Despacio por favor', type: 'expression', category: 'Viajes', example: 'Can you speak slowly, please?', emotionalTip: 'Cuando las palabras pasan demasiado rápido. Pedir paciencia.' },
+      { word: 'Bathroom', meaning: 'Baño', type: 'word', category: 'Viajes', example: 'Where is the bathroom?', emotionalTip: 'La urgencia que todo el mundo entiende. Sin palabras, solo necesidad.' },
+      { word: 'Exit', meaning: 'Salida', type: 'word', category: 'Viajes', example: 'Where is the exit?', emotionalTip: 'El camino hacia afuera. A veces buscado con desesperación.' },
+      { word: 'Entrance', meaning: 'Entrada', type: 'word', category: 'Viajes', example: 'The main entrance is closed.', emotionalTip: 'Por donde empiezas. El primer paso hacia dentro.' },
+      { word: 'Map', meaning: 'Mapa', type: 'word', category: 'Viajes', example: 'Do you have a map?', emotionalTip: 'Tu guía en lo desconocido. Antes papel, ahora pantalla.' },
+      { word: 'Station', meaning: 'Estación', type: 'word', category: 'Viajes', example: 'How do I get to the train station?', emotionalTip: 'Punto de partida o llegada. Donde los viajes empiezan y terminan.' },
+      { word: 'Platform', meaning: 'Andén', type: 'word', category: 'Viajes', example: 'Which platform for Madrid?', emotionalTip: 'Ese sitio específico donde esperas. No equivocarse es importante.' },
+      { word: 'Single', meaning: 'Sencillo / Individual', type: 'word', category: 'Viajes', example: 'A single room, please.', emotionalTip: 'Viajar solo. Libertad y a veces un poco de soledad.' },
+      { word: 'Return', meaning: 'Ida y vuelta / Volver', type: 'word', category: 'Viajes', example: 'A return ticket to Barcelona.', emotionalTip: 'La certeza de que volverás. El viaje tiene un final planeado.' },
+      { word: 'Reservation', meaning: 'Reserva', type: 'word', category: 'Viajes', example: 'I have a reservation.', emotionalTip: 'Tu nombre esperándote en algún sitio. Alguien preparó algo para ti.' },
+      { word: 'Available', meaning: 'Disponible', type: 'word', category: 'Viajes', example: 'Is this seat available?', emotionalTip: 'La pregunta antes de ocupar. Respetar el espacio del otro.' },
+      { word: 'Full', meaning: 'Lleno / Completo', type: 'word', category: 'Viajes', example: 'Sorry, we\'re full tonight.', emotionalTip: 'La decepción de no caber. Tener que buscar alternativas.' },
+      { word: 'Free', meaning: 'Gratis / Libre', type: 'word', category: 'Viajes', example: 'Is this seat free?', emotionalTip: 'La alegría de lo gratuito o disponible. Un pequeño regalo.' },
+      { word: 'Cash', meaning: 'Efectivo', type: 'word', category: 'Viajes', example: 'Do you accept cash?', emotionalTip: 'El dinero físico que se agota visiblemente. Control tangible.' },
+      { word: 'Card', meaning: 'Tarjeta', type: 'word', category: 'Viajes', example: 'Can I pay by card?', emotionalTip: 'La magia del plástico. A veces funciona, a veces no.' },
+      { word: 'WiFi', meaning: 'WiFi', type: 'word', category: 'Viajes', example: 'What\'s the WiFi password?', emotionalTip: 'La conexión con tu mundo. El primer alivio al llegar a un sitio.' },
+      { word: 'Emergency', meaning: 'Emergencia', type: 'word', category: 'Viajes', example: 'This is an emergency!', emotionalTip: 'Cuando algo va muy mal. La palabra que activa la ayuda.' },
+      { word: 'Hospital', meaning: 'Hospital', type: 'word', category: 'Viajes', example: 'I need to go to the hospital.', emotionalTip: 'El lugar que esperas no necesitar. Pero saber dónde está es vital.' },
+      { word: 'Police', meaning: 'Policía', type: 'word', category: 'Viajes', example: 'Call the police!', emotionalTip: 'Buscar protección cuando algo va mal. Confiar en desconocidos con uniforme.' },
+      { word: 'Safe', meaning: 'Seguro', type: 'word', category: 'Viajes', example: 'Is this area safe?', emotionalTip: 'La pregunta que todo viajero hace. Querer protegerte en lo desconocido.' }
+    ]
+  },
+
   // ==========================================
   // NIVEL A2 - CONVERSACIÓN BÁSICA
   // ==========================================
@@ -119,8 +169,58 @@ export const starterPacks = [
     ]
   },
 
+  {
+    id: 'a2-work',
+    name: 'A2 - Trabajo y Oficina',
+    icon: 'fa-briefcase',
+    description: 'Vocabulario básico para el entorno laboral: emails, reuniones, compañeros y tareas diarias.',
+    level: 'A2',
+    words: [
+      { word: 'Meeting', meaning: 'Reunión', type: 'word', category: 'Trabajo', example: 'We have a meeting at 3.', emotionalTip: 'Esa cita que a veces ayuda y a veces roba tiempo. El ritual corporativo.' },
+      { word: 'Email', meaning: 'Correo electrónico', type: 'word', category: 'Trabajo', example: 'I\'ll send you an email.', emotionalTip: 'El inbox que nunca para. Mensajes esperando tu respuesta.' },
+      { word: 'Boss', meaning: 'Jefe/a', type: 'word', category: 'Trabajo', example: 'My boss is in a meeting.', emotionalTip: 'La persona que puede hacerte el día fácil o difícil. Respeto y a veces miedo.' },
+      { word: 'Team', meaning: 'Equipo', type: 'word', category: 'Trabajo', example: 'Our team is growing.', emotionalTip: 'Las personas con las que compartes horas de tu vida. Tu segunda familia.' },
+      { word: 'Colleague', meaning: 'Compañero/a de trabajo', type: 'word', category: 'Trabajo', example: 'She\'s my colleague.', emotionalTip: 'Alguien que entiende tu día a día. Aliado en las trincheras.' },
+      { word: 'Deadline', meaning: 'Fecha límite', type: 'word', category: 'Trabajo', example: 'The deadline is Friday.', emotionalTip: 'La fecha que te persigue. El estrés que aumenta cada día.' },
+      { word: 'Task', meaning: 'Tarea', type: 'word', category: 'Trabajo', example: 'I have many tasks today.', emotionalTip: 'La lista que parece no acabar. Pequeñas victorias al tacharlas.' },
+      { word: 'Project', meaning: 'Proyecto', type: 'word', category: 'Trabajo', example: 'We\'re starting a new project.', emotionalTip: 'Algo grande que construyes poco a poco. Orgullo cuando sale bien.' },
+      { word: 'Office', meaning: 'Oficina', type: 'word', category: 'Trabajo', example: 'I work in an office.', emotionalTip: 'El lugar donde pasas tanto tiempo. A veces cárcel, a veces hogar.' },
+      { word: 'Desk', meaning: 'Escritorio', type: 'word', category: 'Trabajo', example: 'My desk is a mess.', emotionalTip: 'Tu pequeño territorio personal. Refleja quién eres.' },
+      { word: 'Salary', meaning: 'Salario / Sueldo', type: 'word', category: 'Trabajo', example: 'What\'s the salary?', emotionalTip: 'El número que define tu mes. El valor que ponen a tu tiempo.' },
+      { word: 'Interview', meaning: 'Entrevista', type: 'word', category: 'Trabajo', example: 'I have a job interview tomorrow.', emotionalTip: 'Los nervios de venderte a ti mismo. Esperando que te elijan.' },
+      { word: 'Apply', meaning: 'Solicitar / Aplicar', type: 'word', category: 'Trabajo', example: 'I want to apply for this job.', emotionalTip: 'Dar el primer paso hacia algo nuevo. Esperanza y miedo.' },
+      { word: 'Hire', meaning: 'Contratar', type: 'word', category: 'Trabajo', example: 'We want to hire you!', emotionalTip: 'Las palabras que cambian tu vida. La puerta que se abre.' },
+      { word: 'Fire', meaning: 'Despedir', type: 'word', category: 'Trabajo', example: 'They fired him yesterday.', emotionalTip: 'El golpe que nadie espera. El suelo que desaparece bajo tus pies.' },
+      { word: 'Quit', meaning: 'Dimitir / Dejar', type: 'word', category: 'Trabajo', example: 'She quit her job.', emotionalTip: 'La decisión valiente de irte. Libertad mezclada con incertidumbre.' },
+      { word: 'Busy', meaning: 'Ocupado/a', type: 'word', category: 'Trabajo', example: 'Sorry, I\'m really busy now.', emotionalTip: 'La excusa más usada. A veces verdad, a veces escudo.' },
+      { word: 'Available', meaning: 'Disponible', type: 'word', category: 'Trabajo', example: 'Are you available for a call?', emotionalTip: 'Tener espacio en tu agenda. El lujo de poder decir que sí.' },
+      { word: 'Urgent', meaning: 'Urgente', type: 'word', category: 'Trabajo', example: 'This is urgent!', emotionalTip: 'Todo parece urgente siempre. El estrés de lo inmediato.' },
+      { word: 'Important', meaning: 'Importante', type: 'word', category: 'Trabajo', example: 'This is very important.', emotionalTip: 'Lo que de verdad merece tu atención. Separar lo esencial.' },
+      { word: 'Schedule', meaning: 'Horario / Programar', type: 'word', category: 'Trabajo', example: 'Let me check my schedule.', emotionalTip: 'El puzzle de encajar todo. Tu tiempo organizado en bloques.' },
+      { word: 'Report', meaning: 'Informe', type: 'word', category: 'Trabajo', example: 'I need to write a report.', emotionalTip: 'Poner en papel lo que hiciste. Demostrar tu trabajo.' },
+      { word: 'Presentation', meaning: 'Presentación', type: 'word', category: 'Trabajo', example: 'I have a presentation tomorrow.', emotionalTip: 'Hablar delante de otros. Los nervios antes, el alivio después.' },
+      { word: 'Client', meaning: 'Cliente', type: 'word', category: 'Trabajo', example: 'The client is happy.', emotionalTip: 'La persona a quien sirves. Su satisfacción es tu éxito.' },
+      { word: 'Contract', meaning: 'Contrato', type: 'word', category: 'Trabajo', example: 'Please sign the contract.', emotionalTip: 'El papel que formaliza todo. Seguridad en tinta.' },
+      { word: 'Shift', meaning: 'Turno', type: 'word', category: 'Trabajo', example: 'My shift ends at 6.', emotionalTip: 'Las horas que vendes. Contar el tiempo hasta irte.' },
+      { word: 'Break', meaning: 'Descanso', type: 'word', category: 'Trabajo', example: 'Let\'s take a break.', emotionalTip: 'El respiro que necesitas. Recuperar energía para seguir.' },
+      { word: 'Overtime', meaning: 'Horas extra', type: 'word', category: 'Trabajo', example: 'I worked overtime yesterday.', emotionalTip: 'Dar más de lo que deberías. A veces voluntario, a veces no.' },
+      { word: 'Promotion', meaning: 'Ascenso', type: 'word', category: 'Trabajo', example: 'I got a promotion!', emotionalTip: 'El reconocimiento que esperabas. Subir un peldaño.' },
+      { word: 'Raise', meaning: 'Aumento de sueldo', type: 'word', category: 'Trabajo', example: 'I asked for a raise.', emotionalTip: 'Pedir lo que crees merecer. El valor de tu trabajo.' },
+      { word: 'Thank you for your email', meaning: 'Gracias por tu email', type: 'expression', category: 'Trabajo', example: 'Thank you for your email.', emotionalTip: 'La cortesía digital. Empezar con educación.' },
+      { word: 'Please find attached', meaning: 'Adjunto encontrarás', type: 'expression', category: 'Trabajo', example: 'Please find attached the report.', emotionalTip: 'El archivo que acompaña tus palabras. Prueba tangible.' },
+      { word: 'As soon as possible', meaning: 'Lo antes posible', type: 'expression', category: 'Trabajo', example: 'I need this ASAP.', emotionalTip: 'La urgencia en cuatro letras. Presión del tiempo.' },
+      { word: 'Looking forward to', meaning: 'Esperando con ganas', type: 'expression', category: 'Trabajo', example: 'Looking forward to your reply.', emotionalTip: 'Anticipar la respuesta. Educada forma de presionar.' },
+      { word: 'Get back to you', meaning: 'Responder / Volver a contactar', type: 'expression', category: 'Trabajo', example: 'I\'ll get back to you on that.', emotionalTip: 'La promesa de una respuesta. A veces llega, a veces no.' },
+      { word: 'Sorry for the delay', meaning: 'Perdón por la demora', type: 'expression', category: 'Trabajo', example: 'Sorry for the delay in replying.', emotionalTip: 'Reconocer que tardaste. La culpa del inbox lleno.' },
+      { word: 'Best regards', meaning: 'Saludos cordiales', type: 'expression', category: 'Trabajo', example: 'Best regards, John.', emotionalTip: 'El cierre estándar. Neutral y profesional.' },
+      { word: 'I\'m calling about', meaning: 'Llamo por / respecto a', type: 'expression', category: 'Trabajo', example: 'I\'m calling about the invoice.', emotionalTip: 'Ir al grano por teléfono. Explicar tu propósito.' },
+      { word: 'Could you please', meaning: '¿Podrías por favor?', type: 'expression', category: 'Trabajo', example: 'Could you please send me the file?', emotionalTip: 'Pedir con educación. La cortesía que abre puertas.' },
+      { word: 'I\'ll do my best', meaning: 'Haré lo que pueda', type: 'expression', category: 'Trabajo', example: 'I\'ll do my best to finish on time.', emotionalTip: 'Prometer esfuerzo, no resultado. Honestidad moderada.' }
+    ]
+  },
+
   // ==========================================
-  // NIVEL B1 - CONVERSACIÓN FLUIDA
+  // NIVEL B1 - INDEPENDIENTE
   // ==========================================
   {
     id: 'b1-complete',
@@ -179,8 +279,58 @@ export const starterPacks = [
     ]
   },
 
+  {
+    id: 'b1-relationships',
+    name: 'B1 - Conexiones y Relaciones',
+    icon: 'fa-handshake',
+    description: 'Vocabulario para hacer amigos, conocer gente, citas y relaciones sociales.',
+    level: 'B1',
+    words: [
+      { word: 'Get on well', meaning: 'Llevarse bien', type: 'phrasal', category: 'Relaciones', example: 'We get on really well.', emotionalTip: 'Esa química natural con alguien. Cuando todo fluye sin esfuerzo.' },
+      { word: 'Fall out', meaning: 'Pelearse / Distanciarse', type: 'phrasal', category: 'Relaciones', example: 'They fell out over money.', emotionalTip: 'Cuando una amistad se rompe. El silencio después de la pelea.' },
+      { word: 'Make up', meaning: 'Reconciliarse', type: 'phrasal', category: 'Relaciones', example: 'They made up after the fight.', emotionalTip: 'El alivio de recuperar a alguien. El abrazo después del orgullo.' },
+      { word: 'Ask out', meaning: 'Pedir una cita', type: 'phrasal', category: 'Relaciones', example: 'He asked her out.', emotionalTip: 'El terror de arriesgarte a un no. El corazón latiendo antes de hablar.' },
+      { word: 'Break up', meaning: 'Romper (relación)', type: 'phrasal', category: 'Relaciones', example: 'They broke up last month.', emotionalTip: 'El final de algo que fue bueno. Dolor aunque sea lo correcto.' },
+      { word: 'Set up', meaning: 'Presentar a alguien', type: 'phrasal', category: 'Relaciones', example: 'My friend set us up.', emotionalTip: 'Confiar en que otros elijan por ti. A veces acierto, a veces desastre.' },
+      { word: 'Hang out', meaning: 'Pasar el rato', type: 'phrasal', category: 'Relaciones', example: 'We hang out every weekend.', emotionalTip: 'Tiempo sin planes concretos. La presencia vale más que la actividad.' },
+      { word: 'Keep in touch', meaning: 'Mantener el contacto', type: 'expression', category: 'Relaciones', example: 'Let\'s keep in touch!', emotionalTip: 'La promesa que a veces se olvida. La intención de no perder a alguien.' },
+      { word: 'Drift apart', meaning: 'Distanciarse poco a poco', type: 'phrasal', category: 'Relaciones', example: 'We drifted apart over the years.', emotionalTip: 'Cuando la amistad se enfría sin drama. El vacío silencioso.' },
+      { word: 'Trust', meaning: 'Confiar / Confianza', type: 'word', category: 'Relaciones', example: 'I trust you completely.', emotionalTip: 'Poner tu vulnerabilidad en manos de otro. El regalo de la fe ciega.' },
+      { word: 'Honest', meaning: 'Honesto/a', type: 'word', category: 'Relaciones', example: 'Be honest with me.', emotionalTip: 'Pedir la verdad aunque duela. Preferir el dolor a la mentira.' },
+      { word: 'Loyal', meaning: 'Leal', type: 'word', category: 'Relaciones', example: 'She\'s a loyal friend.', emotionalTip: 'Alguien que está cuando todos se van. El tesoro humano.' },
+      { word: 'Supportive', meaning: 'Que apoya', type: 'word', category: 'Relaciones', example: 'My family is very supportive.', emotionalTip: 'Sentir que alguien cree en ti. El empujón cuando te falta fuerza.' },
+      { word: 'Jealous', meaning: 'Celoso/a', type: 'word', category: 'Relaciones', example: 'Don\'t be jealous.', emotionalTip: 'El miedo a perder a alguien. La inseguridad que quema.' },
+      { word: 'Awkward', meaning: 'Incómodo', type: 'word', category: 'Relaciones', example: 'It was really awkward.', emotionalTip: 'Esos silencios que te hacen querer desaparecer. La incomodidad social.' },
+      { word: 'Comfortable', meaning: 'Cómodo/a', type: 'word', category: 'Relaciones', example: 'I feel comfortable with her.', emotionalTip: 'Poder ser tú mismo sin filtros. La paz de ser aceptado.' },
+      { word: 'Chemistry', meaning: 'Química (atracción)', type: 'word', category: 'Relaciones', example: 'There\'s real chemistry between us.', emotionalTip: 'Esa conexión inexplicable. Cuando algo funciona sin razón aparente.' },
+      { word: 'Committed', meaning: 'Comprometido/a', type: 'word', category: 'Relaciones', example: 'We\'re in a committed relationship.', emotionalTip: 'Elegir a alguien cada día. La decisión de quedarse.' },
+      { word: 'Casual', meaning: 'Informal / Sin compromiso', type: 'word', category: 'Relaciones', example: 'It\'s just casual.', emotionalTip: 'Sin ataduras pero a veces sin claridad. La libertad confusa.' },
+      { word: 'Boundaries', meaning: 'Límites', type: 'word', category: 'Relaciones', example: 'We need to set boundaries.', emotionalTip: 'Proteger tu espacio emocional. Decir hasta aquí con respeto.' },
+      { word: 'We have a lot in common', meaning: 'Tenemos mucho en común', type: 'expression', category: 'Relaciones', example: 'We have a lot in common.', emotionalTip: 'Descubrir que alguien comparte tu mundo. La emoción de no estar solo.' },
+      { word: 'We clicked instantly', meaning: 'Conectamos al instante', type: 'expression', category: 'Relaciones', example: 'We clicked instantly.', emotionalTip: 'Cuando conoces a alguien y parece que ya lo conocías. Magia social.' },
+      { word: 'Let\'s grab a coffee', meaning: 'Tomemos un café', type: 'expression', category: 'Relaciones', example: 'Let\'s grab a coffee sometime.', emotionalTip: 'La invitación casual que puede cambiar todo. El primer paso.' },
+      { word: 'Are you seeing anyone?', meaning: '¿Estás saliendo con alguien?', type: 'expression', category: 'Relaciones', example: 'Are you seeing anyone?', emotionalTip: 'La pregunta de reconocimiento. Querer saber si hay posibilidad.' },
+      { word: 'It\'s complicated', meaning: 'Es complicado', type: 'expression', category: 'Relaciones', example: 'Our situation is complicated.', emotionalTip: 'Cuando no hay una respuesta simple. Relaciones que no encajan en cajas.' },
+      { word: 'Give me space', meaning: 'Dame espacio', type: 'expression', category: 'Relaciones', example: 'I need you to give me space.', emotionalTip: 'Necesitar aire para pensar. Pedir distancia sin cerrar la puerta.' },
+      { word: 'I\'m not ready', meaning: 'No estoy preparado/a', type: 'expression', category: 'Relaciones', example: 'I\'m not ready for a relationship.', emotionalTip: 'Reconocer tus limitaciones. El no honesto que protege a ambos.' },
+      { word: 'We need to talk', meaning: 'Tenemos que hablar', type: 'expression', category: 'Relaciones', example: 'We need to talk.', emotionalTip: 'Las palabras que hielan la sangre. La conversación que viene.' },
+      { word: 'I\'m here for you', meaning: 'Estoy aquí para ti', type: 'expression', category: 'Relaciones', example: 'Whatever happens, I\'m here for you.', emotionalTip: 'La promesa de apoyo incondicional. Saber que no estás solo.' },
+      { word: 'Let\'s take it slow', meaning: 'Vayamos despacio', type: 'expression', category: 'Relaciones', example: 'Let\'s take things slow.', emotionalTip: 'No querer estropear algo bueno. Cuidar lo que empieza.' },
+      { word: 'Ghost', meaning: 'Ignorar / Desaparecer', type: 'word', category: 'Relaciones', example: 'He ghosted me.', emotionalTip: 'Desaparecer sin explicación. El silencio que duele más que un no.' },
+      { word: 'Red flag', meaning: 'Señal de alarma', type: 'expression', category: 'Relaciones', example: 'That\'s a red flag.', emotionalTip: 'Ver algo que te advierte de peligro. La intuición que protege.' },
+      { word: 'Mixed signals', meaning: 'Señales confusas', type: 'expression', category: 'Relaciones', example: 'He\'s sending mixed signals.', emotionalTip: 'No saber a qué atenerte. La confusión que agota.' },
+      { word: 'Open up', meaning: 'Abrirse (emocionalmente)', type: 'phrasal', category: 'Relaciones', example: 'It\'s hard for me to open up.', emotionalTip: 'Mostrar tu vulnerabilidad. El miedo a ser juzgado.' },
+      { word: 'Let someone down', meaning: 'Defraudar a alguien', type: 'phrasal', category: 'Relaciones', example: 'I don\'t want to let you down.', emotionalTip: 'El peso de las expectativas de otros. No querer decepcionar.' },
+      { word: 'Stand by someone', meaning: 'Apoyar a alguien', type: 'phrasal', category: 'Relaciones', example: 'I\'ll stand by you no matter what.', emotionalTip: 'Estar al lado de alguien pase lo que pase. Lealtad en acción.' },
+      { word: 'Look out for', meaning: 'Cuidar de / Proteger', type: 'phrasal', category: 'Relaciones', example: 'We look out for each other.', emotionalTip: 'Vigilar el bienestar de alguien. El cuidado que va en ambos sentidos.' },
+      { word: 'Count on', meaning: 'Contar con', type: 'phrasal', category: 'Relaciones', example: 'You can count on me.', emotionalTip: 'Saber que alguien estará ahí. La seguridad de no enfrentar solo.' },
+      { word: 'Bond', meaning: 'Vínculo / Unirse', type: 'word', category: 'Relaciones', example: 'We bonded over our love of music.', emotionalTip: 'Crear una conexión profunda. Lo que une almas diferentes.' },
+      { word: 'Mutual', meaning: 'Mutuo', type: 'word', category: 'Relaciones', example: 'The feeling is mutual.', emotionalTip: 'Cuando ambos sienten lo mismo. La reciprocidad perfecta.' }
+    ]
+  },
+
   // ==========================================
-  // NIVEL B2 - SONAR NATURAL
+  // NIVEL B2 - AVANZADO
   // ==========================================
   {
     id: 'b2-complete',
@@ -239,8 +389,58 @@ export const starterPacks = [
     ]
   },
 
+  {
+    id: 'b2-opinions',
+    name: 'B2 - Opiniones y Debates',
+    icon: 'fa-comments',
+    description: 'Vocabulario para expresar opiniones, estar de acuerdo, discrepar y debatir con elegancia.',
+    level: 'B2',
+    words: [
+      { word: 'I strongly believe', meaning: 'Creo firmemente', type: 'expression', category: 'Opiniones', example: 'I strongly believe in education.', emotionalTip: 'La convicción que no se tambalea. Tu verdad sin dudas.' },
+      { word: 'In my opinion', meaning: 'En mi opinión', type: 'expression', category: 'Opiniones', example: 'In my opinion, this is wrong.', emotionalTip: 'Reclamar tu derecho a pensar diferente. Tu perspectiva importa.' },
+      { word: 'As far as I\'m concerned', meaning: 'En lo que a mí respecta', type: 'expression', category: 'Opiniones', example: 'As far as I\'m concerned, it\'s over.', emotionalTip: 'Hablar solo por ti mismo. Tu posición clara.' },
+      { word: 'The way I see it', meaning: 'Tal y como yo lo veo', type: 'expression', category: 'Opiniones', example: 'The way I see it, we have no choice.', emotionalTip: 'Tu interpretación personal de la realidad. Tu lente única.' },
+      { word: 'I couldn\'t agree more', meaning: 'No puedo estar más de acuerdo', type: 'expression', category: 'Opiniones', example: 'I couldn\'t agree more with you.', emotionalTip: 'Cuando alguien dice exactamente lo que piensas. Conexión de ideas.' },
+      { word: 'That\'s a good point', meaning: 'Buen punto', type: 'expression', category: 'Opiniones', example: 'That\'s a good point, I hadn\'t thought of that.', emotionalTip: 'Reconocer que otro tiene razón. La humildad de aprender.' },
+      { word: 'I see what you mean', meaning: 'Entiendo lo que quieres decir', type: 'expression', category: 'Opiniones', example: 'I see what you mean, but...', emotionalTip: 'Mostrar que escuchas antes de discrepar. Respeto en el desacuerdo.' },
+      { word: 'I beg to differ', meaning: 'Me permito discrepar', type: 'expression', category: 'Opiniones', example: 'I beg to differ on that point.', emotionalTip: 'La forma elegante de decir que estás en desacuerdo.' },
+      { word: 'I\'m not so sure about that', meaning: 'No estoy tan seguro de eso', type: 'expression', category: 'Opiniones', example: 'I\'m not so sure about that.', emotionalTip: 'La duda educada. Cuestionar sin atacar.' },
+      { word: 'That\'s debatable', meaning: 'Eso es discutible', type: 'expression', category: 'Opiniones', example: 'That\'s debatable.', emotionalTip: 'Abrir la puerta al debate. No todo es blanco o negro.' },
+      { word: 'You have a point', meaning: 'Tienes razón en algo', type: 'expression', category: 'Opiniones', example: 'You have a point there.', emotionalTip: 'Ceder parcialmente. Reconocer verdad en el argumento ajeno.' },
+      { word: 'To be frank', meaning: 'Para ser franco', type: 'expression', category: 'Opiniones', example: 'To be frank, I disagree.', emotionalTip: 'Preparar al otro para una verdad directa. Honestidad sin rodeos.' },
+      { word: 'Biased', meaning: 'Parcial / Sesgado', type: 'word', category: 'Opiniones', example: 'That report is biased.', emotionalTip: 'Ver solo un lado de la historia. La parcialidad que distorsiona.' },
+      { word: 'Objective', meaning: 'Objetivo', type: 'word', category: 'Opiniones', example: 'Try to be objective.', emotionalTip: 'Separar emoción de hechos. La difícil neutralidad.' },
+      { word: 'Subjective', meaning: 'Subjetivo', type: 'word', category: 'Opiniones', example: 'That\'s very subjective.', emotionalTip: 'Lo que depende de quién mira. Tu verdad no es la única.' },
+      { word: 'Controversial', meaning: 'Polémico', type: 'word', category: 'Opiniones', example: 'It\'s a controversial topic.', emotionalTip: 'Lo que divide opiniones. El tema que enciende discusiones.' },
+      { word: 'Perspective', meaning: 'Perspectiva', type: 'word', category: 'Opiniones', example: 'From my perspective...', emotionalTip: 'El ángulo desde el que miras. Cada uno tiene el suyo.' },
+      { word: 'Valid', meaning: 'Válido', type: 'word', category: 'Opiniones', example: 'That\'s a valid argument.', emotionalTip: 'Un argumento que tiene peso. Digno de consideración.' },
+      { word: 'Flawed', meaning: 'Defectuoso / Con fallos', type: 'word', category: 'Opiniones', example: 'Your logic is flawed.', emotionalTip: 'Encontrar el error en el razonamiento. La grieta en el argumento.' },
+      { word: 'Convince', meaning: 'Convencer', type: 'word', category: 'Opiniones', example: 'You\'ve convinced me.', emotionalTip: 'Cambiar de opinión por buenos argumentos. La derrota que es victoria.' },
+      { word: 'Persuade', meaning: 'Persuadir', type: 'word', category: 'Opiniones', example: 'She persuaded me to go.', emotionalTip: 'El arte de hacer que otros quieran lo que tú quieres.' },
+      { word: 'Argue', meaning: 'Argumentar / Discutir', type: 'word', category: 'Opiniones', example: 'I\'m not here to argue.', emotionalTip: 'Defender tu posición con pasión. A veces productivo, a veces no.' },
+      { word: 'Claim', meaning: 'Afirmar / Sostener', type: 'word', category: 'Opiniones', example: 'He claims to be an expert.', emotionalTip: 'Decir algo como verdad. La afirmación que puede ser retada.' },
+      { word: 'Assume', meaning: 'Suponer / Asumir', type: 'word', category: 'Opiniones', example: 'Don\'t assume anything.', emotionalTip: 'Dar por hecho sin pruebas. El peligro de no preguntar.' },
+      { word: 'Jump to conclusions', meaning: 'Sacar conclusiones precipitadas', type: 'expression', category: 'Opiniones', example: 'Don\'t jump to conclusions.', emotionalTip: 'Decidir antes de tener toda la información. El error de la prisa.' },
+      { word: 'With all due respect', meaning: 'Con todo el respeto', type: 'expression', category: 'Opiniones', example: 'With all due respect, I disagree.', emotionalTip: 'Suavizar un golpe verbal. El respeto antes del desacuerdo.' },
+      { word: 'Let me put it this way', meaning: 'Déjame ponerlo así', type: 'expression', category: 'Opiniones', example: 'Let me put it this way...', emotionalTip: 'Reexplicar de forma más clara. Otro ángulo para entender.' },
+      { word: 'That\'s beside the point', meaning: 'Eso no viene al caso', type: 'expression', category: 'Opiniones', example: 'That\'s beside the point.', emotionalTip: 'Cuando alguien se desvía del tema. Redirigir la conversación.' },
+      { word: 'The bottom line is', meaning: 'El punto clave es', type: 'expression', category: 'Opiniones', example: 'The bottom line is we need more money.', emotionalTip: 'Ir a lo esencial. Lo que de verdad importa.' },
+      { word: 'Weigh up', meaning: 'Sopesar', type: 'phrasal', category: 'Opiniones', example: 'Let\'s weigh up the pros and cons.', emotionalTip: 'Poner en la balanza opciones. Decidir con cuidado.' },
+      { word: 'Back up', meaning: 'Respaldar / Apoyar', type: 'phrasal', category: 'Opiniones', example: 'Can you back up that claim?', emotionalTip: 'Pedir pruebas de lo que se dice. No creer sin evidencia.' },
+      { word: 'Point out', meaning: 'Señalar / Hacer notar', type: 'phrasal', category: 'Opiniones', example: 'I\'d like to point out that...', emotionalTip: 'Llamar la atención sobre algo importante. El dedo que señala.' },
+      { word: 'Agree to disagree', meaning: 'Acordar que no estamos de acuerdo', type: 'expression', category: 'Opiniones', example: 'Let\'s just agree to disagree.', emotionalTip: 'Aceptar que nunca coincidirán. La paz sin victoria.' },
+      { word: 'See eye to eye', meaning: 'Estar de acuerdo / Ver igual', type: 'expression', category: 'Opiniones', example: 'We don\'t see eye to eye on this.', emotionalTip: 'Cuando las miradas no se cruzan. Visiones diferentes.' },
+      { word: 'Think twice', meaning: 'Pensarlo dos veces', type: 'expression', category: 'Opiniones', example: 'I\'d think twice before doing that.', emotionalTip: 'Reconsiderar antes de actuar. La cautela sabia.' },
+      { word: 'Have mixed feelings', meaning: 'Tener sentimientos encontrados', type: 'expression', category: 'Opiniones', example: 'I have mixed feelings about it.', emotionalTip: 'Cuando no sabes si te gusta o no. La ambivalencia.' },
+      { word: 'Take something with a pinch of salt', meaning: 'Tomar algo con cautela', type: 'expression', category: 'Opiniones', example: 'Take that with a pinch of salt.', emotionalTip: 'No creer todo lo que oyes. El escepticismo sano.' },
+      { word: 'Open-minded', meaning: 'De mente abierta', type: 'word', category: 'Opiniones', example: 'Try to be open-minded.', emotionalTip: 'Dispuesto a escuchar ideas nuevas. La flexibilidad mental.' },
+      { word: 'Narrow-minded', meaning: 'De mente cerrada', type: 'word', category: 'Opiniones', example: 'Don\'t be so narrow-minded.', emotionalTip: 'Negarse a considerar otras opciones. La rigidez que limita.' },
+      { word: 'Pros and cons', meaning: 'Pros y contras', type: 'expression', category: 'Opiniones', example: 'What are the pros and cons?', emotionalTip: 'Lo bueno y lo malo de algo. El análisis equilibrado.' }
+    ]
+  },
+
   // ==========================================
-  // NIVEL C1 - INGLÉS AVANZADO REAL
+  // NIVEL C1 - PROFESIONAL
   // ==========================================
   {
     id: 'c1-complete',
@@ -299,8 +499,58 @@ export const starterPacks = [
     ]
   },
 
+  {
+    id: 'c1-networking',
+    name: 'C1 - Networking Profesional',
+    icon: 'fa-network-wired',
+    description: 'Vocabulario para eventos profesionales, crear contactos, LinkedIn y oportunidades laborales.',
+    level: 'C1',
+    words: [
+      { word: 'Network', meaning: 'Crear contactos', type: 'word', category: 'Networking', example: 'I\'m here to network.', emotionalTip: 'El arte de conocer a las personas correctas. Sembrar para el futuro.' },
+      { word: 'Connect', meaning: 'Conectar', type: 'word', category: 'Networking', example: 'Let\'s connect on LinkedIn.', emotionalTip: 'Crear un puente digital con alguien. El primer paso profesional.' },
+      { word: 'Reach out', meaning: 'Contactar / Escribir', type: 'phrasal', category: 'Networking', example: 'Feel free to reach out anytime.', emotionalTip: 'Dar el primer paso para comunicarte. La iniciativa que abre puertas.' },
+      { word: 'Follow up', meaning: 'Hacer seguimiento', type: 'phrasal', category: 'Networking', example: 'I\'ll follow up next week.', emotionalTip: 'No dejar que el contacto se enfríe. Mantener viva la conexión.' },
+      { word: 'Pitch', meaning: 'Presentar / Propuesta', type: 'word', category: 'Networking', example: 'What\'s your elevator pitch?', emotionalTip: 'Venderte en segundos. Capturar atención antes de que se vaya.' },
+      { word: 'Opportunity', meaning: 'Oportunidad', type: 'word', category: 'Networking', example: 'This is a great opportunity.', emotionalTip: 'La puerta que se abre una vez. No siempre vuelve a aparecer.' },
+      { word: 'Referral', meaning: 'Recomendación', type: 'word', category: 'Networking', example: 'I got the job through a referral.', emotionalTip: 'Alguien pone su nombre por ti. El favor que vale oro.' },
+      { word: 'Introduce', meaning: 'Presentar', type: 'word', category: 'Networking', example: 'Let me introduce you to someone.', emotionalTip: 'Abrir puertas para otros. El generoso acto de conectar.' },
+      { word: 'Mentor', meaning: 'Mentor', type: 'word', category: 'Networking', example: 'She\'s been my mentor for years.', emotionalTip: 'Alguien que ilumina tu camino. La guía que no olvidarás.' },
+      { word: 'Mentee', meaning: 'Pupilo / Aprendiz', type: 'word', category: 'Networking', example: 'I have three mentees.', emotionalTip: 'El que recibe la sabiduría. Humildad para aprender.' },
+      { word: 'Pick someone\'s brain', meaning: 'Pedir consejo / Aprender de', type: 'expression', category: 'Networking', example: 'Can I pick your brain?', emotionalTip: 'Aprovechar la experiencia de otro. El halago de ser consultado.' },
+      { word: 'Build rapport', meaning: 'Crear buena relación', type: 'expression', category: 'Networking', example: 'It\'s important to build rapport.', emotionalTip: 'La química profesional. Hacer que alguien se sienta cómodo contigo.' },
+      { word: 'Mutual benefit', meaning: 'Beneficio mutuo', type: 'expression', category: 'Networking', example: 'This is for our mutual benefit.', emotionalTip: 'Ambos ganan. La relación que tiene sentido para los dos.' },
+      { word: 'Add value', meaning: 'Aportar valor', type: 'expression', category: 'Networking', example: 'How can I add value to this?', emotionalTip: 'No solo pedir, también dar. La generosidad estratégica.' },
+      { word: 'Strategic partnership', meaning: 'Alianza estratégica', type: 'expression', category: 'Networking', example: 'We\'re looking for strategic partnerships.', emotionalTip: 'Unir fuerzas para llegar más lejos. El poder de la colaboración.' },
+      { word: 'Leverage contacts', meaning: 'Aprovechar contactos', type: 'expression', category: 'Networking', example: 'You should leverage your contacts.', emotionalTip: 'Usar tu red para avanzar. El capital social en acción.' },
+      { word: 'Keep someone posted', meaning: 'Mantener informado', type: 'expression', category: 'Networking', example: 'I\'ll keep you posted.', emotionalTip: 'Prometer actualizaciones. Mantener la conexión viva.' },
+      { word: 'Circle back', meaning: 'Retomar / Volver al tema', type: 'expression', category: 'Networking', example: 'Let\'s circle back on this.', emotionalTip: 'Prometer que volverás. A veces pasa, a veces no.' },
+      { word: 'Put in a good word', meaning: 'Hablar bien de alguien', type: 'expression', category: 'Networking', example: 'Can you put in a good word for me?', emotionalTip: 'Pedir que alguien te recomiende. El favor que cambia destinos.' },
+      { word: 'Word of mouth', meaning: 'Boca a boca', type: 'expression', category: 'Networking', example: 'Most clients come through word of mouth.', emotionalTip: 'La reputación que viaja de persona a persona. La mejor publicidad.' },
+      { word: 'Industry', meaning: 'Industria / Sector', type: 'word', category: 'Networking', example: 'What industry are you in?', emotionalTip: 'Tu mundo profesional. Donde encajas en el mapa laboral.' },
+      { word: 'Background', meaning: 'Trayectoria / Experiencia', type: 'word', category: 'Networking', example: 'Tell me about your background.', emotionalTip: 'Tu historia profesional. De dónde vienes y qué has hecho.' },
+      { word: 'Portfolio', meaning: 'Portafolio', type: 'word', category: 'Networking', example: 'Can I see your portfolio?', emotionalTip: 'La prueba visual de tu talento. Tu trabajo habla por ti.' },
+      { word: 'Track record', meaning: 'Historial / Trayectoria', type: 'expression', category: 'Networking', example: 'She has a great track record.', emotionalTip: 'Las pruebas de lo que has logrado. El pasado que predice el futuro.' },
+      { word: 'Foot in the door', meaning: 'Primera oportunidad', type: 'expression', category: 'Networking', example: 'I just need a foot in the door.', emotionalTip: 'La pequeña entrada que puede abrir todo. El primer paso.' },
+      { word: 'Open doors', meaning: 'Abrir puertas', type: 'expression', category: 'Networking', example: 'This connection could open doors.', emotionalTip: 'Crear oportunidades donde no las había. El poder de conocer gente.' },
+      { word: 'Personal brand', meaning: 'Marca personal', type: 'expression', category: 'Networking', example: 'Work on your personal brand.', emotionalTip: 'Cómo te ve el mundo profesional. Tu reputación en un concepto.' },
+      { word: 'Thought leader', meaning: 'Líder de opinión', type: 'expression', category: 'Networking', example: 'She\'s a thought leader in AI.', emotionalTip: 'Alguien cuya opinión importa. La voz que otros escuchan.' },
+      { word: 'Synergy', meaning: 'Sinergia', type: 'word', category: 'Networking', example: 'There\'s great synergy between us.', emotionalTip: 'Cuando juntos sois más que separados. La magia de la colaboración.' },
+      { word: 'Value proposition', meaning: 'Propuesta de valor', type: 'expression', category: 'Networking', example: 'What\'s your value proposition?', emotionalTip: 'Lo que ofreces que otros no. Tu diferencia única.' },
+      { word: 'Win-win', meaning: 'Ganar-ganar', type: 'expression', category: 'Networking', example: 'It\'s a win-win situation.', emotionalTip: 'Cuando todos ganan. El acuerdo perfecto.' },
+      { word: 'Schedule a call', meaning: 'Agendar una llamada', type: 'expression', category: 'Networking', example: 'Can we schedule a call?', emotionalTip: 'Formalizar el siguiente paso. Pasar de la charla a la acción.' },
+      { word: 'Catch you later', meaning: 'Luego hablamos', type: 'expression', category: 'Networking', example: 'Great talking! Catch you later!', emotionalTip: 'La despedida casual que deja la puerta abierta.' },
+      { word: 'Looking to expand', meaning: 'Buscando crecer', type: 'expression', category: 'Networking', example: 'We\'re looking to expand our team.', emotionalTip: 'La señal de que hay oportunidad. Orejas atentas.' },
+      { word: 'I\'d love to learn more', meaning: 'Me encantaría saber más', type: 'expression', category: 'Networking', example: 'I\'d love to learn more about what you do.', emotionalTip: 'Mostrar interés genuino. El halago que abre conversaciones.' },
+      { word: 'Happy to help', meaning: 'Encantado de ayudar', type: 'expression', category: 'Networking', example: 'If you ever need anything, happy to help.', emotionalTip: 'Ofrecer ayuda sin esperar nada. La generosidad que se recuerda.' },
+      { word: 'Same here', meaning: 'Igual aquí / Lo mismo digo', type: 'expression', category: 'Networking', example: 'Great meeting you! Same here!', emotionalTip: 'Reciprocar el sentimiento. El espejo social.' },
+      { word: 'Small world', meaning: 'El mundo es un pañuelo', type: 'expression', category: 'Networking', example: 'You know her too? Small world!', emotionalTip: 'Descubrir conexiones inesperadas. Las coincidencias que unen.' },
+      { word: 'Stay in touch', meaning: 'Mantengamos el contacto', type: 'expression', category: 'Networking', example: 'Let\'s stay in touch!', emotionalTip: 'La promesa de no olvidarse. A veces se cumple.' },
+      { word: 'Keep me posted', meaning: 'Mantenme informado', type: 'expression', category: 'Networking', example: 'Keep me posted on how it goes.', emotionalTip: 'Querer saber cómo sigue la historia. Interés genuino o cortés.' }
+    ]
+  },
+
   // ==========================================
-  // NIVEL C2 - INGLÉS DE EXPERTO
+  // NIVEL C2 - MAESTRÍA
   // ==========================================
   {
     id: 'c2-complete',
@@ -356,6 +606,56 @@ export const starterPacks = [
       { word: 'Miss the boat', meaning: 'Perder la oportunidad', type: 'expression', category: 'Expresiones', example: 'If you don\'t apply now, you\'ll miss the boat.', emotionalTip: 'Ver cómo la oportunidad se aleja sin ti. El arrepentimiento de no actuar.' },
       { word: 'Put your foot in your mouth', meaning: 'Meter la pata', type: 'expression', category: 'Expresiones', example: 'I really put my foot in my mouth there.', emotionalTip: 'Decir algo terrible sin darte cuenta. La vergüenza instantánea.' },
       { word: 'Under the weather', meaning: 'Pachucho / Indispuesto', type: 'expression', category: 'Expresiones', example: 'I\'m feeling a bit under the weather.', emotionalTip: 'No estar enfermo pero tampoco bien. Ese malestar vago que no puedes explicar.' }
+    ]
+  },
+
+  {
+    id: 'c2-emotions',
+    name: 'C2 - Emociones y Matices',
+    icon: 'fa-heart',
+    description: 'Vocabulario avanzado para expresar emociones complejas, estados de ánimo y matices psicológicos.',
+    level: 'C2',
+    words: [
+      { word: 'Overwhelmed', meaning: 'Abrumado/a', type: 'word', category: 'Emociones', example: 'I feel completely overwhelmed.', emotionalTip: 'Cuando todo te supera. Demasiadas cosas, muy poco tú.' },
+      { word: 'Relieved', meaning: 'Aliviado/a', type: 'word', category: 'Emociones', example: 'I\'m so relieved it\'s over.', emotionalTip: 'El peso que se va de tus hombros. Respirar por fin.' },
+      { word: 'Resentful', meaning: 'Resentido/a', type: 'word', category: 'Emociones', example: 'I feel resentful about what happened.', emotionalTip: 'El rencor que guardas. La herida que no perdonaste.' },
+      { word: 'Nostalgic', meaning: 'Nostálgico/a', type: 'word', category: 'Emociones', example: 'This song makes me feel nostalgic.', emotionalTip: 'Añorar tiempos que ya no volverán. El dulce dolor del pasado.' },
+      { word: 'Content', meaning: 'Satisfecho/a / En paz', type: 'word', category: 'Emociones', example: 'I feel content with my life.', emotionalTip: 'No necesitar más. La paz de tener lo suficiente.' },
+      { word: 'Restless', meaning: 'Inquieto/a', type: 'word', category: 'Emociones', example: 'I\'ve been feeling restless lately.', emotionalTip: 'No poder estar quieto. Algo dentro pide movimiento.' },
+      { word: 'Drained', meaning: 'Agotado/a (emocionalmente)', type: 'word', category: 'Emociones', example: 'I feel emotionally drained.', emotionalTip: 'Vacío de energía interna. Cuando ya no queda nada que dar.' },
+      { word: 'Bitter', meaning: 'Amargado/a', type: 'word', category: 'Emociones', example: 'Don\'t become bitter about it.', emotionalTip: 'El sabor de la decepción que se queda. El resentimiento crónico.' },
+      { word: 'Torn', meaning: 'Dividido/a', type: 'word', category: 'Emociones', example: 'I\'m torn between two options.', emotionalTip: 'Partido en dos. Cuando dos caminos te llaman igual.' },
+      { word: 'Numb', meaning: 'Insensible / Entumecido', type: 'word', category: 'Emociones', example: 'I felt numb after the news.', emotionalTip: 'Cuando ya no sientes nada. El shock que anestesia.' },
+      { word: 'Vulnerable', meaning: 'Vulnerable', type: 'word', category: 'Emociones', example: 'It\'s hard to feel vulnerable.', emotionalTip: 'Estar expuesto sin armadura. El riesgo de ser auténtico.' },
+      { word: 'Fulfilled', meaning: 'Realizado/a', type: 'word', category: 'Emociones', example: 'I finally feel fulfilled in my career.', emotionalTip: 'Cuando tu vida tiene sentido. El propósito encontrado.' },
+      { word: 'Gutted', meaning: 'Destrozado/a (informal)', type: 'word', category: 'Emociones', example: 'I was gutted when I heard.', emotionalTip: 'La noticia que te vacía por dentro. Devastación total.' },
+      { word: 'Chuffed', meaning: 'Contentísimo/a (UK)', type: 'word', category: 'Emociones', example: 'I\'m chuffed with the results.', emotionalTip: 'Orgullo mezclado con alegría. El logro que saboreas.' },
+      { word: 'Ambivalent', meaning: 'Ambivalente', type: 'word', category: 'Emociones', example: 'I feel ambivalent about leaving.', emotionalTip: 'Querer y no querer a la vez. Sentimientos que compiten.' },
+      { word: 'Melancholic', meaning: 'Melancólico/a', type: 'word', category: 'Emociones', example: 'The music is quite melancholic.', emotionalTip: 'Tristeza hermosa y profunda. El sentimiento de la pérdida.' },
+      { word: 'Resentment', meaning: 'Resentimiento', type: 'word', category: 'Emociones', example: 'I need to let go of this resentment.', emotionalTip: 'El veneno que guardas. El rencor que te enferma a ti.' },
+      { word: 'Empathy', meaning: 'Empatía', type: 'word', category: 'Emociones', example: 'Show some empathy.', emotionalTip: 'Sentir lo que el otro siente. Ponerte en sus zapatos.' },
+      { word: 'Compassion', meaning: 'Compasión', type: 'word', category: 'Emociones', example: 'Have compassion for others.', emotionalTip: 'Querer aliviar el sufrimiento ajeno. El amor en acción.' },
+      { word: 'Bittersweet', meaning: 'Agridulce', type: 'word', category: 'Emociones', example: 'It was a bittersweet moment.', emotionalTip: 'Felicidad y tristeza mezcladas. Lo bueno que duele un poco.' },
+      { word: 'I\'m at peace with', meaning: 'Estoy en paz con', type: 'expression', category: 'Emociones', example: 'I\'m at peace with my decision.', emotionalTip: 'Aceptar sin luchar más. El final de la guerra interna.' },
+      { word: 'It weighs on me', meaning: 'Me pesa / Me preocupa', type: 'expression', category: 'Emociones', example: 'The guilt weighs on me.', emotionalTip: 'Algo que no te deja tranquilo. La carga invisible.' },
+      { word: 'I\'m at a loss', meaning: 'No sé qué hacer', type: 'expression', category: 'Emociones', example: 'I\'m at a loss for words.', emotionalTip: 'Cuando no tienes respuestas. La confusión que paraliza.' },
+      { word: 'Get something off my chest', meaning: 'Desahogarse', type: 'expression', category: 'Emociones', example: 'I need to get this off my chest.', emotionalTip: 'Soltar lo que llevas dentro. El alivio de confesar.' },
+      { word: 'Hit close to home', meaning: 'Tocar la fibra sensible', type: 'expression', category: 'Emociones', example: 'That comment hit close to home.', emotionalTip: 'Cuando algo te toca personalmente. La verdad que duele.' },
+      { word: 'Be on edge', meaning: 'Estar tenso/ansioso', type: 'expression', category: 'Emociones', example: 'I\'ve been on edge all day.', emotionalTip: 'Al borde del colapso. La tensión constante.' },
+      { word: 'Bottle up emotions', meaning: 'Reprimir emociones', type: 'expression', category: 'Emociones', example: 'Don\'t bottle up your emotions.', emotionalTip: 'Guardar lo que deberías soltar. La olla a presión.' },
+      { word: 'Wear your heart on your sleeve', meaning: 'Llevar el corazón en la mano', type: 'expression', category: 'Emociones', example: 'She wears her heart on her sleeve.', emotionalTip: 'No ocultar lo que sientes. La transparencia emocional.' },
+      { word: 'Have a heart-to-heart', meaning: 'Tener una charla íntima', type: 'expression', category: 'Emociones', example: 'We had a heart-to-heart.', emotionalTip: 'Conversación profunda y honesta. Cuando bajan las barreras.' },
+      { word: 'Mixed emotions', meaning: 'Emociones encontradas', type: 'expression', category: 'Emociones', example: 'I have mixed emotions about it.', emotionalTip: 'Cuando sientes varias cosas a la vez. El caos interno.' },
+      { word: 'Come to terms with', meaning: 'Aceptar / Asimilar', type: 'expression', category: 'Emociones', example: 'I\'m coming to terms with it.', emotionalTip: 'El proceso de aceptar lo inevitable. La paz que llega.' },
+      { word: 'Take its toll', meaning: 'Pasar factura', type: 'expression', category: 'Emociones', example: 'The stress is taking its toll.', emotionalTip: 'Cuando algo te cobra el precio. El coste emocional.' },
+      { word: 'Cathartic', meaning: 'Catártico / Liberador', type: 'word', category: 'Emociones', example: 'Crying can be cathartic.', emotionalTip: 'El alivio de liberar emociones. La purga necesaria.' },
+      { word: 'Vindicated', meaning: 'Reivindicado', type: 'word', category: 'Emociones', example: 'I finally felt vindicated.', emotionalTip: 'Cuando se demuestra que tenías razón. Justicia personal.' },
+      { word: 'Wistful', meaning: 'Melancólico / Añorante', type: 'word', category: 'Emociones', example: 'She had a wistful look.', emotionalTip: 'Desear algo que no puedes tener. La tristeza del anhelo.' },
+      { word: 'Elated', meaning: 'Eufórico / Exultante', type: 'word', category: 'Emociones', example: 'I was elated when I heard!', emotionalTip: 'Alegría que te eleva. El pico de felicidad.' },
+      { word: 'Disheartened', meaning: 'Desanimado/a', type: 'word', category: 'Emociones', example: 'I felt disheartened by the rejection.', emotionalTip: 'Cuando la esperanza se cae. El golpe al ánimo.' },
+      { word: 'Apprehensive', meaning: 'Aprensivo / Preocupado', type: 'word', category: 'Emociones', example: 'I\'m apprehensive about the results.', emotionalTip: 'Miedo anticipado a algo. La ansiedad del no saber.' },
+      { word: 'Sentimental', meaning: 'Sentimental', type: 'word', category: 'Emociones', example: 'I get sentimental about old photos.', emotionalTip: 'Emocionarte con recuerdos. El corazón blando.' },
+      { word: 'Conflicted', meaning: 'Conflictuado / En conflicto', type: 'word', category: 'Emociones', example: 'I feel conflicted about the decision.', emotionalTip: 'Cuando dos partes de ti pelean. La guerra interior.' }
     ]
   }
 ];
