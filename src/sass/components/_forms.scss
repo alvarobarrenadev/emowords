@@ -500,3 +500,78 @@
     border: 1px solid var(--warning-100);
   }
 }
+
+// ===== DARK MODE FOR IMAGE UPLOAD =====
+[data-theme="dark"] .image-source-tabs .image-tab {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+  color: var(--gray-400);
+
+  &:hover {
+    background: var(--gray-700);
+    border-color: var(--primary-500);
+    color: var(--primary-400);
+  }
+
+  &.active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: var(--primary-500);
+    color: var(--primary-400);
+  }
+}
+
+[data-theme="dark"] .upload-area {
+  background: var(--gray-800);
+  border-color: var(--gray-600);
+
+  .upload-placeholder {
+    color: var(--gray-400);
+
+    i {
+      color: var(--gray-500);
+    }
+
+    span {
+      color: var(--gray-300);
+    }
+
+    .upload-hint {
+      color: var(--gray-500);
+    }
+  }
+
+  &:hover,
+  &.dragover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--primary-500);
+
+    .upload-placeholder {
+      color: var(--primary-400);
+
+      i {
+        color: var(--primary-400);
+      }
+    }
+  }
+
+  &.has-file {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.5);
+
+    .upload-placeholder {
+      color: #34d399;
+
+      i {
+        color: #34d399;
+      }
+    }
+  }
+}
+
+[data-theme="dark"] .image-tab-content small {
+  color: var(--gray-500);
+}
+
+[data-theme="dark"] .image-preview {
+  border-color: var(--gray-700);
+}
