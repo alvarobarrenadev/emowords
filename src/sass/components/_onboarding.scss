@@ -393,6 +393,13 @@
     padding: 1.25rem 1rem;
   }
 
+  // Centrar verticalmente el contenido en páginas introductorias (1, 2, 3)
+  .onboarding-tooltip.centered .tooltip-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .tooltip-icon {
     width: 48px;
     height: 48px;
