@@ -627,6 +627,43 @@
       }
     }
   }
+
+  // Responsive adjustments for controls bar
+  @media (max-width: 800px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+
+    .search-box {
+      width: 100%;
+      min-width: 0;
+      flex: none; // Disable flex behavior to ensure width: 100% works
+    }
+
+    .action-buttons {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); // 3 buttons: Packs, Export, Import
+      gap: 0.75rem;
+
+      .action-btn {
+        justify-content: center;
+        padding: 0.75rem 0.5rem;
+        width: 100%;
+
+        span {
+          font-size: 0.85rem;
+        }
+
+        @media (max-width: 400px) {
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
 
 .action-buttons {
