@@ -210,6 +210,11 @@ setTimeout(() => {
   }
 }, 500);
 
+// Refresh home view after onboarding completes to show imported packs
+window.addEventListener('onboardingCompleted', () => {
+  render('home');
+});
+
 // ==================== AUDIO SETTINGS ====================
 
 function initAudioSettings() {

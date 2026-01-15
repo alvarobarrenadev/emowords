@@ -456,6 +456,9 @@ function endOnboarding() {
   }
   
   removeHighlights();
+  
+  // Dispatch event so the app can refresh the UI with any imported packs
+  window.dispatchEvent(new CustomEvent('onboardingCompleted'));
 }
 
 /**
