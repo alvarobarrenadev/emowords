@@ -1,4 +1,4 @@
-const CACHE_NAME = 'emowords-v2';
+const CACHE_NAME = 'emowords-v3';
 
 // Get the base path dynamically from the service worker's location
 const BASE_PATH = self.location.pathname.replace('/sw.js', '') || '/';
@@ -44,37 +44,50 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Ignorar peticiones no HTTP (como chrome-extension://)
+  // Ignorar peticiones no HTTP
   if (!event.request.url.startsWith('http')) return;
 
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // Chequear si recibimos una respuesta válida
-        if (!response || response.status !== 200) {
+  // ESTRATEGIA 1: Navegación (HTML) -> Network First, luego Cache
+  // Queremos siempre la versión más reciente del HTML para tener los links correctos a los JS/CSS nuevos.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (!response || response.status !== 200) return response;
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
           return response;
-        }
+        })
+        .catch(() => {
+          // Si falla la red, devuelve el index.html de caché (SPA support)
+          return caches.match(BASE_PATH + 'index.html').then(response => {
+            return response || caches.match(event.request);
+          });
+        })
+    );
+    return;
+  }
 
-        // Clonar la respuesta
-        const responseToCache = response.clone();
+  // ESTRATEGIA 2: Assets (JS, CSS, Imágenes, Fuentes) -> Cache First, luego Network
+  // Los archivos de Vite tienen hashes (ej: index-Ah32.js). Si el nombre es igual, el contenido es igual.
+  // Es seguro devolverlo desde caché inmediatamente.
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-
-        return response;
-      })
-      .catch(() => {
-        return caches.match(event.request).then((response) => {
-          if (response) {
+      // Si no está en caché, vamos a la red
+      return fetch(event.request)
+        .then((response) => {
+          if (!response || response.status !== 200 || response.type !== 'basic' && response.type !== 'cors') {
             return response;
           }
-          // Si es una navegación (documento html) y falla, devolver index.html
-          // Esto permite que el SPA cargue offline en cualquier ruta
-          if (event.request.mode === 'navigate') {
-             return caches.match(BASE_PATH + 'index.html');
-          }
+
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+          return response;
         });
-      })
+    })
   );
 });
