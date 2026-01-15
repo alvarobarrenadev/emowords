@@ -517,7 +517,7 @@ export function checkDuplicateWord(wordText, excludeId = null) {
 export function getSettings() {
   const raw = localStorage.getItem(SETTINGS_KEY);
   return raw ? JSON.parse(raw) : {
-    theme: 'dark',
+    theme: null, // null = auto-detect from system preference
     language: 'es',
     showExampleInReview: true,
     autoPlayAudio: false
