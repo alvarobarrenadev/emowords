@@ -338,6 +338,12 @@ export function importData(jsonString) {
       word.remembered = word.remembered || false;
       word.createdAt = word.createdAt || Date.now();
       
+      // Map emotionalTip to emotion (for starter packs compatibility)
+      if (word.emotionalTip && !word.emotion) {
+        word.emotion = word.emotionalTip;
+        delete word.emotionalTip;
+      }
+      
       existingWords.push(word);
       existingIds.add(word.id);
       imported++;
