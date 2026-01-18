@@ -972,6 +972,14 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
     }
     .coaches-hero .hero-icon i { font-size: 2.5rem; }
     .coaches-hero .hero-progress { max-width: 300px; margin: 0 auto; }
+    .coaches-hero .progress-label { 
+      display: block; 
+      margin-bottom: 0.5rem; 
+      font-weight: 700; 
+      color: #ffffff; 
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      font-size: 0.95rem;
+    }
     .coaches-hero .progress-bar { height: 8px; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; }
     .coaches-hero .progress-fill { height: 100%; background: white; border-radius: 4px; }
     .hero-decoration { display: none; }
