@@ -55,12 +55,20 @@ const onboardingSteps = [
     icon: 'fa-solid fa-graduation-cap'
   },
   {
-    id: 'nav-stats',
-    target: '[data-view="stats"]',
-    title: '3. Tu Progreso',
-    content: 'Visualiza tu evolución, logros y palabras que necesitan más atención.',
+    id: 'nav-coaches',
+    target: '[data-view="coaches"]',
+    title: '3. Coaches IA',
+    content: 'Practica conversaciones reales con diferentes personalidades de IA para mejorar tu fluidez.',
     position: 'bottom',
-    icon: 'fa-solid fa-chart-line'
+    icon: 'fa-solid fa-headset'
+  },
+  {
+    id: 'nav-settings',
+    target: '[data-view="settings"]',
+    title: '4. Ajustes y Progreso',
+    content: 'Aquí encontrarás tus estadísticas detalladas, logros y la configuración de audio.',
+    position: 'bottom',
+    icon: 'fa-solid fa-gear'
   },
   {
     id: 'secret',
