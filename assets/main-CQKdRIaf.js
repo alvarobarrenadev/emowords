@@ -1374,7 +1374,7 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
         Seguir aprendiendo
       </button>
     </div>
-  `,document.body.appendChild(t);const i=()=>{t.classList.remove("animate__fadeIn"),t.classList.add("animate__fadeOut"),setTimeout(()=>t.remove(),200)};t.querySelector(".modal-backdrop").addEventListener("click",i),t.querySelector(".btn-continue").addEventListener("click",i);const n=r=>{r.key==="Escape"&&(i(),document.removeEventListener("keydown",n))};document.addEventListener("keydown",n)}function Oa(e){e.innerHTML="";const o=document.createElement("div");o.className="settings-view animate__animated animate__fadeIn",o.innerHTML=`
+  `,document.body.appendChild(t);const i=()=>{t.classList.remove("animate__fadeIn"),t.classList.add("animate__fadeOut"),setTimeout(()=>t.remove(),200)};t.querySelector(".modal-backdrop").addEventListener("click",i),t.querySelector(".btn-continue").addEventListener("click",()=>{i();const r=document.querySelector('.nav-link[data-view="review"]');r&&r.click()});const n=r=>{r.key==="Escape"&&(i(),document.removeEventListener("keydown",n))};document.addEventListener("keydown",n)}function Oa(e){e.innerHTML="";const o=document.createElement("div");o.className="settings-view animate__animated animate__fadeIn",o.innerHTML=`
     <!-- Settings Header with Tabs -->
     <header class="settings-header">
       <div class="header-title">
