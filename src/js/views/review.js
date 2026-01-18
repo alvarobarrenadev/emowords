@@ -30,17 +30,33 @@ export function renderReview(container) {
     // For now, simple router:
   }
 
-  // ==================== MODE SELECTION ====================
+// ==================== MODE SELECTION ====================
   function renderModeSelection() {
-    const todoCount = reviewQueue.length;
+    // Refresh queue from storage every time we show selection
+    const allDueWords = getWordsForReview();
+    
+    // Default config state (if not already set, or reset)
+    const sessionConfig = {
+        limit: 'all',
+        types: new Set(['word', 'phrasal', 'expression', 'connector'])
+    };
+    
+    // Calculate stats for badges
+    const counts = {
+        total: allDueWords.length,
+        word: allDueWords.filter(w => w.type === 'word').length,
+        phrasal: allDueWords.filter(w => w.type === 'phrasal').length,
+        expression: allDueWords.filter(w => w.type === 'expression').length,
+        connector: allDueWords.filter(w => w.type === 'connector').length
+    };
     
     container.innerHTML = `
       <h2 style="text-align: center; justify-content: center; margin-bottom: 0.5rem;">Modo de Repaso</h2>
       <p style="text-align: center; color: var(--gray-500); margin-bottom: 2rem;">
-        Tienes <strong style="color: var(--primary-600);">${todoCount}</strong> palabras pendientes
+        Tienes <strong style="color: var(--primary-600);" id="review-total-count">${allDueWords.length}</strong> palabras pendientes
       </p>
       
-      ${todoCount === 0 ? `
+      ${allDueWords.length === 0 ? `
         <div class="empty-review-state">
           <div class="empty-review-icon">
             <i class="fa-solid fa-graduation-cap"></i>
@@ -56,63 +72,148 @@ export function renderReview(container) {
             </button>
           </div>
         </div>
-      ` : ''}
-      
-      <div class="mode-grid">
-        <div class="mode-card featured" data-mode="mixed">
-          <div class="mode-badge">⭐ Recomendado</div>
-          <div class="mode-icon"><i class="fa-solid fa-shuffle"></i></div>
-          <div class="mode-title">Mixto</div>
-          <div class="mode-desc">Combina todos los modos aleatoriamente. ¡La forma más completa de repasar!</div>
+      ` : `
+        <div class="review-settings">
+            <h3><i class="fa-solid fa-sliders"></i> Configura tu sesión</h3>
+            <div class="settings-grid">
+                <div class="setting-group">
+                    <span class="setting-label">¿Cuántas palabras?</span>
+                    <div class="limit-options">
+                        <button class="limit-btn active" data-limit="all">Todas</button>
+                        <button class="limit-btn" data-limit="10">10</button>
+                        <button class="limit-btn" data-limit="20">20</button>
+                        <button class="limit-btn" data-limit="50">50</button>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <span class="setting-label">¿Qué tipos?</span>
+                    <div class="type-options">
+                        <label class="type-chip active" data-type="word">
+                            <input type="checkbox" checked value="word">Palabras<span style="font-size:0.8em; opacity:0.7">(${counts.word})</span>
+                            <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        </label>
+                        <label class="type-chip active" data-type="phrasal">
+                            <input type="checkbox" checked value="phrasal">Phrasal Verbs<span style="font-size:0.8em; opacity:0.7">(${counts.phrasal})</span>
+                             <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        </label>
+                        <label class="type-chip active" data-type="expression">
+                            <input type="checkbox" checked value="expression">Expresiones<span style="font-size:0.8em; opacity:0.7">(${counts.expression})</span>
+                             <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        </label>
+                        <label class="type-chip active" data-type="connector">
+                            <input type="checkbox" checked value="connector">Conectores<span style="font-size:0.8em; opacity:0.7">(${counts.connector})</span>
+                             <span class="check-icon"><i class="fa-solid fa-check"></i></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="mode-card" data-mode="flashcard">
-          <div class="mode-icon"><i class="fa-solid fa-layer-group"></i></div>
-          <div class="mode-title">Flashcards</div>
-          <div class="mode-desc">El método clásico. Voltea la tarjeta para ver la respuesta.</div>
+
+        <div class="mode-grid">
+            <div class="mode-card featured" data-mode="mixed">
+            <div class="mode-badge">⭐ Recomendado</div>
+            <div class="mode-icon"><i class="fa-solid fa-shuffle"></i></div>
+            <div class="mode-title">Mixto</div>
+            <div class="mode-desc">Combina todos los modos aleatoriamente. ¡La forma más completa de repasar!</div>
+            </div>
+            
+            <div class="mode-card" data-mode="flashcard">
+            <div class="mode-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="mode-title">Flashcards</div>
+            <div class="mode-desc">El método clásico. Voltea la tarjeta para ver la respuesta.</div>
+            </div>
+            
+            <div class="mode-card" data-mode="quiz">
+            <div class="mode-icon"><i class="fa-solid fa-list-check"></i></div>
+            <div class="mode-title">Quiz</div>
+            <div class="mode-desc">Selecciona la respuesta correcta entre 4 opciones.</div>
+            </div>
+            
+            <div class="mode-card" data-mode="typing">
+            <div class="mode-icon"><i class="fa-solid fa-keyboard"></i></div>
+            <div class="mode-title">Escritura</div>
+            <div class="mode-desc">Escribe la palabra correctamente. Mejora tu spelling.</div>
+            </div>
+            
+            <div class="mode-card" data-mode="listening">
+            <div class="mode-icon"><i class="fa-solid fa-headphones"></i></div>
+            <div class="mode-title">Listening</div>
+            <div class="mode-desc">Escucha la palabra y selecciona el significado correcto.</div>
+            </div>
         </div>
-        
-        <div class="mode-card" data-mode="quiz">
-          <div class="mode-icon"><i class="fa-solid fa-list-check"></i></div>
-          <div class="mode-title">Quiz</div>
-          <div class="mode-desc">Selecciona la respuesta correcta entre 4 opciones.</div>
-        </div>
-        
-        <div class="mode-card" data-mode="typing">
-          <div class="mode-icon"><i class="fa-solid fa-keyboard"></i></div>
-          <div class="mode-title">Escritura</div>
-          <div class="mode-desc">Escribe la palabra correctamente. Mejora tu spelling.</div>
-        </div>
-        
-        <div class="mode-card" data-mode="listening">
-          <div class="mode-icon"><i class="fa-solid fa-headphones"></i></div>
-          <div class="mode-title">Listening</div>
-          <div class="mode-desc">Escucha la palabra y selecciona el significado correcto.</div>
-        </div>
-      </div>
+      `}
     `;
     
+    // Interaction Handlers for Settings
+    const updateFilteredCount = () => {
+        let count = allDueWords.filter(w => sessionConfig.types.has(w.type)).length;
+        if (sessionConfig.limit !== 'all') {
+            count = Math.min(count, parseInt(sessionConfig.limit));
+        }
+        const badge = document.getElementById('review-total-count');
+        if (badge) badge.textContent = count;
+    };
+
+    container.querySelectorAll('.limit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            container.querySelectorAll('.limit-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            sessionConfig.limit = btn.dataset.limit;
+            updateFilteredCount();
+        });
+    });
+
+    container.querySelectorAll('.type-chip input').forEach(input => {
+        input.addEventListener('change', (e) => {
+            const chip = e.target.closest('.type-chip');
+            if (e.target.checked) {
+                sessionConfig.types.add(e.target.value);
+                chip.classList.add('active');
+            } else {
+                sessionConfig.types.delete(e.target.value);
+                chip.classList.remove('active');
+            }
+            updateFilteredCount();
+        });
+    });
+
     container.querySelectorAll('.mode-card').forEach(card => {
       card.addEventListener('click', () => {
         currentMode = card.dataset.mode;
+        
+        // APPLY FILTERS & LIMITS
+        let filtered = allDueWords.filter(w => sessionConfig.types.has(w.type));
+        
+        // Take top N (SRS priority is already sorted in allDueWords)
+        if (sessionConfig.limit !== 'all') {
+            const limit = parseInt(sessionConfig.limit);
+            filtered = filtered.slice(0, limit);
+        }
+
+        // Shuffle the selected batch for variety (optional, but good for UX)
+        // We do this AFTER selecting the top N priority words
+        shuffleArray(filtered);
+        
+        reviewQueue = filtered;
+        
         console.log(`Starting mode: ${currentMode} with queue size: ${reviewQueue.length}`);
         
         if (reviewQueue.length === 0) {
-           showToast('Sin palabras', 'No hay palabras pendientes para repasar ahora.', 'info');
-           renderSummary(container);
+           showToast('Sin palabras', 'No hay palabras que coincidan con tu selección.', 'info');
            return;
         }
         
         // Force full re-render to switch to Session UI
-        render(); 
-        
-        // Initialize Session
+        // We don't call render() here because it would reset the view to mode selection
+        // Instead we manually clear and mount session
+        container.innerHTML = '';
         mountSessionUI();
         renderWord();
       });
     });
     
-    // Event listener for explore packs button in empty state
+    // Event listener for explore packs button in empty state (only if exists)
     const exploreBtn = container.querySelector('#explore-packs-review-btn');
     if (exploreBtn) {
       exploreBtn.addEventListener('click', () => {
@@ -155,8 +256,9 @@ export function renderReview(container) {
      exitBtn.addEventListener('click', (e) => {
        e.preventDefault();
        if (sessionStats.correct > 0 || sessionStats.incorrect > 0) {
-         if (confirm('¿Salir del modo repaso? Tu progreso se perderá.')) {
-            finishSession();
+         if (confirm('¿Quieres terminar la sesión ahora y guardar tu progreso?')) {
+            const activeContent = document.getElementById('active-content');
+            renderSummary(activeContent);
          }
        } else {
           finishSession();
@@ -568,9 +670,9 @@ export function renderReview(container) {
                 </div>
             </div>
             
-            <div class="streak-mini" style="margin: 1.5rem 0; padding: 1rem; background: #fffbeb; border-radius: 8px; border: 1px solid #fcd34d;">
-                <p style="color: #b45309; font-weight: bold;"><i class="fa-solid fa-fire"></i> Racha: ${game.streak} días</p>
-                <p style="font-size: 0.9rem; color: #92400e;">Meta diaria: ${game.dailyGoal.count} / ${game.dailyGoal.target}</p>
+            <div class="streak-mini">
+                <p class="streak-label"><i class="fa-solid fa-fire"></i> Racha: ${game.streak} días</p>
+                <p class="daily-meta">Meta diaria: ${game.dailyGoal.count} / ${game.dailyGoal.target}</p>
             </div>
     
             <button class="add-word-btn" id="finish-btn">Volver al inicio</button>

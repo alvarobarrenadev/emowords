@@ -51,6 +51,133 @@
   opacity: 0.8;
 }
 
+// Review Settings
+.review-settings {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+
+  h3 {
+    font-size: 1.1rem;
+    color: var(--gray-800);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      color: var(--primary-500);
+    }
+  }
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.setting-group {
+  .setting-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    margin-bottom: 0.75rem;
+  }
+}
+
+.limit-options {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  .limit-btn {
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 999px; // Pill shape
+    background: transparent;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      border-color: var(--primary-400);
+      color: var(--primary-600);
+      background: var(--primary-50);
+    }
+
+    &.active {
+      background: var(--primary-600);
+      border-color: var(--primary-600);
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+  }
+}
+
+.type-options {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  .type-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray-600);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    background: white;
+
+    &:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-400);
+    }
+
+    input {
+      display: none; // Handle visual state with class
+    }
+
+    &.active {
+      background: var(--primary-50);
+      border-color: var(--primary-500);
+      color: var(--primary-700);
+
+      .check-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .check-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      background: var(--primary-500);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.6rem;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s;
+    }
+  }
+}
+
 .progress-label {
   font-size: 0.85rem;
   color: var(--gray-500);
@@ -179,6 +306,28 @@
   padding: 1rem;
   border-radius: var(--radius);
   margin-bottom: 1.5rem;
+}
+
+// Streak Mini Card
+.streak-mini {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--warning-50);
+  border-radius: var(--radius);
+  border: 1px solid var(--warning-100);
+  text-align: center;
+
+  .streak-label {
+    color: var(--warning-600);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .daily-meta {
+    font-size: 0.9rem;
+    color: var(--warning-600);
+    opacity: 0.8;
+  }
 }
 
 .summary-stats {

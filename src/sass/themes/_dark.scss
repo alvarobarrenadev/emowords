@@ -666,4 +666,66 @@
       color: #10b981;
     }
   }
+
+  // Review Session Settings
+  .review-settings {
+    background: var(--gray-900);
+    border-color: var(--gray-800);
+
+    h3 {
+      color: var(--gray-100);
+    }
+  }
+
+  .setting-group .setting-label {
+    color: var(--gray-400);
+  }
+
+  .limit-options .limit-btn {
+    border-color: var(--gray-700);
+    color: var(--gray-400);
+
+    &:hover {
+      background: var(--gray-800);
+      border-color: var(--primary-500);
+      color: var(--primary-400);
+    }
+
+    &.active {
+      background: var(--primary-600);
+      border-color: var(--primary-600);
+      color: white;
+    }
+  }
+
+  .type-options .type-chip {
+    background: var(--gray-950);
+    border-color: var(--gray-800);
+    color: var(--gray-400);
+
+    &:hover {
+      background: var(--gray-800);
+      border-color: var(--gray-700);
+    }
+
+    &.active {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: var(--primary-500);
+      color: var(--primary-300);
+    }
+  }
+
+  .streak-mini {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+
+    .streak-label {
+      color: var(--warning-500);
+    }
+
+    .daily-meta {
+      color: var(--warning-100);
+      opacity: 0.6;
+    }
+  }
 }

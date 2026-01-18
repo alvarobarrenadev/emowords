@@ -408,7 +408,7 @@ export function renderCoaches(container) {
     
     <!-- How it works section -->
     <section class="how-it-works">
-      <h2><i class="fa-solid fa-circle-question"></i> ¿Cómo funciona?</h2>
+      <h2>¿Cómo funciona?</h2>
       <div class="steps-grid">
         <div class="step-card">
           <div class="step-number">1</div>

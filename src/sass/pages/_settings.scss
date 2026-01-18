@@ -114,20 +114,24 @@
 }
 
 // === STATS TAB ===
-// Ensure stats look good inside the tab
-#tab-stats {
-  .stats-view {
-    padding: 0;
-  }
+// Remove redundant padding when stats are inside a tab
+#tab-stats.stats-view {
+  padding: 0;
+  width: 100%;
+  margin: 0;
 }
 
 // === CONFIG GRID ===
 .config-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   max-width: 900px;
   margin: 0 auto;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .settings-card {
@@ -292,6 +296,7 @@
 .speed-range {
   width: 100%;
   -webkit-appearance: none;
+  appearance: none;
   height: 6px;
   background: var(--gray-200);
   border-radius: 3px;
