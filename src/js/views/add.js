@@ -1,5 +1,8 @@
-import { saveWord, getAllCategories, checkDuplicateWord } from '../storage/vocabStorage.js';
+import { saveWord, getAllCategories, checkDuplicateWord, getStatistics } from '../storage/vocabStorage.js';
 import { showToast } from '../utils/ui.js';
+import { checkAchievements } from '../storage/achievements.js';
+import { getStatsForAchievements } from '../storage/gamification.js';
+import { showAchievementsUnlocked } from '../components/achievementNotification.js';
 
 export function renderAdd(container) {
   const existingCategories = getAllCategories();
@@ -358,6 +361,19 @@ Ejemplo: Mi coche se averió en la autopista y tuve que esperar 2 horas bajo la 
     uploadArea.classList.remove('has-file');
     
     showToast('¡Guardado!', `"${word}" se ha añadido correctamente.`, 'success');
+    
+    // Check for achievements
+    try {
+      const vocabStats = getStatistics();
+      const statsForAchievements = getStatsForAchievements(vocabStats);
+      const newAchievements = checkAchievements(statsForAchievements);
+      
+      if (newAchievements.length > 0) {
+        showAchievementsUnlocked(newAchievements);
+      }
+    } catch (err) {
+      console.error('Error checking achievements:', err);
+    }
     
     // Focus back on word input for quick adding
     document.getElementById('word').focus();

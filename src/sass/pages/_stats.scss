@@ -113,8 +113,9 @@
 
 .hero-kpis {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   flex: 1;
+  min-width: 0; // Allow shrinking below content size
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -135,6 +136,7 @@
   position: relative;
   overflow: hidden;
   transition: all 0.2s;
+  min-width: 0; // CRITICAL: Allows flex item to shrink below content size
 
   &:hover {
     border-color: var(--primary-600);

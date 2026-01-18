@@ -4,6 +4,7 @@ import { renderAdd } from './views/add.js';
 import { renderReview } from './views/review.js';
 import { renderStats } from './views/stats.js';
 import { renderCoaches } from './views/coaches.js';
+import { renderSettings } from './views/settings.js';
 import { getSettings, saveSettings, getWordsDueCount } from './storage/vocabStorage.js';
 import { showToast } from './utils/ui.js';
 import { getTTSSettings, saveTTSSettings, speak, getAccentLabel, getSpeedLabel } from './utils/tts.js';
@@ -35,7 +36,6 @@ window.addEventListener('unhandledrejection', (event) => {
 });
 const navLinks = document.querySelectorAll('.nav-link');
 const themeToggle = document.getElementById('theme-toggle');
-const audioSettingsBtn = document.getElementById('audio-settings-btn');
 
 // ==================== THEME MANAGEMENT ====================
 
@@ -157,6 +157,9 @@ function render(view) {
       case 'coaches':
         renderCoaches(app);
         break;
+      case 'settings':
+        renderSettings(app);
+        break;
       default:
         app.innerHTML = '<p>Vista no encontrada</p>';
     }
@@ -203,7 +206,7 @@ if (logo && logo.dataset.view) {
 // ==================== INITIALIZATION ====================
 
 initTheme();
-initAudioSettings();
+// initSettings(); // Removed modal init
 updateReviewBadge();
 render('home');
 
@@ -219,130 +222,7 @@ window.addEventListener('onboardingCompleted', () => {
   render('home');
 });
 
-// ==================== AUDIO SETTINGS ====================
 
-function initAudioSettings() {
-  if (audioSettingsBtn) {
-    audioSettingsBtn.addEventListener('click', openAudioSettingsModal);
-  }
-}
-
-function openAudioSettingsModal() {
-  // Remove existing modal
-  document.querySelector('.audio-settings-modal')?.remove();
-  
-  const currentSettings = getTTSSettings();
-  
-  const modal = document.createElement('div');
-  modal.className = 'audio-settings-modal edit-modal';
-  modal.innerHTML = `
-    <div class="modal-overlay"></div>
-    <div class="modal-content" style="max-width: 420px;">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-volume-high"></i> Configuración de Audio</h3>
-        <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      
-      <div class="audio-settings-body">
-        <!-- Accent Selection -->
-        <div class="settings-section">
-          <label class="settings-label"><i class="fa-solid fa-globe"></i> Acento</label>
-          <div class="accent-options">
-            <button class="accent-option ${currentSettings.accent === 'en-US' ? 'active' : ''}" data-accent="en-US">
-              <span class="flag">🇺🇸</span>
-              <span class="label">Americano</span>
-            </button>
-            <button class="accent-option ${currentSettings.accent === 'en-GB' ? 'active' : ''}" data-accent="en-GB">
-              <span class="flag">🇬🇧</span>
-              <span class="label">Británico</span>
-            </button>
-          </div>
-        </div>
-        
-        <!-- Speed Selection -->
-        <div class="settings-section">
-          <label class="settings-label"><i class="fa-solid fa-gauge"></i> Velocidad</label>
-          <div class="speed-options">
-            <button class="speed-option ${currentSettings.speed <= 0.7 ? 'active' : ''}" data-speed="0.6">
-              <i class="fa-solid fa-hourglass-start"></i>
-              <span>Lento</span>
-            </button>
-            <button class="speed-option ${currentSettings.speed > 0.7 && currentSettings.speed <= 1.1 ? 'active' : ''}" data-speed="1">
-              <i class="fa-solid fa-person-walking"></i>
-              <span>Normal</span>
-            </button>
-            <button class="speed-option ${currentSettings.speed > 1.1 ? 'active' : ''}" data-speed="1.3">
-              <i class="fa-solid fa-person-running"></i>
-              <span>Rápido</span>
-            </button>
-          </div>
-        </div>
-        
-        <!-- Preview -->
-        <div class="settings-section preview-section">
-          <button class="preview-btn" id="preview-audio">
-            <i class="fa-solid fa-play"></i> Probar pronunciación
-          </button>
-        </div>
-      </div>
-      
-      <div class="modal-actions">
-        <button type="button" class="btn-cancel">Cerrar</button>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  
-  // Animate in
-  requestAnimationFrame(() => {
-    modal.classList.add('active');
-  });
-  
-  // Close handlers
-  const closeModal = () => {
-    modal.classList.remove('active');
-    setTimeout(() => modal.remove(), 300);
-  };
-  
-  modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
-  modal.querySelector('.modal-close').addEventListener('click', closeModal);
-  modal.querySelector('.btn-cancel').addEventListener('click', closeModal);
-  
-  // Accent selection
-  modal.querySelectorAll('.accent-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.querySelectorAll('.accent-option').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      saveTTSSettings({ accent: btn.dataset.accent });
-      showToast('Acento actualizado', getAccentLabel(btn.dataset.accent), 'success');
-    });
-  });
-  
-  // Speed selection
-  modal.querySelectorAll('.speed-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.querySelectorAll('.speed-option').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const speed = parseFloat(btn.dataset.speed);
-      saveTTSSettings({ speed });
-      showToast('Velocidad actualizada', getSpeedLabel(speed), 'success');
-    });
-  });
-  
-  // Preview button
-  modal.querySelector('#preview-audio').addEventListener('click', () => {
-    speak('Hello, how are you today?');
-  });
-  
-  // Escape key
-  document.addEventListener('keydown', function escHandler(e) {
-    if (e.key === 'Escape') {
-      closeModal();
-      document.removeEventListener('keydown', escHandler);
-    }
-  });
-}
 
 
 

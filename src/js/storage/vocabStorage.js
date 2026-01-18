@@ -126,6 +126,9 @@ export function getStatistics() {
   const now = Date.now();
   const dueForReview = words.filter(w => !w.nextReviewAt || w.nextReviewAt <= now).length;
   
+  // Calculate specific mastery counts for achievements
+  const mastered = words.filter(w => (w.correctCount || 0) >= 10).length;
+
   return {
     total,
     remembered,
@@ -134,7 +137,8 @@ export function getStatistics() {
     averageReviews,
     byType,
     retentionRate,
-    dueForReview
+    dueForReview,
+    mastered
   };
 }
 

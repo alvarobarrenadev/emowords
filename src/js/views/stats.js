@@ -1,5 +1,6 @@
 import { getStatistics, getAllWords } from '../storage/vocabStorage.js';
-import { getAchievementsSummary, getAllAchievementsWithStatus } from '../storage/achievements.js';
+import { getAchievementsSummary, getAllAchievementsWithStatus, checkAchievements } from '../storage/achievements.js';
+import { getStatsForAchievements } from '../storage/gamification.js';
 
 export function renderStats(container) {
   const allWords = getAllWords();
@@ -36,7 +37,8 @@ export function renderStats(container) {
   // 3. Struggling Words
   const strugglingWords = getStrugglingWords(allWords);
 
-  // 4. Achievements
+  // 4. Achievements (Sync Check first)
+  checkAchievements(getStatsForAchievements(stats)); // Force update unlocked list based on current stats
   const achievementsSummary = getAchievementsSummary();
   const allAchievements = getAllAchievementsWithStatus();
   const recentAchievements = allAchievements.slice(0, 8);

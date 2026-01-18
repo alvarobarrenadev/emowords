@@ -331,6 +331,11 @@ export function renderHome(container) {
             
             if (result.success) {
                showToast('Packs añadidos', `¡Genial! Se han añadido ${result.imported} palabras nuevas.`, 'success');
+               
+               // Check achievements
+               const newAchievements = checkAchievements(getStatsForAchievements(getStatistics()));
+               if (newAchievements.length > 0) showAchievementsUnlocked(newAchievements);
+               
                renderHome(container);
             } else {
                showToast('Error', 'Hubo un problema al cargar los packs.', 'error');
@@ -409,6 +414,11 @@ export function renderHome(container) {
           if (result.duplicates > 0) message += ` ${result.duplicates} duplicadas omitidas.`;
           if (result.skipped > 0) message += ` ${result.skipped} con errores.`;
           showToast('Importación CSV completada', message, 'success');
+          
+          // Check achievements
+          const newAchievements = checkAchievements(getStatsForAchievements(getStatistics()));
+          if (newAchievements.length > 0) showAchievementsUnlocked(newAchievements);
+
           setTimeout(() => location.reload(), 1500);
         } else {
           showToast('Error de importación CSV', result.error, 'error');
@@ -418,6 +428,11 @@ export function renderHome(container) {
         result = importData(content);
         if (result.success) {
           showToast('Importación completada', `${result.imported} palabras importadas.`, 'success');
+          
+          // Check achievements
+          const newAchievements = checkAchievements(getStatsForAchievements(getStatistics()));
+          if (newAchievements.length > 0) showAchievementsUnlocked(newAchievements);
+
           setTimeout(() => location.reload(), 1500);
         } else {
           showToast('Error de importación', result.error, 'error');
@@ -548,6 +563,11 @@ export function renderHome(container) {
       const result = importData(JSON.stringify({ words: allWords }));
       if (result.success) {
         showToast('¡Packs importados!', `Se añadieron ${result.imported} palabras.`, 'success');
+        
+        // Check achievements
+        const newAchievements = checkAchievements(getStatsForAchievements(getStatistics()));
+        if (newAchievements.length > 0) showAchievementsUnlocked(newAchievements);
+
         closeModal();
         setTimeout(() => location.reload(), 1000);
       } else {
