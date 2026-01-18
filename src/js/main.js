@@ -3,6 +3,7 @@ import { renderHome } from './views/home.js';
 import { renderAdd } from './views/add.js';
 import { renderReview } from './views/review.js';
 import { renderStats } from './views/stats.js';
+import { renderCoaches } from './views/coaches.js';
 import { getSettings, saveSettings, getWordsDueCount } from './storage/vocabStorage.js';
 import { showToast } from './utils/ui.js';
 import { getTTSSettings, saveTTSSettings, speak, getAccentLabel, getSpeedLabel } from './utils/tts.js';
@@ -152,6 +153,9 @@ function render(view) {
         break;
       case 'stats':
         renderStats(app);
+        break;
+      case 'coaches':
+        renderCoaches(app);
         break;
       default:
         app.innerHTML = '<p>Vista no encontrada</p>';
