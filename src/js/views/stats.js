@@ -8,7 +8,7 @@ export function renderStats(container) {
   
   // Clean up container
   container.innerHTML = '';
-  container.className = 'stats-view animate__animated animate__fadeIn';
+  container.classList.add('stats-view', 'animate__animated', 'animate__fadeIn');
 
   if (stats.total === 0) {
     renderEmptyState(container);

@@ -64,13 +64,16 @@ export function renderSettings(container) {
               <!-- Speed -->
               <div class="settings-control-group">
                 <label class="control-label">Velocidad</label>
-                <div class="speed-slider-container">
-                  <div class="speed-labels">
-                    <span>Lento</span>
-                    <span>Normal</span>
-                    <span>Rápido</span>
-                  </div>
-                  <input type="range" min="0.5" max="1.5" step="0.1" value="1" class="speed-range" id="speed-range-input">
+                <div class="speed-selector">
+                  <button class="selector-btn" data-speed="0.7">
+                    🐢 Lento
+                  </button>
+                  <button class="selector-btn" data-speed="1">
+                    🎯 Normal
+                  </button>
+                  <button class="selector-btn" data-speed="1.3">
+                    🐇 Rápido
+                  </button>
                 </div>
               </div>
 
@@ -197,30 +200,25 @@ function updateThemeIcon(btn, isDark) {
 
 function initAudioControls(container) {
   const currentSettings = getTTSSettings();
-  const rangeInput = container.querySelector('#speed-range-input');
+  // Highlight active speed & accent
+  container.querySelectorAll(`.speed-selector .selector-btn[data-speed="${currentSettings.speed}"]`).forEach(btn => btn.classList.add('active'));
+  container.querySelectorAll(`.accent-selector .selector-btn[data-accent="${currentSettings.accent}"]`).forEach(btn => btn.classList.add('active'));
 
-  // Highlight active accent
-  container.querySelectorAll(`.selector-btn[data-accent="${currentSettings.accent}"]`).forEach(btn => btn.classList.add('active'));
-  
-  // Set speed slider
-  if (rangeInput) {
-    rangeInput.value = currentSettings.speed;
-    rangeInput.addEventListener('input', (e) => {
-      const speed = parseFloat(e.target.value);
+  // Speed click
+  container.querySelectorAll('.speed-selector .selector-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.speed-selector .selector-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const speed = parseFloat(btn.dataset.speed);
       saveTTSSettings({ speed });
+      showToast('Velocidad actualizada', getSpeedLabel(speed), 'success');
     });
-    
-    // Add change listener for toast feedback to avoid spamming while dragging
-    rangeInput.addEventListener('change', (e) => {
-       const speed = parseFloat(e.target.value);
-       showToast('Velocidad actualizada', getSpeedLabel(speed), 'success');
-    });
-  }
+  });
 
   // Accent click
-  container.querySelectorAll('.selector-btn').forEach(btn => {
+  container.querySelectorAll('.accent-selector .selector-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      container.querySelectorAll('.selector-btn').forEach(b => b.classList.remove('active'));
+      container.querySelectorAll('.accent-selector .selector-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       saveTTSSettings({ accent: btn.dataset.accent });
       showToast('Acento actualizado', getAccentLabel(btn.dataset.accent), 'success');

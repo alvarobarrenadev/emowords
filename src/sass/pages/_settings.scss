@@ -102,6 +102,7 @@
 // === CONTENT WRAPPER ===
 .settings-content-wrapper {
   position: relative;
+  padding-top: 1rem;
 }
 
 .tab-content {
@@ -127,10 +128,11 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 1.5rem auto 0; // Added top margin
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
+    margin-top: 1rem;
   }
 }
 
@@ -279,51 +281,54 @@
   }
 }
 
-// Speed Slider
-.speed-slider-container {
-  display: flex;
-  flex-direction: column;
+// Speed Selector
+.speed-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
-}
 
-.speed-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--gray-400);
-}
-
-.speed-range {
-  width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  background: var(--gray-200);
-  border-radius: 3px;
-  outline: none;
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--primary-500);
+  .selector-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0.4rem;
+    background: var(--gray-50);
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--gray-600);
     cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.1s;
+    transition: all 0.2s;
+    font-size: 0.8rem;
 
     &:hover {
-      transform: scale(1.1);
+      border-color: var(--primary-300);
+      background: var(--white);
+    }
+
+    &.active {
+      border-color: var(--primary-500);
+      background: var(--primary-50);
+      color: var(--primary-700);
     }
   }
 }
 
-[data-theme="dark"] .speed-range {
-  background: var(--gray-700);
+[data-theme="dark"] .speed-selector .selector-btn {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+  color: var(--gray-400);
 
-  &::-webkit-slider-thumb {
-    border-color: var(--gray-800);
+  &:hover {
+    border-color: var(--primary-500);
+  }
+
+  &.active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: var(--primary-500);
+    color: var(--primary-400);
   }
 }
 
