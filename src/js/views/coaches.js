@@ -620,7 +620,11 @@ function showLockedMessage(coach, stats) {
   };
   
   modal.querySelector('.modal-backdrop').addEventListener('click', closeModal);
-  modal.querySelector('.btn-continue').addEventListener('click', closeModal);
+  modal.querySelector('.btn-continue').addEventListener('click', () => {
+    closeModal();
+    const reviewLink = document.querySelector('.nav-link[data-view="review"]');
+    if (reviewLink) reviewLink.click();
+  });
   
   // ESC key
   const escHandler = (e) => {
