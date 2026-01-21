@@ -27,6 +27,11 @@ export function getGamificationStats() {
   const data = getGameData();
   const today = new Date().toLocaleDateString();
   
+  // Migration: Ensure unlockedCoaches exists
+  if (!data.unlockedCoaches) {
+    data.unlockedCoaches = [];
+  }
+  
   if (data.dailyGoal.date !== today) {
     // Reset daily goal
     data.dailyGoal = {
@@ -113,6 +118,18 @@ export function setDailyTarget(target) {
   const data = getGameData();
   data.dailyGoal.target = target;
   saveGameData(data);
+}
+
+export function unlockCoach(coachId) {
+  const data = getGameData();
+  if (!data.unlockedCoaches) data.unlockedCoaches = [];
+  
+  if (!data.unlockedCoaches.includes(coachId)) {
+    data.unlockedCoaches.push(coachId);
+    saveGameData(data);
+    return true; // Newly unlocked
+  }
+  return false; // Already unlocked
 }
 
 /**

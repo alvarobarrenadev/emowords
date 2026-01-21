@@ -127,7 +127,8 @@ export function getStatistics() {
   const dueForReview = words.filter(w => !w.nextReviewAt || w.nextReviewAt <= now).length;
   
   // Calculate specific mastery counts for achievements
-  const mastered = words.filter(w => (w.correctCount || 0) >= 10).length;
+  // Changed threshold from 10 to 3 to make unlocks more achievable with Spaced Repetition
+  const mastered = words.filter(w => (w.correctCount || 0) >= 3).length;
 
   return {
     total,

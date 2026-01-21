@@ -4,7 +4,7 @@
  */
 
 import { getStatistics } from '../storage/vocabStorage.js';
-import { getGamificationStats } from '../storage/gamification.js';
+import { getGamificationStats, unlockCoach } from '../storage/gamification.js';
 
 // Coach definitions with unlock requirements
 const COACHES = [
@@ -19,44 +19,44 @@ const COACHES = [
     url: 'https://chatgpt.com/g/g-685c08c9f38c8191bafd1c21261c8d56-speaking-buddy',
     features: ['Correcciones amables', 'Práctica básica', 'Mucha motivación'],
     unlockRequirements: {
-      masteredWords: 10,
-      description: 'Domina 10 palabras'
+      rememberedWords: 5,
+      description: 'Aprende 5 palabras (acertadas al menos 1 vez)'
     },
-    checkUnlocked: (stats) => stats.masteredWords >= 10
-  },
-  {
-    id: 'fluency_coach',
-    name: 'Fluency Coach',
-    tagline: 'Habla con fluidez natural',
-    description: 'Coach de idiomas IA que se adapta a tu nivel de inglés, te corrige en vivo y te ayuda a hablar con fluidez y naturalidad.',
-    level: 'Intermedio',
-    levelClass: 'intermediate',
-    icon: 'fa-graduation-cap',
-    url: 'https://chatgpt.com/g/g-6813540fc2408191bc3fe94ae2b3251f-fluency-coach',
-    features: ['Adaptación a tu nivel', 'Corrección en vivo', 'Fluidez natural'],
-    unlockRequirements: {
-      masteredWords: 25,
-      streak: 7,
-      description: 'Domina 25 palabras y mantén 7 días de racha'
-    },
-    checkUnlocked: (stats) => stats.masteredWords >= 25 && stats.maxStreak >= 7
+    checkRequirements: (stats) => stats.rememberedWords >= 5
   },
   {
     id: 'speak_up',
     name: 'Speak Up',
     tagline: 'El coach exigente que necesitas',
     description: 'Coach estricto pero motivador: corrige tus errores, mejora tus frases, permite palabras en español y construye fluidez a través de conversación natural.',
-    level: 'Avanzado',
-    levelClass: 'advanced',
+    level: 'Intermedio',
+    levelClass: 'intermediate',
     icon: 'fa-rocket',
     url: 'https://chatgpt.com/g/g-68b46f21b45c8191a7eb9349328c8a98-speak-up',
     features: ['Corrección estricta', 'Mejora de frases', 'Conversación natural'],
+    unlockRequirements: {
+      masteredWords: 25,
+      streak: 7,
+      description: 'Domina 25 palabras y mantén 7 días de racha'
+    },
+    checkRequirements: (stats) => stats.masteredWords >= 25 && stats.maxStreak >= 7
+  },
+  {
+    id: 'fluency_coach',
+    name: 'Fluency Coach',
+    tagline: 'Habla con fluidez natural',
+    description: 'Coach de idiomas IA que se adapta a tu nivel de inglés, te corrige en vivo y te ayuda a hablar con fluidez y naturalidad.',
+    level: 'Avanzado',
+    levelClass: 'advanced',
+    icon: 'fa-graduation-cap',
+    url: 'https://chatgpt.com/g/g-6813540fc2408191bc3fe94ae2b3251f-fluency-coach',
+    features: ['Adaptación a tu nivel', 'Corrección en vivo', 'Fluidez natural'],
     unlockRequirements: {
       masteredWords: 50,
       level: 10,
       description: 'Domina 50 palabras y alcanza nivel 10'
     },
-    checkUnlocked: (stats) => stats.masteredWords >= 50 && stats.level >= 10
+    checkRequirements: (stats) => stats.masteredWords >= 50 && stats.level >= 10
   }
 ];
 
@@ -70,10 +70,12 @@ function getUserStats() {
   return {
     totalWords: vocabStats.total || 0,
     masteredWords: vocabStats.mastered || 0,
+    rememberedWords: vocabStats.remembered || 0,
     maxStreak: gameStats.maxStreak || 0,
     streak: gameStats.streak || 0,
     level: gameStats.level || 1,
-    totalXp: gameStats.totalXp || 0
+    totalXp: gameStats.totalXp || 0,
+    unlockedCoaches: gameStats.unlockedCoaches || []
   };
 }
 
@@ -85,6 +87,11 @@ function calculateProgress(coach, stats) {
   let progress = 0;
   let totalRequirements = 0;
   
+  if (requirements.rememberedWords) {
+    totalRequirements++;
+    progress += Math.min(1, stats.rememberedWords / requirements.rememberedWords);
+  }
+
   if (requirements.masteredWords) {
     totalRequirements++;
     progress += Math.min(1, stats.masteredWords / requirements.masteredWords);
@@ -375,8 +382,28 @@ export function renderCoaches(container) {
   // Inject critical styles as a fallback
   injectCoachesStyles();
   
-  const stats = getUserStats();
-  const unlockedCount = COACHES.filter(c => c.checkUnlocked(stats)).length;
+  let stats = getUserStats();
+  
+  // Check and persist unlocks
+  let hasNewUnlocks = false;
+  COACHES.forEach(coach => {
+    if (coach.checkRequirements(stats)) {
+      if (unlockCoach(coach.id)) {
+        hasNewUnlocks = true;
+      }
+    }
+  });
+  
+  // Refresh stats if new unlocks happened
+  if (hasNewUnlocks) {
+    stats = getUserStats();
+  }
+  
+  const isCoachUnlocked = (coach) => {
+    return stats.unlockedCoaches.includes(coach.id) || coach.checkRequirements(stats);
+  };
+  
+  const unlockedCount = COACHES.filter(c => isCoachUnlocked(c)).length;
   
   const html = `
     <!-- Hero Section -->
@@ -403,7 +430,7 @@ export function renderCoaches(container) {
     
     <!-- Coaches Grid -->
     <section class="coaches-grid">
-      ${COACHES.map(coach => renderCoachCard(coach, stats)).join('')}
+      ${COACHES.map(coach => renderCoachCard(coach, stats, isCoachUnlocked(coach))).join('')}
     </section>
     
     <!-- How it works section -->
@@ -462,8 +489,7 @@ export function renderCoaches(container) {
 /**
  * Render individual coach card
  */
-function renderCoachCard(coach, stats) {
-  const isUnlocked = coach.checkUnlocked(stats);
+function renderCoachCard(coach, stats, isUnlocked) {
   const progress = calculateProgress(coach, stats);
   
   return `
@@ -582,6 +608,12 @@ function showLockedMessage(coach, stats) {
         <p>${coach.unlockRequirements.description}</p>
         
         <div class="current-stats">
+          ${coach.unlockRequirements.rememberedWords ? `
+            <div class="req-item ${stats.rememberedWords >= coach.unlockRequirements.rememberedWords ? 'completed' : ''}">
+              <i class="fa-solid ${stats.rememberedWords >= coach.unlockRequirements.rememberedWords ? 'fa-check-circle' : 'fa-circle'}"></i>
+              <span>Palabras aprendidas: ${stats.rememberedWords}/${coach.unlockRequirements.rememberedWords}</span>
+            </div>
+          ` : ''}
           ${coach.unlockRequirements.masteredWords ? `
             <div class="req-item ${stats.masteredWords >= coach.unlockRequirements.masteredWords ? 'completed' : ''}">
               <i class="fa-solid ${stats.masteredWords >= coach.unlockRequirements.masteredWords ? 'fa-check-circle' : 'fa-circle'}"></i>
