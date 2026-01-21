@@ -492,7 +492,7 @@ export function renderHome(container) {
             </div>
           `}).join('')}
         </div>
-        <div class="modal-actions" style="padding: 1.5rem;">
+        <div class="modal-actions"">
           <button type="button" class="btn-cancel">Cancelar</button>
           <button type="button" class="btn-save btn-import-packs" disabled>Selecciona packs</button>
         </div>
@@ -600,7 +600,7 @@ export function renderHome(container) {
             </button>
           `).join('')}
         </div>
-        <div class="modal-actions" style="margin-top: 1.5rem;">
+        <div class="modal-actions">
           <button type="button" class="btn-cancel">Cancelar</button>
         </div>
       </div>
