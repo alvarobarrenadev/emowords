@@ -437,6 +437,57 @@
       border-color: var(--primary-500);
       color: white;
     }
+
+    &.correct,
+    &.correct:hover {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--success-500);
+      color: var(--success-500);
+    }
+
+    &.wrong,
+    &.wrong:hover {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: var(--danger-500);
+      color: var(--danger-500);
+    }
+
+    &:disabled:not(.correct):not(.wrong):hover {
+      background: var(--gray-900);
+      border-color: var(--gray-700);
+      color: var(--gray-200);
+    }
+  }
+
+  .listening-feedback {
+    background: var(--gray-900);
+    border-color: var(--gray-700);
+
+    &.is-correct {
+      border-color: var(--success-600);
+    }
+
+    &.is-incorrect {
+      border-color: var(--danger-600);
+    }
+  }
+
+  .listening-word {
+    color: var(--primary-300);
+  }
+
+  .listening-meaning {
+    color: var(--gray-200);
+  }
+
+  .listening-replay-btn {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: var(--primary-700);
+    color: var(--primary-300);
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.22);
+    }
   }
 
   .answer-section {

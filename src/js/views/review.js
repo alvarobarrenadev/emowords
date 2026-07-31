@@ -302,6 +302,12 @@ export function renderReview(container) {
 
   function renderWord() {
     if (!currentMode) { render(); return; }
+
+    // Remove shortcuts from the previous exercise before mounting the next one.
+    if (cleanupKeyboard) {
+      cleanupKeyboard();
+      cleanupKeyboard = null;
+    }
     
     // Clear previous view
     const content = document.getElementById('active-content');
@@ -531,10 +537,27 @@ export function renderReview(container) {
     container.innerHTML = `
       <div class="quiz-container">
          <div class="quiz-question">
-            <div style="font-size: 4rem; color: var(--primary-500); cursor: pointer; margin-bottom: 1rem;" id="listen-icon">
-                <i class="fa-solid fa-circle-play"></i>
+            <div class="listening-prompt" id="listening-prompt">
+                <div style="font-size: 4rem; color: var(--primary-500); cursor: pointer; margin-bottom: 1rem;" id="listen-icon">
+                    <i class="fa-solid fa-circle-play"></i>
+                </div>
+                <p style="color: var(--gray-500);">Escucha y selecciona el significado</p>
             </div>
-            <p style="color: var(--gray-500);">Escucha y selecciona el significado</p>
+
+            <section class="listening-feedback" id="listening-feedback" aria-live="polite" hidden>
+                <div class="listening-result" id="listening-result"></div>
+                <p class="listening-feedback-label">Así se escribe en inglés</p>
+                <h3 class="listening-word">${current.word}</h3>
+                <button class="listening-replay-btn" id="listening-replay-btn" type="button">
+                    <i class="fa-solid fa-circle-play"></i>
+                    <span>Escuchar de nuevo</span>
+                </button>
+                <p class="listening-meaning">${current.meaning}</p>
+                ${current.example ? `<p class="listening-example">"${current.example}"</p>` : ''}
+                <button class="primary-btn listening-next-btn" id="listening-next-btn" type="button">
+                    Siguiente <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </section>
          </div>
 
          <div class="quiz-options">
@@ -554,39 +577,74 @@ export function renderReview(container) {
         speak(current.word);
     };
     
-    playIcon.addEventListener('click', play);
-    setTimeout(play, 500); // Auto-play
-
     const optionBtns = container.querySelectorAll('.quiz-option');
+    const prompt = document.getElementById('listening-prompt');
+    const feedback = document.getElementById('listening-feedback');
+    const result = document.getElementById('listening-result');
+    const replayBtn = document.getElementById('listening-replay-btn');
+    const nextBtn = document.getElementById('listening-next-btn');
     let answered = false;
+    const autoPlayTimer = setTimeout(() => {
+        if (!answered) play();
+    }, 500);
+
+    playIcon.addEventListener('click', play);
+    replayBtn.addEventListener('click', play);
+    nextBtn.addEventListener('click', () => advanceToNextWord());
 
     optionBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             if (answered) return;
             answered = true;
+            clearTimeout(autoPlayTimer);
             
             // Use string comparison to handle decimal IDs correctly
             const selectedId = String(btn.dataset.id);
             const isCorrect = selectedId === String(current.id);
+
+            // Save the result now, while keeping the answer visible until the
+            // learner explicitly decides to continue.
+            if (!recordResult(isCorrect)) {
+                answered = false;
+                return;
+            }
+
+            optionBtns.forEach(option => {
+                option.disabled = true;
+            });
             
             if (isCorrect) {
                  btn.classList.add('correct');
-                 setTimeout(() => handleResult(true), 800);
+                 feedback.classList.add('is-correct');
+                 result.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>¡Correcto!</span>';
             } else {
                  btn.classList.add('wrong');
                  optionBtns.forEach(b => {
                      if (String(b.dataset.id) === String(current.id)) b.classList.add('correct');
                  });
-                 setTimeout(() => handleResult(false), 1500);
+                 feedback.classList.add('is-incorrect');
+                 result.innerHTML = '<i class="fa-solid fa-circle-xmark"></i><span>La respuesta correcta era:</span>';
+            }
+
+            prompt.hidden = true;
+            feedback.hidden = false;
+            feedback.classList.add('fade-in');
+            nextBtn.focus({ preventScroll: true });
+            if (typeof feedback.scrollIntoView === 'function') {
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
     });
+
+    registerKeyboard((key) => {
+        if (key === 'Enter' && answered) nextBtn.click();
+    }, () => clearTimeout(autoPlayTimer));
   }
 
   // ==================== RESULT HANDLER ====================
-  function handleResult(success) {
+  function recordResult(success) {
     try {
-        if (!current) return;
+        if (!current) return false;
         
         // Update SRS
         recordReview(current.id, success);
@@ -611,16 +669,23 @@ export function renderReview(container) {
             }
             // If max retries reached, word is dropped from session
         }
-        
-        // Clear current before getting next
-        current = null;
-        
-        // Next
+
         updateSessionStats();
-        renderWord();
+        return true;
     } catch (e) {
-        console.error('Error in handleResult:', e);
+        console.error('Error recording review result:', e);
+        return false;
     }
+  }
+
+  function advanceToNextWord() {
+    if (!current) return;
+    current = null;
+    renderWord();
+  }
+
+  function handleResult(success) {
+    if (recordResult(success)) advanceToNextWord();
   }
 
   function renderSummary(container) {
@@ -723,7 +788,7 @@ export function renderReview(container) {
   
   // ==================== UTILS ====================
   let cleanupKeyboard = null;
-  function registerKeyboard(callback) {
+  function registerKeyboard(callback, onCleanup = null) {
       if (cleanupKeyboard) cleanupKeyboard();
       
       const handler = (e) => {
@@ -732,7 +797,10 @@ export function renderReview(container) {
           callback(e.code);
       };
       document.addEventListener('keydown', handler);
-      cleanupKeyboard = () => document.removeEventListener('keydown', handler);
+      cleanupKeyboard = () => {
+          document.removeEventListener('keydown', handler);
+          if (onCleanup) onCleanup();
+      };
       // Hook into global cleanup if needed
       window._reviewCleanup = cleanupKeyboard;
   }
